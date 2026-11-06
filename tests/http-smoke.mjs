@@ -11,8 +11,8 @@ const stamp=Date.now(),password='Recovery-test-password-2026';let checks=0;
 async function request(path,body,cookie='',expected=200,origin=base){const response=await fetch(base+path,{method:body?'POST':'GET',headers:{origin,'content-type':'application/json',cookie},...(body?{body:JSON.stringify(body)}:{})});const text=await response.text();assert.equal(response.status,expected,`${path}: ${text.slice(0,300)}`);checks++;return {data:JSON.parse(text),cookie:response.headers.get('set-cookie')?.split(';')[0]};}
 await request('/api/platform');await request('/api/jobs');
 await request('/api/platform',{action:'publish'},'',401);
-await request('/api/auth',{action:'register',email:`owner-${stamp}@example.invalid`,name:'Test owner',password},'',403,'https://invalid.example');
-const owner=await request('/api/auth',{action:'register',email:`owner-${stamp}@example.invalid`,name:'Test owner',password});assert.ok(owner.cookie);
+await request('/api/auth',{action:'register',email:`owner-${stamp}@example.invalid`,name:'Test owner',password,accountType:'employer'},'',403,'https://invalid.example');
+const owner=await request('/api/auth',{action:'register',email:`owner-${stamp}@example.invalid`,name:'Test owner',password,accountType:'employer'});assert.ok(owner.cookie);
 const logged=await request('/api/platform',null,owner.cookie);assert.equal(logged.data.user.email,`owner-${stamp}@example.invalid`);
 await request('/api/moderation',null,owner.cookie,403);
 await request('/api/platform',{action:'publish',data:{}},owner.cookie,400);
@@ -31,13 +31,13 @@ const results=await request('/api/jobs?q='+encodeURIComponent('Відновле�
 const page=await fetch(base+'/jobs/'+published.data.id);assert.equal(page.status,200);const html=await page.text();assert.ok(html.includes(job.title));assert.ok(html.includes('application/ld+json'));checks++;
 await request('/api/platform',{action:'apply',jobId:published.data.id,message:''},owner.cookie,400);
 const candidate=await request('/api/auth',{action:'register',email:`candidate-${stamp}@example.invalid`,name:'Test candidate',password});
-await request('/api/platform',{action:'editJob',jobId:published.data.id,data:job},candidate.cookie,404);
+await request('/api/platform',{action:'editJob',jobId:published.data.id,data:job},candidate.cookie,403);
 await request('/api/platform',{action:'profile',data:{name:'Test candidate',phone:'+380501234567',city:'Київ',occupation:'Програміст',salary:40000,experience:'Без досвіду',skills:'JavaScript',about:'',schedule:'Повна зайнятість',workHistory:[],education:[],specialties:{}}},candidate.cookie);
 await request('/api/platform',{action:'apply',jobId:published.data.id,message:'Тестовий відгук'},candidate.cookie);
 const retry=await request('/api/platform',{action:'apply',jobId:published.data.id,message:'Повторний запит'},candidate.cookie);
 const ownerState=await request('/api/platform',null,owner.cookie);assert.equal(ownerState.data.incoming.length,1);
 const applicationId=ownerState.data.incoming[0].application.id;assert.equal(retry.data.id,applicationId);
-await request('/api/platform',{action:'applicationStatus',id:applicationId,status:'invited'},candidate.cookie,404);
+await request('/api/platform',{action:'applicationStatus',id:applicationId,status:'invited'},candidate.cookie,403);
 await request('/api/platform',{action:'applicationStatus',id:applicationId,status:'invited'},owner.cookie);
 await request('/api/platform',{action:'favorite',jobId:published.data.id},candidate.cookie);
 const state=await request('/api/platform',null,candidate.cookie);assert.ok(state.data.favorites.includes(published.data.id));assert.equal(state.data.applications.length,1);
@@ -47,7 +47,19 @@ const closedPage=await fetch(base+'/jobs/'+published.data.id);const closedHtml=a
 const company=await request('/api/company',{name:'Test company profile',city:'Київ',description:'Компанія для перевірки',website:'https://example.com'},owner.cookie);
 assert.ok(company.data.company.id);const companyPage=await fetch(base+'/companies/'+company.data.company.id);assert.equal(companyPage.status,200);checks++;
 await request('/api/company',{name:'Bad URL company',city:'',description:'',website:'javascript:alert(1)'},owner.cookie,400);
-assert.equal((await request('/api/company',null,candidate.cookie)).data.company,null);
+await request('/api/company',null,candidate.cookie,403);
+await request('/api/company',{name:'Forbidden company'},candidate.cookie,403);
+await request('/api/platform',{action:'publish',data:job},candidate.cookie,403);
+await request('/api/auth',{action:'register',email:`invalid-${stamp}@example.invalid`,name:'Bad role',password,accountType:'admin'},'',400);
+assert.equal((await request('/api/platform',null,candidate.cookie)).data.user.accountType,'candidate');
+assert.equal(logged.data.user.accountType,'employer');
+for (const route of ['/employer','/employers']) {
+ const denied=await fetch(base+route,{headers:{cookie:candidate.cookie},redirect:'manual'});
+ assert.equal(denied.status,307);assert.equal(denied.headers.get('location'),'/');
+}
+const guestPage=await fetch(base+'/employer');assert.equal(guestPage.status,200);assert.ok(!(await guestPage.text()).includes('Мої вакансії'));
+const landing=await fetch(base+'/employers');assert.ok((await landing.text()).includes('Зареєструватися як роботодавець'));
+const employerLanding=await fetch(base+'/employers',{headers:{cookie:owner.cookie},redirect:'manual'});assert.equal(employerLanding.headers.get('location'),'/employer');
 await request('/api/platform',{action:'jobStatus',jobId:published.data.id,status:'active'},owner.cookie);
 assert.ok(!(await request('/api/jobs')).data.jobs.some(j=>j.id===published.data.id));
 await request('/api/moderation',{action:'hide',jobId:published.data.id,reason:'Заблоковано тестом'},admin.cookie);

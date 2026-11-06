@@ -7,12 +7,14 @@ export const runtime = 'nodejs';
 export async function GET() {
   const user = await getCurrentUser();
   if (!user) return json({error:'Увійдіть до акаунта'},401);
+  if (user.accountType !== 'employer') return json({error:'Цей розділ доступний лише роботодавцям'},403);
   return json({company:getSqlite().prepare('SELECT id,name,description,city,website FROM companies WHERE owner_id=?').get(user.userId) ?? null});
 }
 export async function POST(request) {
   if (!isAllowedOrigin(request)) return json({error:'Недозволений запит'},403);
   const user = await getCurrentUser();
   if (!user) return json({error:'Увійдіть до акаунта'},401);
+  if (user.accountType !== 'employer') return json({error:'Цей розділ доступний лише роботодавцям'},403);
   try {
     const text = await request.text();
     if (text.length > 12000) return json({error:'Завеликий запит'},413);

@@ -47,6 +47,7 @@ async function m() {
       jobs: j,
       user: {
         name: b.displayName,
+        accountType: b.accountType,
         email: b.email,
         isAdmin: !!b.isAdmin
       },
@@ -63,8 +64,8 @@ async function m() {
         application: a,
         job: c
       })),
-      myJobs: p,
-      incoming: q
+      myJobs: b.accountType === "employer" ? p : [],
+      incoming: b.accountType === "employer" ? q : []
     });
   } catch (a) {
     return console.error("platform_read_failed", a instanceof Error ? a.message : "unknown"), l({
@@ -93,6 +94,7 @@ async function n(a) {
       i = (0, database.getDatabase)(),
       k = new Date().toISOString(),
       m = crypto.randomUUID();
+    if (["publish", "editJob", "jobStatus", "applicationStatus"].includes(f.action) && b.accountType !== "employer") return l({error: "Цей розділ доступний лише роботодавцям"}, 403);
     if ("profile" === f.action) {
       let a = validation.profileSchema.safeParse(f.data);
       if (!a.success) return l({

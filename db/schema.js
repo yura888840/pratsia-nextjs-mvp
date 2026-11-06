@@ -81,6 +81,7 @@ let h = (0, d.D)("jobs", {
     name: (0, e.Qq)("name").notNull(),
     passwordHash: (0, e.Qq)("password_hash").notNull(),
     createdAt: (0, f.nd)("created_at").notNull(),
+    accountType: (0, e.Qq)("account_type").notNull().default("candidate"),
     role: (0, e.Qq)("role").notNull().default("user"),
     emailVerifiedAt: (0, f.nd)("email_verified_at")
   }),
