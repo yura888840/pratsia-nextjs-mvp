@@ -5,22 +5,51 @@ import * as database from "../../../db/index.js";
 import * as session from "../../../lib/session.js";
 import * as catalog from "../../../lib/catalog.js";
 import * as jobSearch from "../../../lib/job-search.js";
-async function i(a) {
-  let b,
-    c,
-    h = new URL(a.url).searchParams,
-    i = (c = Number(h.get("minSalary") || 0), {
-      query: (h.get("q") || "").trim().slice(0, 150),
-      city: (h.get("city") || "").trim().slice(0, 100),
-      category: catalog.categories.some(a => a.id === h.get("category")) ? h.get("category") : "all",
-      remote: "1" === h.get("remote"),
-      noExperience: "1" === h.get("noExperience"),
-      minSalary: Number.isFinite(c) ? Math.min(1e7, Math.max(0, Math.floor(c))) : 0,
-      schedule: catalog.schedules.includes(h.get("schedule") || "") ? h.get("schedule") : "",
-      sort: "salary" === h.get("sort") ? "salary" : "newest"
-    });
+const DEFAULT_LIMIT = 16;
+const MAX_LIMIT = 50;
+const MAX_SALARY = 10_000_000;
+const NO_STORE_HEADERS = {
+  "Cache-Control": "no-store"
+};
+
+function parseSearchFilters(searchParams) {
+  const rawMinSalary = Number(searchParams.get("minSalary") || 0);
+
+  return {
+    query: (searchParams.get("q") || "").trim().slice(0, 150),
+    city: (searchParams.get("city") || "").trim().slice(0, 100),
+    category: catalog.categories.some(item => item.id === searchParams.get("category")) ? searchParams.get("category") : "all",
+    remote: searchParams.get("remote") === "1",
+    noExperience: searchParams.get("noExperience") === "1",
+    minSalary: Number.isFinite(rawMinSalary) ? Math.min(MAX_SALARY, Math.max(0, Math.floor(rawMinSalary))) : 0,
+    schedule: catalog.schedules.includes(searchParams.get("schedule") || "") ? searchParams.get("schedule") : "",
+    sort: searchParams.get("sort") === "salary" ? "salary" : "newest"
+  };
+}
+
+function parseLimit(searchParams) {
+  const rawLimit = Number(searchParams.get("limit") || DEFAULT_LIMIT);
+
+  if (!Number.isSafeInteger(rawLimit)) {
+    return DEFAULT_LIMIT;
+  }
+
+  return Math.min(MAX_LIMIT, Math.max(1, rawLimit));
+}
+
+function jsonNoStore(body) {
+  return Response.json(body, {
+    headers: NO_STORE_HEADERS
+  });
+}
+
+async function i(request) {
+  const searchParams = new URL(request.url).searchParams;
+  const filters = parseSearchFilters(searchParams);
+  let cursor;
+
   try {
-    b = (0, jobSearch.buildJobFilters)(h.get("cursor"), i.sort);
+    cursor = (0, jobSearch.buildJobFilters)(searchParams.get("cursor"), filters.sort);
   } catch {
     return Response.json({
       error: translate("app.api.jobs.route.nekorektna_storinka_poshuku_onovy_rezultaty")
@@ -28,33 +57,30 @@ async function i(a) {
       status: 400
     });
   }
+
   try {
-    let a = h.get("scope"),
-      c = "saved" === a ? await (0, session.getCurrentUser)() : null;
-    if ("saved" === a && !c) return Response.json({
-      jobs: [],
-      total: 0,
-      nextCursor: null
-    }, {
-      headers: {
-        "Cache-Control": "no-store"
-      }
-    });
-    let f = Number(h.get("limit") || 16),
-      j = Number.isSafeInteger(f) ? Math.min(50, Math.max(1, f)) : 16,
-      k = await (0, jobSearch.searchJobs)((0, database.getDatabase)(), i, {
-        cursor: b,
-        limit: j,
-        savedUserId: c?.userId,
-        jobId: h.get("id")?.slice(0, 100)
+    const scope = searchParams.get("scope");
+    const savedUser = scope === "saved" ? await (0, session.getCurrentUser)() : null;
+
+    if (scope === "saved" && !savedUser) {
+      return jsonNoStore({
+        jobs: [],
+        total: 0,
+        nextCursor: null
       });
-    return Response.json(k, {
-      headers: {
-        "Cache-Control": "no-store"
-      }
+    }
+
+    const result = await (0, jobSearch.searchJobs)((0, database.getDatabase)(), filters, {
+      cursor,
+      limit: parseLimit(searchParams),
+      savedUserId: savedUser?.userId,
+      jobId: searchParams.get("id")?.slice(0, 100)
     });
-  } catch (a) {
-    return console.error("job_search_failed", a instanceof Error ? a.message : "unknown"), Response.json({
+
+    return jsonNoStore(result);
+  } catch (error) {
+    console.error("job_search_failed", error instanceof Error ? error.message : "unknown");
+    return Response.json({
       error: translate("app.api.jobs.route.ne_vdalosya_zavantazhyty_vakansiyi_sprobuy_shche_raz")
     }, {
       status: 503
