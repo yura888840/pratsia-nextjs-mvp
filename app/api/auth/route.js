@@ -3,6 +3,7 @@ import * as nextHeaders from "next/headers";
 import * as validationTypes from "../../../vendor/recovered/module-6061.js";
 import * as auth from "../../../lib/auth.js";
 let i = validationTypes.Ik({
+  accountType: validationTypes.k5(["candidate", "employer"]).optional(),
   action: validationTypes.k5(["login", "register"]),
   email: validationTypes.Yj().trim().toLowerCase().email().max(254),
   password: validationTypes.Yj().min(12).max(128),
@@ -70,7 +71,7 @@ async function j(a) {
         status: 429
       });
       try {
-        b = await (0, auth.registerAccount)(k, m, l);
+        b = await (0, auth.registerAccount)(k, m, l, j.data.accountType);
       } catch {
         return Response.json({
           error: "Не вдалося створити акаунт. Якщо вже реєструвався — скористайся входом."

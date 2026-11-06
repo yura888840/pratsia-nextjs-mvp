@@ -11,11 +11,14 @@ const {getSqlite}=await import('../db/connection.js');
 test('migrations are repeatable; password reset is single-use and revokes sessions',async()=>{
  try {
   migrate();migrate();
-  assert.equal(getSqlite().prepare('SELECT count(*) AS count FROM pratsia_migrations').get().count,7);
+  assert.equal(getSqlite().prepare('SELECT count(*) AS count FROM pratsia_migrations').get().count,8);
   const user=await auth.registerAccount('test@example.invalid','Test user','original-password-2026');
   assert.equal(await auth.authenticate('test@example.invalid','wrong-password-2026'),null);
   assert.equal(await auth.authenticate('test@example.invalid','original-password-2026'),user);
-  const session=auth.createSession(user);assert.equal(auth.getSession(session.token).userId,user);
+  const employer=await auth.registerAccount("employer@example.invalid","Employer","original-password-2026","employer");
+  assert.equal(auth.getSession(auth.createSession(employer).token).accountType,"employer");
+  await assert.rejects(auth.registerAccount("bad@example.invalid","Bad","original-password-2026","admin"));
+  const session=auth.createSession(user);assert.equal(auth.getSession(session.token).accountType,"candidate");assert.equal(auth.getSession(session.token).userId,user);
   const reset=auth.createPasswordReset('test@example.invalid');assert.ok(reset);
   assert.equal(await auth.completePasswordReset(reset,'updated-password-2026'),true);
   assert.equal(auth.getSession(session.token),null);
