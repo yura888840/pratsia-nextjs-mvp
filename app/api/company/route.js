@@ -1,3 +1,5 @@
+
+import { translate } from "../../../i18n/index.js";
 import { getSqlite } from '../../../db/connection.js';
 import { getCurrentUser } from '../../../lib/session.js';
 import { isAllowedOrigin } from '../../../lib/validation.js';
@@ -6,29 +8,29 @@ export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 export async function GET() {
   const user = await getCurrentUser();
-  if (!user) return json({error:'Увійдіть до акаунта'},401);
-  if (user.accountType !== 'employer') return json({error:'Цей розділ доступний лише роботодавцям'},403);
+  if (!user) return json({error:translate("app.api.company.route.uviydit_do_akaunta")},401);
+  if (user.accountType !== 'employer') return json({error:translate("app.api.company.route.tsey_rozdil_dostupnyy_lyshe_robotodavtsyam")},403);
   return json({company:getSqlite().prepare('SELECT id,name,description,city,website FROM companies WHERE owner_id=?').get(user.userId) ?? null});
 }
 export async function POST(request) {
-  if (!isAllowedOrigin(request)) return json({error:'Недозволений запит'},403);
+  if (!isAllowedOrigin(request)) return json({error:translate("app.api.auth.recovery.route.nedozvolenyy_zapyt")},403);
   const user = await getCurrentUser();
-  if (!user) return json({error:'Увійдіть до акаунта'},401);
-  if (user.accountType !== 'employer') return json({error:'Цей розділ доступний лише роботодавцям'},403);
+  if (!user) return json({error:translate("app.api.company.route.uviydit_do_akaunta")},401);
+  if (user.accountType !== 'employer') return json({error:translate("app.api.company.route.tsey_rozdil_dostupnyy_lyshe_robotodavtsyam")},403);
   try {
     const text = await request.text();
-    if (text.length > 12000) return json({error:'Завеликий запит'},413);
+    if (text.length > 12000) return json({error:translate("app.api.auth.recovery.route.zavelykyy_zapyt")},413);
     const input = JSON.parse(text);
     const limits = {name:[2,100],description:[0,5000],city:[0,100],website:[0,300]};
     const data = {};
     for (const [field,[min,max]] of Object.entries(limits)) {
-      if (typeof input[field] !== 'string') return json({error:'Перевірте поля компанії'},400);
+      if (typeof input[field] !== 'string') return json({error:translate("app.api.company.route.perevirte_polya_kompaniyi")},400);
       data[field] = input[field].trim();
-      if (data[field].length < min || data[field].length > max) return json({error:'Перевірте поля компанії'},400);
+      if (data[field].length < min || data[field].length > max) return json({error:translate("app.api.company.route.perevirte_polya_kompaniyi")},400);
     }
     if (data.website) {
       const url = new URL(data.website);
-      if (!['https:','http:'].includes(url.protocol) || url.username || url.password) return json({error:'Вкажіть адресу сайту з https://'},400);
+      if (!['https:','http:'].includes(url.protocol) || url.username || url.password) return json({error:translate("app.api.company.route.vkazhit_adresu_saytu_z_https")},400);
     }
     const db = getSqlite();
     db.exec('BEGIN IMMEDIATE');
@@ -43,5 +45,5 @@ export async function POST(request) {
       db.exec('COMMIT');
       return json({ok:true,company:{id,...data}});
     } catch(error) { db.exec('ROLLBACK'); throw error; }
-  } catch { return json({error:'Не вдалося зберегти компанію. Перевірте поля.'},400); }
+  } catch { return json({error:translate("app.api.company.route.ne_vdalosya_zberehty_kompaniyu_perevirte_polya")},400); }
 }

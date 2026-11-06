@@ -1,3 +1,5 @@
+
+import { translate, formatDate, catalogLabel } from "../../../i18n/index.js";
 // Reconstructed from production build. Names/types not present in the build cannot be recovered exactly.
 import {isPublicJob,jobPosting,siteOrigin} from "../../../lib/seo.js";
 import {getSqlite} from "../../../db/connection.js";
@@ -15,8 +17,8 @@ async function generateMetadata({
 }) {
   let b = await getJob((await a).id);
   return {
-    title: b ? `${b.title} — ${b.company} | Праця` : "Вакансію не знайдено | Праця",
-    description: b ? b.description.slice(0, 160) : "Вакансію не знайдено",
+    title: b ? translate("app.jobs.id.page.title_company_pratsya", { title: b.title, company: b.company }) : translate("app.jobs.id.page.vakansiyu_ne_znaydeno_pratsya"),
+    description: b ? b.description.slice(0, 160) : translate("app.api.platform.route.vakansiyu_ne_znaydeno"),
     alternates: {canonical: siteOrigin() + "/jobs/" + (await a).id},
     robots: {
       index: !!b && isPublicJob(b),
@@ -31,7 +33,7 @@ async function JobPage({
   b || (0, e.notFound)();
   let c = isPublicJob(b);
   const company = getSqlite().prepare("SELECT id FROM companies WHERE owner_id=?").get(b.ownerId);
-  return <div className={"standalone-job"}>{c && <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jobPosting(b)).replace(/</g,"\\u003c")}} />}<a className={"brand"} href={"/"}>{"праця."}</a><a className={"back-link"} href={"/"}>{"← До пошуку вакансій"}</a><article className={"profile-card"}><small className={"eyebrow"}>{b.company}{" \xb7 "}{b.city}</small>{company && <p><a href={"/companies/"+company.id}>Про компанію →</a></p>}<h1>{b.title}</h1><h2>{b.salaryMin ? `${(0, catalog.formatSalary)(b.salaryMin)} – ${(0, catalog.formatSalary)(b.salaryMax)} ₴ / місяць` : "Зарплата за домовленістю"}</h2><div className={"profile-facts"}><span>{b.arrangement}</span><span>{b.schedule}</span><span>{b.experience}</span></div>{!c && <div className={"inline-note"}>{"Вакансія закрита або строк публікації минув."}</div>}<h3>{"Про роботу"}</h3><p className={"preline"}>{b.description}</p><h3>{"Вимоги"}</h3><p className={"preline"}>{b.requirements}</p>{b.benefits && <jsxRuntime.Fragment><h3>{"Що пропонуємо"}</h3><p className={"preline"}>{b.benefits}</p></jsxRuntime.Fragment>}<div className={"button-row"}>{c && <a className={"primary"} href={"/?job=" + b.id}>Відгукнутися на вакансію</a>}<a className={"outline"} href={"/"}>{"Інші вакансії"}</a></div><p className={"muted"}>{"Опубліковано "}{new Date(b.createdAt).toLocaleDateString("uk-UA")}{" \xb7 До "}{new Date(b.expiresAt).toLocaleDateString("uk-UA")}</p></article></div>;
+  return <div className={"standalone-job"}>{c && <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jobPosting(b)).replace(/</g,"\\u003c")}} />}<a className={"brand"} href={"/"}>{translate("brand.logo")}</a><a className={"back-link"} href={"/"}>{translate("app.companies.id.page.do_poshuku_vakansiy")}</a><article className={"profile-card"}><small className={"eyebrow"}>{b.company}{" \xb7 "}{b.city}</small>{company && <p><a href={"/companies/"+company.id}>{translate("app.jobs.id.page.pro_kompaniyu")}</a></p>}<h1>{b.title}</h1><h2>{b.salaryMin ? translate("app.jobs.id.page.value1_value2_misyats", { value1: (0, catalog.formatSalary)(b.salaryMin), value2: (0, catalog.formatSalary)(b.salaryMax) }) : translate("salary.byAgreement")}</h2><div className={"profile-facts"}><span>{catalogLabel(b.arrangement)}</span><span>{catalogLabel(b.schedule)}</span><span>{catalogLabel(b.experience)}</span></div>{!c && <div className={"inline-note"}>{translate("app.jobs.id.page.vakansiya_zakryta_abo_strok_publikatsiyi_mynuv")}</div>}<h3>{translate("jobs.about")}</h3><p className={"preline"}>{b.description}</p><h3>{translate("jobs.requirements")}</h3><p className={"preline"}>{b.requirements}</p>{b.benefits && <jsxRuntime.Fragment><h3>{translate("jobs.benefits")}</h3><p className={"preline"}>{b.benefits}</p></jsxRuntime.Fragment>}<div className={"button-row"}>{c && <a className={"primary"} href={"/?job=" + b.id}>{translate("app.jobs.id.page.vidhuknutysya_na_vakansiyu")}</a>}<a className={"outline"} href={"/"}>{translate("app.jobs.id.page.inshi_vakansiyi")}</a></div><p className={"muted"}>{translate("app.jobs.id.page.opublikovano")}{formatDate(b.createdAt)}{translate("app.jobs.id.page.do")}{formatDate(b.expiresAt)}</p></article></div>;
 }
 export { JobPage as default };
 export const dynamic = "force-dynamic";

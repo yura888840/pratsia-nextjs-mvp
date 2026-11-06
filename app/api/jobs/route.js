@@ -1,3 +1,5 @@
+
+import { translate } from "../../../i18n/index.js";
 // Reconstructed from production build. Names/types not present in the build cannot be recovered exactly.
 import * as database from "../../../db/index.js";
 import * as session from "../../../lib/session.js";
@@ -21,7 +23,7 @@ async function i(a) {
     b = (0, jobSearch.buildJobFilters)(h.get("cursor"), i.sort);
   } catch {
     return Response.json({
-      error: "Некоректна сторінка пошуку. Онови результати."
+      error: translate("app.api.jobs.route.nekorektna_storinka_poshuku_onovy_rezultaty")
     }, {
       status: 400
     });
@@ -53,7 +55,7 @@ async function i(a) {
     });
   } catch (a) {
     return console.error("job_search_failed", a instanceof Error ? a.message : "unknown"), Response.json({
-      error: "Не вдалося завантажити вакансії. Спробуй ще раз."
+      error: translate("app.api.jobs.route.ne_vdalosya_zavantazhyty_vakansiyi_sprobuy_shche_raz")
     }, {
       status: 503
     });
