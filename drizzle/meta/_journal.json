@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1792832886454,
+      "tag": "0000_wild_robbie_robertson",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1792833361436,
+      "tag": "0001_tranquil_gorilla_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1792836267048,
+      "tag": "0002_old_sleepwalker",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1792838548303,
+      "tag": "0003_lucky_edwin_jarvis",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1792854083287,
+      "tag": "0004_flowery_skullbuster",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1792854369594,
+      "tag": "0005_overjoyed_richard_fisk",
+      "breakpoints": true
+    }
+  ]
+}

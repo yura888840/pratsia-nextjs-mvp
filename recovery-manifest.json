@@ -1,0 +1,212 @@
+[
+  {
+    "moduleId": 1222,
+    "recoveredFile": "app/platform.jsx",
+    "buildFile": ".next/server/app/page.js",
+    "buildSha256": "e704c777601b0965cb42c0bea95bb6837c0c3ec45704ca287ab236bb92a4eca4"
+  },
+  {
+    "moduleId": 2444,
+    "recoveredFile": "app/layout.jsx",
+    "buildFile": ".next/server/app/page.js",
+    "buildSha256": "e704c777601b0965cb42c0bea95bb6837c0c3ec45704ca287ab236bb92a4eca4"
+  },
+  {
+    "moduleId": 4337,
+    "recoveredFile": "app/jobs/[id]/page.jsx",
+    "buildFile": ".next/server/app/jobs/[id]/page.js",
+    "buildSha256": "d77bef7cf82acda1f3a3c3e5ee3467336eccf1f02dbe9d8d9d0fa9ea7fcd4924"
+  },
+  {
+    "moduleId": 5163,
+    "recoveredFile": "db/index.js",
+    "buildFile": ".next/server/app/page.js",
+    "buildSha256": "e704c777601b0965cb42c0bea95bb6837c0c3ec45704ca287ab236bb92a4eca4"
+  },
+  {
+    "moduleId": 9308,
+    "recoveredFile": "vendor/recovered/module-9308.js",
+    "buildFile": ".next/server/chunks/381.js",
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+  },
+  {
+    "moduleId": 6872,
+    "recoveredFile": "vendor/recovered/module-6872.js",
+    "buildFile": ".next/server/chunks/381.js",
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+  },
+  {
+    "moduleId": 4655,
+    "recoveredFile": "vendor/recovered/module-4655.js",
+    "buildFile": ".next/server/chunks/381.js",
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+  },
+  {
+    "moduleId": 6584,
+    "recoveredFile": "vendor/recovered/module-6584.js",
+    "buildFile": ".next/server/chunks/381.js",
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+  },
+  {
+    "moduleId": 6122,
+    "recoveredFile": "vendor/recovered/module-6122.js",
+    "buildFile": ".next/server/chunks/381.js",
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+  },
+  {
+    "moduleId": 2811,
+    "recoveredFile": "vendor/recovered/module-2811.js",
+    "buildFile": ".next/server/chunks/381.js",
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+  },
+  {
+    "moduleId": 1029,
+    "recoveredFile": "vendor/recovered/module-1029.js",
+    "buildFile": ".next/server/chunks/381.js",
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+  },
+  {
+    "moduleId": 4363,
+    "recoveredFile": "vendor/recovered/module-4363.js",
+    "buildFile": ".next/server/chunks/381.js",
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+  },
+  {
+    "moduleId": 1505,
+    "recoveredFile": "vendor/recovered/module-1505.js",
+    "buildFile": ".next/server/chunks/381.js",
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+  },
+  {
+    "moduleId": 3402,
+    "recoveredFile": "vendor/recovered/module-3402.js",
+    "buildFile": ".next/server/chunks/381.js",
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+  },
+  {
+    "moduleId": 2486,
+    "recoveredFile": "vendor/recovered/module-2486.js",
+    "buildFile": ".next/server/chunks/381.js",
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+  },
+  {
+    "moduleId": 2194,
+    "recoveredFile": "vendor/recovered/module-2194.js",
+    "buildFile": ".next/server/chunks/381.js",
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+  },
+  {
+    "moduleId": 5574,
+    "recoveredFile": "vendor/recovered/module-5574.js",
+    "buildFile": ".next/server/chunks/381.js",
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+  },
+  {
+    "moduleId": 5090,
+    "recoveredFile": "vendor/recovered/module-5090.js",
+    "buildFile": ".next/server/chunks/381.js",
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+  },
+  {
+    "moduleId": 4982,
+    "recoveredFile": "vendor/recovered/module-4982.js",
+    "buildFile": ".next/server/chunks/381.js",
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+  },
+  {
+    "moduleId": 2917,
+    "recoveredFile": "vendor/recovered/module-2917.js",
+    "buildFile": ".next/server/chunks/381.js",
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+  },
+  {
+    "moduleId": 8227,
+    "recoveredFile": "db/connection.js",
+    "buildFile": ".next/server/chunks/109.js",
+    "buildSha256": "b8cc692e46ee8dea0936e733a2cc449b87b2f9adb5bf0e6fbb6a71eae721408c"
+  },
+  {
+    "moduleId": 3492,
+    "recoveredFile": "db/schema.js",
+    "buildFile": ".next/server/app/page.js",
+    "buildSha256": "e704c777601b0965cb42c0bea95bb6837c0c3ec45704ca287ab236bb92a4eca4"
+  },
+  {
+    "moduleId": 8,
+    "recoveredFile": "vendor/recovered/module-8.js",
+    "buildFile": ".next/server/chunks/381.js",
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+  },
+  {
+    "moduleId": 9611,
+    "recoveredFile": "lib/catalog.js",
+    "buildFile": ".next/server/chunks/109.js",
+    "buildSha256": "b8cc692e46ee8dea0936e733a2cc449b87b2f9adb5bf0e6fbb6a71eae721408c"
+  },
+  {
+    "moduleId": 5827,
+    "recoveredFile": "app/page.jsx",
+    "buildFile": ".next/server/app/page.js",
+    "buildSha256": "e704c777601b0965cb42c0bea95bb6837c0c3ec45704ca287ab236bb92a4eca4"
+  },
+  {
+    "moduleId": 2256,
+    "recoveredFile": "lib/job-search.js",
+    "buildFile": ".next/server/app/page.js",
+    "buildSha256": "e704c777601b0965cb42c0bea95bb6837c0c3ec45704ca287ab236bb92a4eca4"
+  },
+  {
+    "moduleId": 3903,
+    "recoveredFile": "app/api/auth/route.js",
+    "buildFile": ".next/server/app/api/auth/route.js",
+    "buildSha256": "1b151c218153f70ff593520061102d0ba8cc9e387be0ed87278ed2eb219854e8"
+  },
+  {
+    "moduleId": 6061,
+    "recoveredFile": "vendor/recovered/module-6061.js",
+    "buildFile": ".next/server/chunks/694.js",
+    "buildSha256": "4a08ffd446e7fd2ae855be1ef7726f00616fc32fe5f19f4e287ac7e0720170b3"
+  },
+  {
+    "moduleId": 2982,
+    "recoveredFile": "lib/auth.js",
+    "buildFile": ".next/server/app/api/platform/route.js",
+    "buildSha256": "20b49ba900d2eb1341bc096a312da845ce377a439f7f404281bb30b626f294f7"
+  },
+  {
+    "moduleId": 4497,
+    "recoveredFile": "app/api/jobs/route.js",
+    "buildFile": ".next/server/app/api/jobs/route.js",
+    "buildSha256": "dd28a6b677ec012a085fda0b6a7da831d2c991a0ca10a0c5f4d764fb6ff8238c"
+  },
+  {
+    "moduleId": 3176,
+    "recoveredFile": "lib/session.js",
+    "buildFile": ".next/server/app/api/platform/route.js",
+    "buildSha256": "20b49ba900d2eb1341bc096a312da845ce377a439f7f404281bb30b626f294f7"
+  },
+  {
+    "moduleId": 5370,
+    "recoveredFile": "app/api/platform/route.js",
+    "buildFile": ".next/server/app/api/platform/route.js",
+    "buildSha256": "20b49ba900d2eb1341bc096a312da845ce377a439f7f404281bb30b626f294f7"
+  },
+  {
+    "moduleId": 5013,
+    "recoveredFile": "lib/validation.js",
+    "buildFile": ".next/server/app/api/platform/route.js",
+    "buildSha256": "20b49ba900d2eb1341bc096a312da845ce377a439f7f404281bb30b626f294f7"
+  },
+  {
+    "moduleId": 6487,
+    "recoveredFile": "app/api/auth/recovery/route.js",
+    "buildFile": ".next/server/app/api/auth/recovery/route.js",
+    "buildSha256": "4628d65ffae6b170c4c084c4a00f35d6ca60de083be080aa5f0b58760b7bd3e6"
+  },
+  {
+    "moduleId": 9644,
+    "recoveredFile": "app/api/moderation/route.js",
+    "buildFile": ".next/server/app/api/moderation/route.js",
+    "buildSha256": "06a7b13e3480afc9f256a147ed13f5e2d98782514cf02d474493877d15e55126"
+  }
+]
