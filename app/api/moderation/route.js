@@ -1,3 +1,5 @@
+
+import { translate } from "../../../i18n/index.js";
 // Reconstructed from production build. Names/types not present in the build cannot be recovered exactly.
 import * as session from "../../../lib/session.js";
 import * as connection from "../../../db/connection.js";
@@ -16,16 +18,16 @@ let l = (a, b = 200) => Response.json(a, {
 async function m(a) {
   let b = await (0, session.getCurrentUser)();
   if (!b || !g(b.userId)) return l({
-    error: "Доступ лише для модератора"
+    error: translate("app.api.moderation.route.dostup_lyshe_dlya_moderatora")
   }, 403);
   let c = new URL(a.url).searchParams,
     f = c.get("scope") || "reports";
   if (!["reports", "recent", "blocked", "pending"].includes(f)) return l({
-    error: "Некоректний розділ"
+    error: translate("app.api.moderation.route.nekorektnyy_rozdil")
   }, 400);
   let h = Number(c.get("offset") || 0);
   if (!Number.isSafeInteger(h) || h < 0 || h > 1e5) return l({
-    error: "Некоректна сторінка"
+    error: translate("app.api.moderation.route.nekorektna_storinka")
   }, 400);
   try {
     return l(function (a, b = "reports", c = 0) {
@@ -45,7 +47,7 @@ async function m(a) {
     }(b.userId, f, h));
   } catch {
     return l({
-      error: "Не вдалося завантажити чергу"
+      error: translate("app.api.moderation.route.ne_vdalosya_zavantazhyty_cherhu")
     }, 500);
   }
 }
@@ -56,20 +58,20 @@ let n = validationTypes.Ik({
 });
 async function o(a) {
   if (!(0, validation.isAllowedOrigin)(a)) return l({
-    error: "Недозволений запит"
+    error: translate("app.api.auth.recovery.route.nedozvolenyy_zapyt")
   }, 403);
   let b = await (0, session.getCurrentUser)();
   if (!b || !g(b.userId)) return l({
-    error: "Доступ лише для модератора"
+    error: translate("app.api.moderation.route.dostup_lyshe_dlya_moderatora")
   }, 403);
   try {
     let c = await a.text();
     if (c.length > 5e3) return l({
-      error: "Завеликий запит"
+      error: translate("app.api.auth.recovery.route.zavelykyy_zapyt")
     }, 413);
     let d = n.safeParse(JSON.parse(c));
     if (!d.success) return l({
-      error: "Вкажи причину від 5 до 2000 символів"
+      error: translate("app.api.moderation.route.vkazhy_prychynu_vid_5_do_2000_symvoliv")
     }, 400);
     return l(function (a, b, c, d) {
       let h = (0, connection.getSqlite)();
@@ -89,7 +91,7 @@ async function o(a) {
     }(b.userId, d.data.jobId, d.data.action, d.data.reason));
   } catch (a) {
     return l({
-      error: "Не вдалося опрацювати вакансію"
+      error: translate("app.api.moderation.route.ne_vdalosya_opratsyuvaty_vakansiyu")
     }, a instanceof Error && "not_found" === a.message ? 404 : 500);
   }
 }

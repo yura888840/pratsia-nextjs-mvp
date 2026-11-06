@@ -1,3 +1,5 @@
+
+import { translate } from "../../../i18n/index.js";
 // Reconstructed from production build. Names/types not present in the build cannot be recovered exactly.
 import * as nextHeaders from "next/headers";
 import * as validationTypes from "../../../vendor/recovered/module-6061.js";
@@ -13,7 +15,7 @@ async function j(a) {
   let b = new URL(a.url),
     c = process.env.PRATSIA_ORIGIN || b.protocol + "//" + (a.headers.get("host") || b.host);
   if (a.headers.get("origin") !== c) return Response.json({
-    error: "Недозволений запит"
+    error: translate("app.api.auth.recovery.route.nedozvolenyy_zapyt")
   }, {
     status: 403
   });
@@ -21,7 +23,7 @@ async function j(a) {
     let b,
       c = await a.text();
     if (c.length > 4e3) return Response.json({
-      error: "Завеликий запит"
+      error: translate("app.api.auth.recovery.route.zavelykyy_zapyt")
     }, {
       status: 413
     });
@@ -41,7 +43,7 @@ async function j(a) {
     });
     let j = i.safeParse(e);
     if (!j.success) return Response.json({
-      error: "Перевір email, ім’я та пароль (від 12 до 128 символів)."
+      error: translate("app.api.auth.route.perevir_email_im_ya_ta_parol_vid_12_do_128_symvoliv")
     }, {
       status: 400
     });
@@ -52,7 +54,7 @@ async function j(a) {
       action: n
     } = j.data;
     if (!(0, auth.checkRateLimit)("auth-global", 300, 6e5) || !(0, auth.checkRateLimit)((0, auth.emailRateLimitKey)(k), 10, 9e5)) return Response.json({
-      error: "Забагато спроб. Спробуй через 15 хвилин."
+      error: translate("app.api.auth.route.zabahato_sprob_sprobuy_cherez_15_khvylyn")
     }, {
       status: 429,
       headers: {
@@ -61,12 +63,12 @@ async function j(a) {
     });
     if ("register" === n) {
       if (!m) return Response.json({
-        error: "Вкажи ім’я."
+        error: translate("app.api.auth.route.vkazhy_im_ya")
       }, {
         status: 400
       });
       if (!(0, auth.checkRateLimit)("registration", 30, 36e5)) return Response.json({
-        error: "Спробуй зареєструватися пізніше."
+        error: translate("app.api.auth.route.sprobuy_zareyestruvatysya_piznishe")
       }, {
         status: 429
       });
@@ -74,14 +76,14 @@ async function j(a) {
         b = await (0, auth.registerAccount)(k, m, l, j.data.accountType);
       } catch {
         return Response.json({
-          error: "Не вдалося створити акаунт. Якщо вже реєструвався — скористайся входом."
+          error: translate("app.api.auth.route.ne_vdalosya_stvoryty_akaunt_yakshcho_vzhe_reyestruvavsya_skorystaysya_vkhodom")
         }, {
           status: 400
         });
       }
     } else b = await (0, auth.authenticate)(k, l);
     if (!b) return Response.json({
-      error: "Невірний email або пароль."
+      error: translate("app.api.auth.route.nevirnyy_email_abo_parol")
     }, {
       status: 401
     });
@@ -99,7 +101,7 @@ async function j(a) {
     });
   } catch (a) {
     return console.error("native_auth_failed", a instanceof Error ? a.name : "unknown"), Response.json({
-      error: "Не вдалося виконати вхід. Спробуй ще раз."
+      error: translate("app.api.auth.route.ne_vdalosya_vykonaty_vkhid_sprobuy_shche_raz")
     }, {
       status: 500
     });

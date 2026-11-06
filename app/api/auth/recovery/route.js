@@ -1,3 +1,5 @@
+
+import { translate } from "../../../../i18n/index.js";
 // Reconstructed from production build. Names/types not present in the build cannot be recovered exactly.
 import * as validationTypes from "../../../../vendor/recovered/module-6061.js";
 import * as auth from "../../../../lib/auth.js";
@@ -28,7 +30,7 @@ async function m(a, b) {
   let c = k(),
     d = function (a, b, c = k().from) {
       if (!j.test(a) || !j.test(c) || /[\r\n]/.test(a + c) || !b.startsWith("https://")) throw Error("Invalid mail envelope");
-      let d = Buffer.from("Праця — відновлення доступу", "utf8").toString("base64");
+      let d = Buffer.from(translate("app.api.auth.recovery.route.pratsya_vidnovlennya_dostupu"), "utf8").toString("base64");
       return `From: Pratsia <${c}>\r
 To: ${a}\r
 Subject: =?UTF-8?B?${d}?=\r
@@ -38,17 +40,7 @@ MIME-Version: 1.0\r
 Content-Type: text/plain; charset=UTF-8\r
 Content-Transfer-Encoding: 8bit\r
 \r
-Щоб встановити новий пароль до свого акаунту Праці, відкрийте посилання:
-
-${b}
-
-Посилання дійсне 30 хвилин і може бути використане лише один раз.
-
-Якщо ви не запитували відновлення, просто проігноруйте цей лист. Ваш пароль не змінено.
-
-Праця
-https://pratsia.com.ua/\r
-`;
+${translate("auth.recovery.emailBody", { resetUrl: b })}`;
     }(a, b, c.from);
   await new Promise((a, b) => {
     let e = (0, h.spawn)(c.path, ["-i", "-t", "-f", c.from], {
@@ -90,40 +82,40 @@ async function q(a) {
       }
     });
   if (a.headers.get("origin") !== d) return f({
-    error: "Недозволений запит"
+    error: translate("app.api.auth.recovery.route.nedozvolenyy_zapyt")
   }, 403);
   try {
     let c,
       g = await a.text();
     if (g.length > 2e3) return f({
-      error: "Завеликий запит"
+      error: translate("app.api.auth.recovery.route.zavelykyy_zapyt")
     }, 413);
     try {
       c = p.safeParse(JSON.parse(g));
     } catch {
       return f({
-        error: "Некоректний запит"
+        error: translate("app.api.auth.recovery.route.nekorektnyy_zapyt")
       }, 400);
     }
     if (!c.success) return f({
-      error: "Перевір email або новий пароль (від 12 до 128 символів)."
+      error: translate("app.api.auth.recovery.route.perevir_email_abo_novyy_parol_vid_12_do_128_symvoliv")
     }, 400);
     if (!(0, auth.checkRateLimit)("recovery-global", 100, 36e5)) return f({
-      error: "Забагато спроб. Спробуй пізніше."
+      error: translate("app.api.auth.recovery.route.zabahato_sprob_sprobuy_piznishe")
     }, 429);
     if ("complete" === c.data.action) {
       if (!(0, auth.checkRateLimit)("recovery-complete", 30, 9e5)) return f({
-        error: "Забагато спроб. Спробуй пізніше."
+        error: translate("app.api.auth.recovery.route.zabahato_sprob_sprobuy_piznishe")
       }, 429);
       return (await (0, auth.completePasswordReset)(c.data.token, c.data.password)) ? f({
         ok: true,
-        message: "Пароль змінено. Увійди з новим паролем."
+        message: translate("app.api.auth.recovery.route.parol_zmineno_uviydy_z_novym_parolem")
       }) : f({
-        error: "Посилання вже використане або термін дії минув. Запитай нове."
+        error: translate("app.api.auth.recovery.route.posylannya_vzhe_vykorystane_abo_termin_diyi_mynuv_zapytay_nove")
       }, 400);
     }
     if (!(await l())) return f({
-      error: "Відновлення поштою зараз недоступне. Спробуй пізніше."
+      error: translate("app.api.auth.recovery.route.vidnovlennya_poshtoyu_zaraz_nedostupne_sprobuy_piznishe")
     }, 503);
     let h = c.data.email;
     if ((0, auth.checkRateLimit)("recovery:" + (0, auth.emailRateLimitKey)(h), 3, 36e5)) {
@@ -139,11 +131,11 @@ async function q(a) {
     let i = 500 - (Date.now() - b);
     return i > 0 && (await new Promise(a => setTimeout(a, i))), f({
       ok: true,
-      message: "Якщо акаунт із такою поштою існує, ми надіслали посилання для відновлення. Перевір також папку \xabСпам\xbb."
+      message: translate("app.api.auth.recovery.route.yakshcho_akaunt_iz_takoyu_poshtoyu_isnuye_my_nadislaly_posylannya_dlya_vidnovlennya_p")
     });
   } catch {
     return console.error("recovery_request_failed"), f({
-      error: "Не вдалося виконати запит. Спробуй пізніше."
+      error: translate("app.api.auth.recovery.route.ne_vdalosya_vykonaty_zapyt_sprobuy_piznishe")
     }, 500);
   }
 }
