@@ -585,3 +585,32 @@
   .candidate-banner-grid { grid-template-columns: 1fr; }
   .candidate-promo { padding: 24px; }
 }
+
+/* Results use a compact toolbar and a centered, single-column vacancy feed. */
+.candidate-results-page .candidate-search { background: white; padding: 24px 0 12px; }
+.candidate-results-page .guest-search-fields { background: #f2f5f5; border-color: transparent; }
+.candidate-results-page .guest-search-query input,
+.candidate-results-page .guest-search-location select { background: transparent; }
+.candidate-results-page .guest-search-submit {
+  width: 48px; min-width: 48px; height: 48px; padding: 0;
+  border: 2px solid #234b38; border-radius: 50%; background: white; color: #234b38;
+}
+.candidate-results-page .guest-search-row { align-items: center; }
+.candidate-results-page .guest-search-filters { margin-top: 24px; gap: 10px; }
+.candidate-results-page .guest-search-filters button { background: white; border: 1px solid #aab6a9; color: #192824; padding: 10px 16px; }
+.candidate-results-page .guest-search-filters button[aria-pressed="true"] { background: #234b38; color: white; border-color: #234b38; }
+.candidate-results-page #candidate-content,
+.candidate-results-page .candidate-notice { max-width: 840px; margin-inline: auto; }
+.candidate-results-page .candidate-notice { font-size: 12px; margin-bottom: 24px; }
+.candidate-results-page #candidate-content h2 { font-size: 28px; margin: 0 0 24px; }
+.candidate-results-page .candidate-jobs { grid-template-columns: 1fr; gap: 24px; }
+.candidate-results-page .candidate-card { border: 1px solid #dce4e7; border-radius: 22px; padding: 28px 32px; box-shadow: 0 3px 14px #1928240d; }
+.candidate-results-page .candidate-card h3 { font-size: 25px; line-height: 1.3; margin-bottom: 16px; }
+.candidate-results-page .candidate-company { color: #527b36; font-size: 18px; }
+.candidate-results-page .candidate-meta { line-height: 1.8; }
+.candidate-results-page .candidate-actions { border-top: 1px solid #edf0eb; padding-top: 20px; margin-top: 24px; }
+@media (max-width: 720px) {
+  .candidate-results-page .guest-search-row { grid-template-columns: minmax(0, 1fr) 48px; }
+  .candidate-results-page .candidate-card { padding: 22px 18px; }
+  .candidate-results-page .candidate-card h3 { font-size: 21px; }
+}

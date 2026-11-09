@@ -23,7 +23,7 @@ const cities = [
       .map((job) => job.city),
   ),
 ].sort();
-export function GuestSearch({ query, city, filter }) {
+export function GuestSearch({ query, city, filter, compact = false }) {
   const active = quickFilters.includes(filter) ? filter : "";
   return (
     <form
@@ -66,13 +66,14 @@ export function GuestSearch({ query, city, filter }) {
           </label>
         </div>
         <button
+          aria-label={translate("candidate.search")}
           className="guest-search-submit"
           type="submit"
           name="filter"
           value={active}
         >
           <SearchIcon size={22} aria-hidden="true" />
-          {translate("candidate.search")}
+          {!compact && translate("candidate.search")}
         </button>
       </div>
       <div
