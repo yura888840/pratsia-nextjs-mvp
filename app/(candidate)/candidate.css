@@ -572,18 +572,33 @@
 }
 .candidate-home-banners { padding-block: 12px 40px; }
 .candidate-home-banners > h2 { font-size: clamp(23px, 3vw, 30px); margin: 0 0 24px; }
-.candidate-banner-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.candidate-promo { padding: 32px; border-radius: 24px; display: flex; flex-direction: column; align-items: flex-start; }
-.candidate-promo-resume { background: #edf3e5; }
-.candidate-promo-remote { background: #f4efdf; }
-.candidate-promo-icon { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 16px; background: white; color: #234b38; font-size: 24px; font-weight: 800; }
-.candidate-promo h3 { font-size: 26px; margin: 24px 0 12px; }
-.candidate-promo p { line-height: 1.7; margin: 0 0 28px; }
-.candidate-promo a { margin-top: auto; font-weight: 700; color: #234b38; }
-@media (max-width: 720px) {
+.candidate-banner-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 20px; }
+.candidate-promo { position: relative; isolation: isolate; overflow: hidden; min-width: 0; min-height: 270px; padding: 26px; border-radius: 26px; display: flex; flex-direction: column; align-items: flex-start; }
+.candidate-promo-resume { background: #fff49b; padding-right: 180px; }
+.candidate-promo-remote { background: #e3f3eb; }
+.candidate-promo-start { background: #eee7fa; }
+.candidate-promo-resume::after { content: ""; position: absolute; z-index: -1; width: 300px; height: 120px; border-radius: 50%; background: #ffe580; bottom: -65px; right: -40px; }
+.candidate-promo h3 { position: relative; font-size: 24px; line-height: 1.25; margin: 0 0 16px; max-width: 240px; }
+.candidate-promo p { font-size: 15px; line-height: 1.6; margin: 0 0 24px; }
+.candidate-promo a { position: relative; margin-top: auto; border: 2px solid #234b38; border-radius: 40px; padding: 12px 18px; font-weight: 700; color: #234b38; text-align: center; background: #ffffff70; }
+.candidate-promo a:hover { background: white; text-decoration: none; }
+.candidate-promo a:focus-visible { outline: 3px solid #234b38; outline-offset: 4px; }
+.candidate-promo-remote a, .candidate-promo-start a { width: 100%; font-size: 14px; }
+.candidate-banner-art { position: absolute; z-index: -1; width: 150px; height: 165px; right: -10px; bottom: 57px; }
+.candidate-banner-art-resume { width: 180px; height: 220px; right: 2px; bottom: 4px; }
+@media (max-width: 1050px) {
+  .candidate-banner-grid { grid-template-columns: 1fr 1fr; }
+  .candidate-promo-resume { grid-column: 1 / -1; min-height: 240px; }
+  .candidate-promo-resume p { max-width: 430px; }
+}
+@media (max-width: 560px) {
   .candidate-search { padding-block: 28px; }
   .candidate-banner-grid { grid-template-columns: 1fr; }
-  .candidate-promo { padding: 24px; }
+  .candidate-promo { padding: 24px; min-height: 260px; }
+  .candidate-promo-resume { padding-right: 115px; }
+  .candidate-banner-art-resume { width: 120px; right: -6px; }
+  .candidate-promo h3 { font-size: 22px; }
+  .candidate-promo-resume a { margin-right: -90px; }
 }
 
 /* Results use a compact toolbar and a centered, single-column vacancy feed. */
