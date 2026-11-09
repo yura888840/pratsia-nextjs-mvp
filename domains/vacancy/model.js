@@ -1,3 +1,4 @@
+import { matchesSearchFilters } from "./search-filters.js";
 import { matchesQuickFilter } from "./filters.js";
 /** Vacancy records are independent of resumes and of the selected list. */
 export function createVacancy(input) {
@@ -9,6 +10,7 @@ export function createVacancy(input) {
     company: String(input.company),
     profession: String(input.profession ?? input.occupation ?? ""),
     city: String(input.city ?? ""),
+    category: String(input.category || ""),
     country: String(input.country || "UA"),
     reservation: input.reservation === true,
     partTime: input.partTime === true,
@@ -36,6 +38,7 @@ export function selectVacancies(
     query = "",
     city = "",
     quickFilter = "",
+    searchFilters = {},
   } = {},
 ) {
   const ids =
@@ -60,7 +63,8 @@ export function selectVacancies(
       (place === "__abroad"
         ? job.country !== "UA"
         : job.city.toLocaleLowerCase().includes(place)) &&
-      matchesQuickFilter(job, quickFilter)
+      matchesQuickFilter(job, quickFilter) &&
+      matchesSearchFilters(job, searchFilters)
     );
   });
 }

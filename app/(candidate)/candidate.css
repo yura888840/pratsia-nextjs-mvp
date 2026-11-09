@@ -629,3 +629,21 @@
   .candidate-results-page .candidate-card { padding: 22px 18px; }
   .candidate-results-page .candidate-card h3 { font-size: 21px; }
 }
+
+.results-filters { margin-top: 24px; }
+.results-filters-row { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; }
+.candidate-app .results-filters-row > select { width: auto; flex: 1 1 160px; min-width: 0; max-width: 260px; padding: 11px 30px 11px 16px; border: 1px solid #899c91; border-radius: 28px; background: white; color: #192824; font: inherit; }
+.candidate-app .results-filter-check { display: flex; flex-direction: row; align-items: center; gap: 9px; white-space: nowrap; font-size: 15px; font-weight: 400; cursor: pointer; }
+.candidate-app .results-filter-check input { width: 20px; height: 20px; margin: 0; padding: 0; accent-color: #234b38; }
+.results-filter-clear { color: #667e73 !important; font-weight: 700; font-size: 14px; }
+.results-filter-extra { position: relative; margin-left: auto; }
+.results-filter-extra summary { display: flex; align-items: center; gap: 8px; color: #234b38; font-weight: 700; cursor: pointer; list-style: none; padding: 10px 0; }
+.results-filter-extra summary::-webkit-details-marker { display: none; }
+.results-filter-panel { position: absolute; right: 0; top: 100%; z-index: 10; display: grid; gap: 18px; padding: 24px; border: 1px solid #dce4df; border-radius: 18px; background: white; box-shadow: 0 8px 28px #19282420; min-width: 290px; }
+.results-filter-extra summary:focus-visible { outline: 3px solid #527b36; outline-offset: 4px; }
+@media (max-width: 720px) {
+  .candidate-app .results-filters-row > select { max-width: none; flex-basis: 100%; }
+  .results-filter-extra { width: 100%; margin-left: 0; }
+  .results-filter-panel { position: static; min-width: 0; margin-top: 8px; }
+  .candidate-app .results-filter-panel .results-filter-check { white-space: normal; }
+}

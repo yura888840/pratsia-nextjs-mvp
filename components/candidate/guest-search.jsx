@@ -1,4 +1,5 @@
 "use client";
+import { ResultsFilters } from "./results-filters.jsx";
 import { translate, catalogValue } from "../../i18n/index.js";
 import { SearchIcon, MapPinIcon } from "../platform/shared/icons.jsx";
 import { mockVacancies } from "../../domains/vacancy/mocks.js";
@@ -69,14 +70,14 @@ export function GuestSearch({ query, city, filter, compact = false }) {
           aria-label={translate("candidate.search")}
           className="guest-search-submit"
           type="submit"
-          name="filter"
-          value={active}
+          name={compact ? undefined : "filter"}
+          value={compact ? undefined : active}
         >
           <SearchIcon size={22} aria-hidden="true" />
           {!compact && translate("candidate.search")}
         </button>
       </div>
-      <div
+      {compact ? <ResultsFilters /> : <div
         className="guest-search-filters"
         role="group"
         aria-label={translate("guestSearch.quickFilters")}
@@ -92,7 +93,7 @@ export function GuestSearch({ query, city, filter, compact = false }) {
             {label}
           </button>
         ))}
-      </div>
+      </div>}
     </form>
   );
 }

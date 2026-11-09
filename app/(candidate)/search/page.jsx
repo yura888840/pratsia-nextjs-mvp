@@ -1,3 +1,4 @@
+import { normalizeSearchFilters } from "../../../domains/vacancy/search-filters.js";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "../../../lib/session.js";
 import {
@@ -25,7 +26,7 @@ export default async function HomePage({ searchParams }) {
   return (
     <CandidateWorkspace
       view={view}
-      quickFilter={typeof params.filter === "string" ? params.filter : ""}
+      searchFilters={normalizeSearchFilters(params)}
       query={typeof params.q === "string" ? params.q : ""}
       city={typeof params.city === "string" ? params.city : ""}
     />
