@@ -1,3 +1,5 @@
+import { findMockVacancy } from "../../../../domains/vacancy/mocks.js";
+import { VacancyDetails } from "../../../../components/candidate/vacancies.jsx";
 import { translate, formatDate, catalogLabel } from "../../../../i18n/index.js";
 // Reconstructed from production build. Names/types not present in the build cannot be recovered exactly.
 import { isPublicJob, jobPosting, siteOrigin } from "../../../../lib/seo.js";
@@ -20,6 +22,8 @@ async function getJob(jobId) {
       )[0] ?? null);
 }
 async function generateMetadata({ params }) {
+  const mock = findMockVacancy((await params).id);
+  if (mock) return { title: mock.title, robots: { index: false, follow: false } };
   const job = await getJob((await params).id);
   return {
     title: job
@@ -41,6 +45,8 @@ async function generateMetadata({ params }) {
   };
 }
 async function JobPage({ params }) {
+  const mock = findMockVacancy((await params).id);
+  if (mock) return <VacancyDetails job={mock} />;
   const job = await getJob((await params).id);
   {
     if (!job) {
@@ -113,9 +119,7 @@ async function JobPage({ params }) {
         )}
         <div className={"button-row"}>
           {isActivePublicJob && (
-            <a className={"primary"} href={"/?job=" + job.id}>
-              {translate("app.jobs.id.page.vidhuknutysya_na_vakansiyu")}
-            </a>
+            <p>{translate("candidate.liveReadOnly")}</p>
           )}
           <a className={"outline"} href={"/"}>
             {translate("app.jobs.id.page.inshi_vakansiyi")}

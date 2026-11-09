@@ -1,6 +1,7 @@
 # Platform UI domains
 
-`app/platform.jsx` is the client composition root. It selects the active view,
+`app/_shared/platform.jsx` is the legacy client composition root. The candidate
+prototype now uses `components/candidate` (see `app/README.md`). This retained shell selects the active view,
 opens dialogs, and connects the domain components to `usePlatformController`.
 
 | Directory | Responsibility |
