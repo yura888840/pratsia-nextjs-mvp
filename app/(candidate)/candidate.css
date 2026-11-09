@@ -558,3 +558,30 @@
     font-size: 13px;
   }
 }
+
+/* Search background spans the viewport; controls follow the shared page grid. */
+.candidate-search {
+  padding: 36px 0;
+  border-radius: 0;
+  background: #ddecbe;
+}
+.candidate-search-inner {
+  max-width: var(--candidate-page-width);
+  margin-inline: auto;
+  padding-inline: var(--candidate-page-gutter);
+}
+.candidate-home-banners { padding-block: 12px 40px; }
+.candidate-home-banners > h2 { font-size: clamp(23px, 3vw, 30px); margin: 0 0 24px; }
+.candidate-banner-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.candidate-promo { padding: 32px; border-radius: 24px; display: flex; flex-direction: column; align-items: flex-start; }
+.candidate-promo-resume { background: #edf3e5; }
+.candidate-promo-remote { background: #f4efdf; }
+.candidate-promo-icon { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 16px; background: white; color: #234b38; font-size: 24px; font-weight: 800; }
+.candidate-promo h3 { font-size: 26px; margin: 24px 0 12px; }
+.candidate-promo p { line-height: 1.7; margin: 0 0 28px; }
+.candidate-promo a { margin-top: auto; font-weight: 700; color: #234b38; }
+@media (max-width: 720px) {
+  .candidate-search { padding-block: 28px; }
+  .candidate-banner-grid { grid-template-columns: 1fr; }
+  .candidate-promo { padding: 24px; }
+}
