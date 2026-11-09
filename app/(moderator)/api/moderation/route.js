@@ -5,10 +5,10 @@ import { getSqlite } from "../../../../db/connection.js";
 import { randomUUID } from "node:crypto";
 import { isAllowedOrigin } from "../../../../lib/validation.js";
 import {
-  Ik as objectSchema,
-  Yj as stringSchema,
-  k5 as enumSchema,
-} from "../../../../vendor/recovered/module-6061.js";
+  object as objectSchema,
+  string as stringSchema,
+  enum as enumSchema,
+} from "zod";
 function isVerifiedModerator(accountId) {
   return !!getSqlite()
     .prepare(

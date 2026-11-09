@@ -1,11 +1,11 @@
 import { translate } from "../../../../../i18n/index.js";
 // Reconstructed from production build. Names/types not present in the build cannot be recovered exactly.
 import {
-  gM as discriminatedUnionSchema,
-  Ik as objectSchema,
-  eu as literalSchema,
-  Yj as stringSchema,
-} from "../../../../../vendor/recovered/module-6061.js";
+  discriminatedUnion as discriminatedUnionSchema,
+  object as objectSchema,
+  literal as literalSchema,
+  string as stringSchema,
+} from "zod";
 import {
   checkRateLimit,
   completePasswordReset,

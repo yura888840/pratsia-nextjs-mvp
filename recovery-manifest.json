@@ -25,99 +25,115 @@
   },
   {
     "moduleId": 9308,
-    "recoveredFile": "vendor/recovered/module-9308.js",
     "buildFile": ".next/server/chunks/381.js",
-    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9",
+    "historicalRecoveredFile": "vendor/recovered/module-9308.js",
+    "replacementPackage": "drizzle-orm/sqlite-proxy"
   },
   {
     "moduleId": 6872,
-    "recoveredFile": "vendor/recovered/module-6872.js",
     "buildFile": ".next/server/chunks/381.js",
-    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9",
+    "historicalRecoveredFile": "vendor/recovered/module-6872.js",
+    "replacementPackage": "drizzle-orm"
   },
   {
     "moduleId": 4655,
-    "recoveredFile": "vendor/recovered/module-4655.js",
     "buildFile": ".next/server/chunks/381.js",
-    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9",
+    "historicalRecoveredFile": "vendor/recovered/module-4655.js",
+    "replacementPackage": "drizzle-orm"
   },
   {
     "moduleId": 6584,
-    "recoveredFile": "vendor/recovered/module-6584.js",
     "buildFile": ".next/server/chunks/381.js",
-    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9",
+    "historicalRecoveredFile": "vendor/recovered/module-6584.js",
+    "replacementPackage": "drizzle-orm"
   },
   {
     "moduleId": 6122,
-    "recoveredFile": "vendor/recovered/module-6122.js",
     "buildFile": ".next/server/chunks/381.js",
-    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9",
+    "historicalRecoveredFile": "vendor/recovered/module-6122.js",
+    "replacementPackage": "drizzle-orm"
   },
   {
     "moduleId": 2811,
-    "recoveredFile": "vendor/recovered/module-2811.js",
     "buildFile": ".next/server/chunks/381.js",
-    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9",
+    "historicalRecoveredFile": "vendor/recovered/module-2811.js",
+    "replacementPackage": "drizzle-orm"
   },
   {
     "moduleId": 1029,
-    "recoveredFile": "vendor/recovered/module-1029.js",
     "buildFile": ".next/server/chunks/381.js",
-    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9",
+    "historicalRecoveredFile": "vendor/recovered/module-1029.js",
+    "replacementPackage": "drizzle-orm"
   },
   {
     "moduleId": 4363,
-    "recoveredFile": "vendor/recovered/module-4363.js",
     "buildFile": ".next/server/chunks/381.js",
-    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9",
+    "historicalRecoveredFile": "vendor/recovered/module-4363.js",
+    "replacementPackage": "drizzle-orm"
   },
   {
     "moduleId": 1505,
-    "recoveredFile": "vendor/recovered/module-1505.js",
     "buildFile": ".next/server/chunks/381.js",
-    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9",
+    "historicalRecoveredFile": "vendor/recovered/module-1505.js",
+    "replacementPackage": "drizzle-orm"
   },
   {
     "moduleId": 3402,
-    "recoveredFile": "vendor/recovered/module-3402.js",
     "buildFile": ".next/server/chunks/381.js",
-    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9",
+    "historicalRecoveredFile": "vendor/recovered/module-3402.js",
+    "replacementPackage": "drizzle-orm"
   },
   {
     "moduleId": 2486,
-    "recoveredFile": "vendor/recovered/module-2486.js",
     "buildFile": ".next/server/chunks/381.js",
-    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9",
+    "historicalRecoveredFile": "vendor/recovered/module-2486.js",
+    "replacementPackage": "drizzle-orm"
   },
   {
     "moduleId": 2194,
-    "recoveredFile": "vendor/recovered/module-2194.js",
     "buildFile": ".next/server/chunks/381.js",
-    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9",
+    "historicalRecoveredFile": "vendor/recovered/module-2194.js",
+    "replacementPackage": "drizzle-orm"
   },
   {
     "moduleId": 5574,
-    "recoveredFile": "vendor/recovered/module-5574.js",
     "buildFile": ".next/server/chunks/381.js",
-    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9",
+    "historicalRecoveredFile": "vendor/recovered/module-5574.js",
+    "replacementPackage": "drizzle-orm/sqlite-core"
   },
   {
     "moduleId": 5090,
-    "recoveredFile": "vendor/recovered/module-5090.js",
     "buildFile": ".next/server/chunks/381.js",
-    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9",
+    "historicalRecoveredFile": "vendor/recovered/module-5090.js",
+    "replacementPackage": "drizzle-orm"
   },
   {
     "moduleId": 4982,
-    "recoveredFile": "vendor/recovered/module-4982.js",
     "buildFile": ".next/server/chunks/381.js",
-    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9",
+    "historicalRecoveredFile": "vendor/recovered/module-4982.js",
+    "replacementPackage": "drizzle-orm/sqlite-core"
   },
   {
     "moduleId": 2917,
-    "recoveredFile": "vendor/recovered/module-2917.js",
     "buildFile": ".next/server/chunks/381.js",
-    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9",
+    "historicalRecoveredFile": "vendor/recovered/module-2917.js",
+    "replacementPackage": "drizzle-orm/sqlite-core"
   },
   {
     "moduleId": 8227,
@@ -133,9 +149,10 @@
   },
   {
     "moduleId": 8,
-    "recoveredFile": "vendor/recovered/module-8.js",
     "buildFile": ".next/server/chunks/381.js",
-    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9"
+    "buildSha256": "b7a42e42ce3863587a90598d5a61c876228853ff5d9aa8fe0e9b68c475a0fea9",
+    "historicalRecoveredFile": "vendor/recovered/module-8.js",
+    "replacementPackage": "drizzle-orm/sqlite-core"
   },
   {
     "moduleId": 9611,
@@ -163,9 +180,10 @@
   },
   {
     "moduleId": 6061,
-    "recoveredFile": "vendor/recovered/module-6061.js",
     "buildFile": ".next/server/chunks/694.js",
-    "buildSha256": "4a08ffd446e7fd2ae855be1ef7726f00616fc32fe5f19f4e287ac7e0720170b3"
+    "buildSha256": "4a08ffd446e7fd2ae855be1ef7726f00616fc32fe5f19f4e287ac7e0720170b3",
+    "historicalRecoveredFile": "vendor/recovered/module-6061.js",
+    "replacementPackage": "zod"
   },
   {
     "moduleId": 2982,
