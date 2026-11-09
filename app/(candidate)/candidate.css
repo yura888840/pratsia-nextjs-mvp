@@ -19,7 +19,7 @@
   align-items: center;
   gap: 28px;
   min-height: 80px;
-  padding: 16px max(24px, calc((100vw - 1120px) / 2));
+  padding: 16px 24px;
   background: #fff;
   border-bottom: 1px solid #dce1da;
 }
@@ -254,4 +254,92 @@
   }
 }
 
-.candidate-header .candidate-register{padding:12px 18px;border-radius:8px;background:#234b38;color:white;font-weight:600}.candidate-header{flex-wrap:wrap}
+.candidate-header .candidate-register {
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: #234b38;
+  color: white;
+  font-weight: 600;
+}
+.candidate-header {
+  flex-wrap: wrap;
+}
+
+.candidate-user-menu {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+  min-width: 0;
+}
+.candidate-user-name {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.candidate-account {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+.candidate-account-sidebar {
+  padding: 22px 16px;
+  background: white;
+  border: 1px solid #dde3d9;
+  border-radius: 16px;
+}
+.candidate-account-sidebar h2 {
+  font-size: 19px;
+  margin: 0 10px 18px;
+}
+.candidate-account-sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.candidate-account-sidebar nav a {
+  padding: 14px 12px;
+  border-radius: 9px;
+  line-height: 1.5;
+}
+.candidate-account-sidebar nav a[aria-current="page"] {
+  background: #234b38;
+  color: white;
+  font-weight: 600;
+}
+.candidate-account-search {
+  display: block;
+  margin: 24px 12px 0;
+  font-size: 14px;
+  color: #657063;
+}
+.candidate-account-content {
+  min-width: 0;
+}
+.candidate-account .candidate-jobs {
+  grid-template-columns: 1fr;
+}
+@media (max-width: 720px) {
+  .candidate-account {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .candidate-user-menu {
+    gap: 10px;
+  }
+  .candidate-header .candidate-user-menu button {
+    padding: 10px;
+  }
+  .candidate-user-name {
+    max-width: 160px;
+  }
+  .candidate-account-sidebar nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .candidate-account-sidebar nav a {
+    flex: 1;
+    min-width: 120px;
+  }
+}

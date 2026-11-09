@@ -57,3 +57,11 @@ application mutations use the same role check; the profile API also rejects
 employer writes. Browser demo storage is scoped by account ID (v2), with a
 separate guest store for public favorites. The old unscoped v1 prototype record
 is not automatically assigned to an account.
+
+The candidate's name in the right-hand header links to `/account`. This protected
+account page keeps the shared header/search and places its navigation on the
+left below that shared area. Sections `profile`, `saved`, and `applications`
+reuse the resume editor and vacancy lists. Legacy `/?view=...` links redirect
+signed-in candidates to the corresponding account section. Guests keep public
+search/favorites and the registration entry; employer accounts cannot open the
+candidate account. On small screens the account menu stacks above the content.

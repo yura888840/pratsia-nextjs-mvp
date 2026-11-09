@@ -31,7 +31,7 @@ export function VacancyActions({ job }) {
           {translate("candidate.signInToApply")}
         </Link>
       ) : !isResumeReady(resume) && !applied ? (
-        <Link href="/?view=profile">
+        <Link href="/account?section=profile">
           {translate("candidate.resumeToApply")}
         </Link>
       ) : (

@@ -2041,5 +2041,11 @@
   "registration.logout": "Вийти",
   "candidate.createResume": "Створити резюме",
   "candidate.signInToApply": "Увійти як шукач, щоб відгукнутися",
-  "candidate.accessDenied": "Доступно лише авторизованим шукачам роботи."
+  "candidate.accessDenied": "Доступно лише авторизованим шукачам роботи.",
+  "account.title": "Особистий кабінет",
+  "account.navigation": "Меню особистого кабінету",
+  "account.resumes": "Мої резюме",
+  "account.favorites": "Обране",
+  "account.applications": "Куди надіслано резюме",
+  "account.backToSearch": "До всіх вакансій"
 }
