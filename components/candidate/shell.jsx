@@ -175,10 +175,7 @@ export function CandidateShell({ children, userName }) {
           </>
         )}
         <main id="candidate-content">{children}</main>
-        <footer className="candidate-footer">
-          {translate("candidate.footer")}{" "}
-          <Link href="/employers">{translate("entry.employerSite")}</Link>
-        </footer>
+
       </div>
     </div>
   );

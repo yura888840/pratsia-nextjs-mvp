@@ -11,7 +11,6 @@ import { SavedSearchesView } from "../../components/platform/jobs/saved-searches
 import { EmployerLanding } from "../../components/platform/employer/landing.jsx";
 import { EmployerAccess } from "../../components/platform/employer/access.jsx";
 import { EmployerDashboard } from "../../components/platform/employer/dashboard.jsx";
-import { PlatformFooter } from "../../components/platform/shell/footer.jsx";
 import { ModerationPanel } from "../../components/platform/moderation/moderation-panel.jsx";
 import { occupations } from "../../components/platform/catalog/occupations.js";
 import { cities } from "../../components/platform/catalog/job-options.js";
@@ -226,7 +225,6 @@ function Platform({ initialJobs = [], initialView = "search" }) {
               setSelectedJob={setSelectedJob}
             />
           )}
-          <PlatformFooter openModal={openModal} platformState={platformState} />
         </main>
       </div>
       {"moderation" === activeView && platformState.user?.isAdmin && (
