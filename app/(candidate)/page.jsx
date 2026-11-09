@@ -1,9 +1,9 @@
 // Reconstructed from production build. Names/types not present in the build cannot be recovered exactly.
 import * as jsxRuntime from "react/jsx-runtime";
-import * as platformModule from "./platform.jsx";
-import { getDatabase } from "../db/index.js";
-import { searchJobs } from "../lib/job-search.js";
-import { defaultFilters } from "../lib/catalog.js";
+import * as platformModule from "../_shared/platform.jsx";
+import { getDatabase } from "../../db/index.js";
+import { searchJobs } from "../../lib/job-search.js";
+import { defaultFilters } from "../../lib/catalog.js";
 async function HomePage() {
   let initialJobs = [];
   try {

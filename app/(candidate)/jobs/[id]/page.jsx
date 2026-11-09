@@ -1,13 +1,13 @@
-import { translate, formatDate, catalogLabel } from "../../../i18n/index.js";
+import { translate, formatDate, catalogLabel } from "../../../../i18n/index.js";
 // Reconstructed from production build. Names/types not present in the build cannot be recovered exactly.
-import { isPublicJob, jobPosting, siteOrigin } from "../../../lib/seo.js";
-import { getSqlite } from "../../../db/connection.js";
+import { isPublicJob, jobPosting, siteOrigin } from "../../../../lib/seo.js";
+import { getSqlite } from "../../../../db/connection.js";
 import * as jsxRuntime from "react/jsx-runtime";
 import { notFound } from "next/navigation";
-import { getDatabase } from "../../../db/index.js";
-import { jobs } from "../../../db/schema.js";
-import { Uo as and, eq } from "../../../vendor/recovered/module-2811.js";
-import { formatSalary } from "../../../lib/catalog.js";
+import { getDatabase } from "../../../../db/index.js";
+import { jobs } from "../../../../db/schema.js";
+import { Uo as and, eq } from "../../../../vendor/recovered/module-2811.js";
+import { formatSalary } from "../../../../lib/catalog.js";
 async function getJob(jobId) {
   return jobId.startsWith("demo-")
     ? null

@@ -1,30 +1,30 @@
 "use client";
 
-import { usePlatformController } from "../components/platform/use-platform-controller.js";
-import { PlatformSidebar } from "../components/platform/shell/sidebar.jsx";
-import { translate, catalogLabel } from "../i18n/index.js";
-import { PlatformHeader } from "../components/platform/shell/header.jsx";
-import { JobSearchView } from "../components/platform/jobs/search-view.jsx";
-import { CandidateProfileView } from "../components/platform/candidate/profile-view.jsx";
-import { ApplicationsView } from "../components/platform/applications/applications-view.jsx";
-import { SavedSearchesView } from "../components/platform/jobs/saved-searches-view.jsx";
-import { EmployerLanding } from "../components/platform/employer/landing.jsx";
-import { EmployerAccess } from "../components/platform/employer/access.jsx";
-import { EmployerDashboard } from "../components/platform/employer/dashboard.jsx";
-import { PlatformFooter } from "../components/platform/shell/footer.jsx";
-import { ModerationPanel } from "../components/platform/moderation/moderation-panel.jsx";
-import { occupations } from "../components/platform/catalog/occupations.js";
-import { cities } from "../components/platform/catalog/job-options.js";
+import { usePlatformController } from "../../components/platform/use-platform-controller.js";
+import { PlatformSidebar } from "../../components/platform/shell/sidebar.jsx";
+import { translate, catalogLabel } from "../../i18n/index.js";
+import { PlatformHeader } from "../../components/platform/shell/header.jsx";
+import { JobSearchView } from "../../components/platform/jobs/search-view.jsx";
+import { CandidateProfileView } from "../../components/platform/candidate/profile-view.jsx";
+import { ApplicationsView } from "../../components/platform/applications/applications-view.jsx";
+import { SavedSearchesView } from "../../components/platform/jobs/saved-searches-view.jsx";
+import { EmployerLanding } from "../../components/platform/employer/landing.jsx";
+import { EmployerAccess } from "../../components/platform/employer/access.jsx";
+import { EmployerDashboard } from "../../components/platform/employer/dashboard.jsx";
+import { PlatformFooter } from "../../components/platform/shell/footer.jsx";
+import { ModerationPanel } from "../../components/platform/moderation/moderation-panel.jsx";
+import { occupations } from "../../components/platform/catalog/occupations.js";
+import { cities } from "../../components/platform/catalog/job-options.js";
 import {
   GitCompareArrowsIcon,
   ArrowRightIcon,
   XIcon,
   CircleCheckIcon,
-} from "../components/platform/shared/icons.jsx";
-import { JobDetails } from "../components/platform/jobs/job-details.jsx";
-import { JobComparison } from "../components/platform/jobs/job-comparison.jsx";
-import { PlatformModal } from "../components/platform/shell/platform-modal.jsx";
-import { OccupationPicker } from "../components/platform/catalog/occupation-picker.jsx";
+} from "../../components/platform/shared/icons.jsx";
+import { JobDetails } from "../../components/platform/jobs/job-details.jsx";
+import { JobComparison } from "../../components/platform/jobs/job-comparison.jsx";
+import { PlatformModal } from "../../components/platform/shell/platform-modal.jsx";
+import { OccupationPicker } from "../../components/platform/catalog/occupation-picker.jsx";
 function Platform({ initialJobs = [], initialView = "search" }) {
   const {
     activeFilterCount,

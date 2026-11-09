@@ -1,9 +1,9 @@
-import { translate } from "../../../i18n/index.js";
+import { translate } from "../../../../i18n/index.js";
 // Reconstructed from production build. Names/types not present in the build cannot be recovered exactly.
-import { getDatabase } from "../../../db/index.js";
-import { getCurrentUser } from "../../../lib/session.js";
-import { categories, schedules } from "../../../lib/catalog.js";
-import { buildJobFilters, searchJobs } from "../../../lib/job-search.js";
+import { getDatabase } from "../../../../db/index.js";
+import { getCurrentUser } from "../../../../lib/session.js";
+import { categories, schedules } from "../../../../lib/catalog.js";
+import { buildJobFilters, searchJobs } from "../../../../lib/job-search.js";
 const DEFAULT_LIMIT = 16;
 const MAX_LIMIT = 50;
 const MAX_SALARY = 10_000_000;
