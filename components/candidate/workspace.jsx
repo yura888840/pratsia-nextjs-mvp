@@ -6,7 +6,12 @@ import { selectVacancies } from "../../domains/vacancy/model.js";
 import { useCandidate } from "./context.jsx";
 import { VacancyList } from "./vacancies.jsx";
 import { ResumeEditor } from "./resume-editor.jsx";
-export function CandidateWorkspace({ view = "search", query = "", city = "" }) {
+export function CandidateWorkspace({
+  view = "search",
+  query = "",
+  city = "",
+  quickFilter = "",
+}) {
   const { ready, favorites, applications, isCandidate } = useCandidate();
   if (!ready) return <p role="status">{translate("candidate.loading")}</p>;
   if (["profile", "applications"].includes(view) && !isCandidate) return null;
@@ -15,6 +20,7 @@ export function CandidateWorkspace({ view = "search", query = "", city = "" }) {
     view,
     query,
     city,
+    quickFilter,
     favorites,
     applications,
   });

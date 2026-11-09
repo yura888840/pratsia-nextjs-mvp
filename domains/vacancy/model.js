@@ -1,3 +1,4 @@
+import { matchesQuickFilter } from "./filters.js";
 /** Vacancy records are independent of resumes and of the selected list. */
 export function createVacancy(input) {
   if (!input?.id || !input.title || !input.company)
@@ -8,6 +9,12 @@ export function createVacancy(input) {
     company: String(input.company),
     profession: String(input.profession ?? input.occupation ?? ""),
     city: String(input.city ?? ""),
+    country: String(input.country || "UA"),
+    reservation: input.reservation === true,
+    partTime: input.partTime === true,
+    noResume: input.noResume === true,
+    disability: input.disability === true,
+    veteran: input.veteran === true,
     salaryMin: Number(input.salaryMin) || 0,
     salaryMax: Number(input.salaryMax) || 0,
     currency: String(input.currency || "UAH"),
@@ -28,6 +35,7 @@ export function selectVacancies(
     applications = [],
     query = "",
     city = "",
+    quickFilter = "",
   } = {},
 ) {
   const ids =
@@ -49,7 +57,10 @@ export function selectVacancies(
     return (
       (!ids || ids.has(job.id)) &&
       words.every((word) => text.includes(word)) &&
-      job.city.toLocaleLowerCase().includes(place)
+      (place === "__abroad"
+        ? job.country !== "UA"
+        : job.city.toLocaleLowerCase().includes(place)) &&
+      matchesQuickFilter(job, quickFilter)
     );
   });
 }

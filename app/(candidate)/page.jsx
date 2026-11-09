@@ -25,6 +25,7 @@ export default async function HomePage({ searchParams }) {
   return (
     <CandidateWorkspace
       view={view}
+      quickFilter={typeof params.filter === "string" ? params.filter : ""}
       query={typeof params.q === "string" ? params.q : ""}
       city={typeof params.city === "string" ? params.city : ""}
     />
