@@ -2,9 +2,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import { translate } from "../../i18n/index.js";
-export function RegistrationForm({ initialRole, googleEnabled, initialError }) {
+export function RegistrationForm({
+  initialRole,
+  googleEnabled,
+  initialError,
+  initialLogin = false,
+}) {
   const [accountType, setAccountType] = useState(initialRole);
-  const [login, setLogin] = useState(false);
+  const [login, setLogin] = useState(initialLogin);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(initialError);
   async function submit(event) {

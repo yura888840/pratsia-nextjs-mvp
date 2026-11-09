@@ -343,3 +343,5 @@
     min-width: 120px;
   }
 }
+
+.candidate-guest-menu{margin-left:auto;display:flex;align-items:center;justify-content:flex-end;gap:24px;flex-wrap:wrap}.candidate-guest-menu a{font-size:14px;white-space:nowrap}.candidate-guest-menu .candidate-register{margin:0}@media(max-width:720px){.candidate-guest-menu{gap:14px}.candidate-guest-menu a{font-size:13px}}
