@@ -21,18 +21,6 @@ export function CandidateShell({ children, userName }) {
         <Link className="candidate-brand" href="/">
           {translate("brand.logo")}
         </Link>
-        {!userName && (
-          <nav
-            className="candidate-entry-menu"
-            aria-label={translate("entry.guestMenu")}
-          >
-            <Link href="/login">{translate("registration.login")}</Link>
-            <Link href="/register?accountType=candidate">
-              {translate("registration.submit")}
-            </Link>
-            <Link href="/employers">{translate("entry.employerSite")}</Link>
-          </nav>
-        )}
         {userName ? (
           <div className="candidate-user-menu">
             <Link className="candidate-user-name" href="/account">
@@ -77,6 +65,18 @@ export function CandidateShell({ children, userName }) {
             <Link className="candidate-create-resume" href="/cv-welcome">
               {translate("candidate.createResume")}
             </Link>
+          </nav>
+        )}
+        {!userName && (
+          <nav
+            className="candidate-entry-menu"
+            aria-label={translate("entry.guestMenu")}
+          >
+            <Link href="/login">{translate("registration.login")}</Link>
+            <Link href="/register?accountType=candidate">
+              {translate("registration.submit")}
+            </Link>
+            <Link href="/employers">{translate("entry.employerSite")}</Link>
           </nav>
         )}
       </header>
