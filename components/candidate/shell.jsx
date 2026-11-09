@@ -1,13 +1,14 @@
 "use client";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import { tabLabels } from "./labels.js";
 import { translate } from "../../i18n/index.js";
 import { useCandidate } from "./context.jsx";
 export function CandidateShell({ children, userName }) {
   const params = useSearchParams();
+  const isAccount = usePathname() === "/account";
   const view = params.get("view") || "search";
-  const { favorites, applications, isCandidate } = useCandidate();
+  const { favorites, isCandidate } = useCandidate();
   return (
     <div className="candidate-app">
       <header className="candidate-header">
@@ -15,18 +16,16 @@ export function CandidateShell({ children, userName }) {
           {translate("brand.logo")}
         </Link>
         <span>{translate("candidate.forCandidates")}</span>
-        {isCandidate ? (
-          <Link href="/?view=profile">{translate("candidate.resume")}</Link>
-        ) : (
-          !userName && (
-            <Link href="/register?accountType=candidate">
-              {translate("candidate.createResume")}
-            </Link>
-          )
+        {!userName && (
+          <Link href="/register?accountType=candidate">
+            {translate("candidate.createResume")}
+          </Link>
         )}
         {userName ? (
-          <>
-            <span>{userName}</span>
+          <div className="candidate-user-menu">
+            <Link className="candidate-user-name" href="/account">
+              {userName}
+            </Link>
             <button
               type="button"
               onClick={async () => {
@@ -40,7 +39,7 @@ export function CandidateShell({ children, userName }) {
             >
               {translate("registration.logout")}
             </button>
-          </>
+          </div>
         ) : (
           <Link
             className="candidate-register"
@@ -82,33 +81,31 @@ export function CandidateShell({ children, userName }) {
             </button>
           </form>
         </section>
-        <nav
-          className="candidate-nav"
-          aria-label={translate("candidate.navigation")}
-        >
-          {(isCandidate
-            ? ["search", "saved", "applications", "profile"]
-            : ["search", "saved"]
-          ).map((key) => (
-            <Link
-              key={key}
-              href={key === "search" ? "/" : `/?view=${key}`}
-              aria-current={view === key ? "page" : undefined}
-            >
-              {tabLabels[key]}
-              {key === "saved"
-                ? ` (${favorites.length})`
-                : key === "applications"
-                  ? ` (${applications.length})`
-                  : ""}
-            </Link>
-          ))}
-          {!userName && (
-            <Link href="/register?accountType=candidate">
-              {translate("candidate.createResume")}
-            </Link>
-          )}
-        </nav>
+        {!isAccount && (
+          <nav
+            className="candidate-nav"
+            aria-label={translate("candidate.navigation")}
+          >
+            {(isCandidate ? ["search"] : ["search", "saved"]).map((key) => (
+              <Link
+                key={key}
+                href={key === "search" ? "/" : `/?view=${key}`}
+                aria-current={view === key ? "page" : undefined}
+              >
+                {tabLabels[key]}
+                {key === "saved" ? ` (${favorites.length})` : ""}
+              </Link>
+            ))}
+            {isCandidate && (
+              <Link href="/account">{translate("account.title")}</Link>
+            )}
+            {!userName && (
+              <Link href="/register?accountType=candidate">
+                {translate("candidate.createResume")}
+              </Link>
+            )}
+          </nav>
+        )}
         <p className="candidate-notice">{translate("candidate.demoNotice")}</p>
         <main id="candidate-content">{children}</main>
         <footer className="candidate-footer">

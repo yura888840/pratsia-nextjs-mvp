@@ -84,14 +84,27 @@ for (const view of ['profile', 'applications']) {
   assert.equal(response.status,307);assert.equal(response.headers.get('location'),location);checks++;
  }
  const allowed=await fetch(base+'/?view='+view,{headers:{cookie:candidate.cookie},redirect:'manual'});
- assert.equal(allowed.status,200);checks++;
+ assert.equal(allowed.status,307);assert.equal(allowed.headers.get('location'),'/account?section='+view);checks++;
 }
 for (const [cookie, isCandidate] of [['',false],[owner.cookie,false],[candidate.cookie,true]]) {
  const response=await fetch(base+'/',{headers:{cookie}});const html=await response.text();
  const nav=html.match(/<nav[^>]*class="candidate-nav"[^>]*>([\s\S]*?)<\/nav>/)?.[1];assert.ok(nav);
- assert.equal(nav.includes('/?view=profile'),isCandidate);assert.equal(nav.includes('/?view=applications'),isCandidate);
+ assert.equal(nav.includes('/account'),isCandidate);assert.equal(nav.includes('/?view=profile'),false);assert.equal(nav.includes('/?view=applications'),false);
  if(!cookie) assert.ok(nav.includes('Створити резюме') && nav.includes('/register?accountType=candidate'));
  checks++;
+}
+for (const section of ['profile','saved','applications']) {
+ for (const [cookie,location] of [['','/register?accountType=candidate'],[owner.cookie,'/']]) {
+  const response=await fetch(base+'/account?section='+section,{headers:{cookie},redirect:'manual'});
+  assert.equal(response.status,307);assert.equal(response.headers.get('location'),location);checks++;
+ }
+ const response=await fetch(base+'/account?section='+section,{headers:{cookie:candidate.cookie},redirect:'manual'});
+ assert.equal(response.status,200);const html=await response.text();
+ assert.ok(html.includes('candidate-user-menu'));assert.ok(/class="candidate-user-name" href="\/account"/.test(html));
+ assert.ok(html.indexOf('candidate-search')<html.indexOf('candidate-account-sidebar'));
+ const sidebar=html.match(/<aside[^>]*class="candidate-account-sidebar"[^>]*>([\s\S]*?)<\/aside>/)?.[1];assert.ok(sidebar);
+ for (const key of ['profile','saved','applications']) assert.ok(sidebar.includes('/account?section='+key));
+ assert.ok(sidebar.includes('Мої резюме'));assert.ok(sidebar.includes('Обране'));assert.ok(sidebar.includes('Куди надіслано резюме'));checks++;
 }
 await request('/api/platform',{action:'profile',data:{}},owner.cookie,403);
 await request('/api/platform',{action:'profile',data:{}},'',401);

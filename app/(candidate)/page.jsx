@@ -13,6 +13,10 @@ export default async function HomePage({ searchParams }) {
   )
     ? params.view
     : "search";
+  if (view !== "search") {
+    const user = await getCurrentUser();
+    if (canUseCandidateFeatures(user)) redirect(`/account?section=${view}`);
+  }
   if (protectedCandidateViews.includes(view)) {
     const user = await getCurrentUser();
     if (!canUseCandidateFeatures(user))
