@@ -93,3 +93,33 @@ Production-сборка, 3 теста Node.js и 43 HTTP-проверки про
 ## Локализация
 
 Тексты находятся в `locales/uk.json`. Использование токенов и добавление языков: [docs/I18N.md](docs/I18N.md).
+
+### Registration and Google OAuth
+
+`/register` supports email/password registration and a candidate/employer role
+selector. Candidate navigation opens `/register?accountType=candidate`;
+`/register?accountType=employer` preselects the employer role. The choice remains
+editable and is applied to both registration methods. Existing Google accounts
+keep their original role when signing in again.
+
+For Google, create an OAuth client of type **Web application** in Google Cloud,
+configure the consent screen, and set these server environment variables:
+
+- `PRATSIA_ORIGIN`: the exact public origin, e.g. `https://pratsia.com.ua`.
+- `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`: the OAuth client's credentials.
+- Authorized redirect URI: `https://pratsia.com.ua/api/auth/google/callback`
+  (locally: `http://localhost:3000/api/auth/google/callback`).
+
+The Google button is disabled with an email fallback when configuration is
+missing. Run `npm run db:migrate` before starting (build/start also run migrations).
+The authorization-code flow uses PKCE, nonce, an expiring single-use state bound
+to an HttpOnly browser cookie, and Google's ID-token signature/audience/issuer
+verification. Only verified emails are accepted. Provider identity uses Google's
+stable subject identifier; an existing password account is never automatically
+linked just because the email matches. Google tokens are not persisted.
+
+Successful email or Google registration creates the regular application session.
+The candidate demo's resume/favorites storage remains local to the browser.
+Employer pages are still paused, so successful registration returns to `/` for
+both roles. Live Google consent/token exchange requires real credentials and
+must be checked in the configured environment.

@@ -12,6 +12,21 @@ async function request(path,body,cookie='',expected=200,origin=base){const respo
 await request('/api/platform');await request('/api/jobs');
 await request('/api/platform',{action:'publish'},'',401);
 await request('/api/auth',{action:'register',email:`owner-${stamp}@example.invalid`,name:'Test owner',password,accountType:'employer'},'',403,'https://invalid.example');
+// Google starts locally without contacting Google; callback cancellation consumes state.
+for (const accountType of ['candidate', 'employer']) {
+ const registration=await fetch(base+'/register?accountType='+accountType);
+ assert.equal(registration.status,200);const registrationHtml=await registration.text();const selectedRadio=(registrationHtml.match(/<input[^>]*>/g)||[]).find(tag=>tag.includes('type="radio"')&&tag.includes('value="'+accountType+'"'));assert.ok(selectedRadio&&/\schecked(?:=|\s|>)/.test(selectedRadio));checks++;
+ const start=await fetch(base+'/api/auth/google',{method:'POST',headers:{origin:base,'content-type':'application/x-www-form-urlencoded'},body:new URLSearchParams({accountType}),redirect:'manual'});
+ assert.equal(start.status,303);
+ const url=new URL(start.headers.get('location'));assert.equal(url.origin,'https://accounts.google.com');assert.equal(url.searchParams.get('code_challenge_method'),'S256');assert.equal(url.searchParams.get('redirect_uri'),base+'/api/auth/google/callback');
+ const state=url.searchParams.get('state'),cookie=start.headers.get('set-cookie').split(';')[0];
+ const canceled=await fetch(base+'/api/auth/google/callback?error=access_denied&state='+state,{headers:{cookie},redirect:'manual'});
+ assert.equal(canceled.status,303);assert.ok(canceled.headers.get('location').includes('accountType='+accountType));
+ const replay=await fetch(base+'/api/auth/google/callback?code=invalid&state='+state,{headers:{cookie},redirect:'manual'});
+ assert.ok(replay.headers.get('location').includes('google-failed'));checks+=3;
+}
+const invalidOAuth=await fetch(base+'/api/auth/google',{method:'POST',headers:{origin:base},body:'accountType=admin',redirect:'manual'});assert.equal(invalidOAuth.status,400);checks++;
+const csrfOAuth=await fetch(base+'/api/auth/google',{method:'POST',headers:{origin:'https://invalid.example'},body:'accountType=candidate',redirect:'manual'});assert.equal(csrfOAuth.status,403);checks++;
 const owner=await request('/api/auth',{action:'register',email:`owner-${stamp}@example.invalid`,name:'Test owner',password,accountType:'employer'});assert.ok(owner.cookie);
 const logged=await request('/api/platform',null,owner.cookie);assert.equal(logged.data.user.email,`owner-${stamp}@example.invalid`);
 await request('/api/moderation',null,owner.cookie,403);

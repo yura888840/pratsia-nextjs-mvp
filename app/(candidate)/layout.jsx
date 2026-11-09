@@ -1,10 +1,12 @@
+import { getCurrentUser } from "../../lib/session.js";
 import { CandidateProvider } from "../../components/candidate/context.jsx";
 import { CandidateShell } from "../../components/candidate/shell.jsx";
 import "./candidate.css";
-export default function CandidateLayout({ children }) {
+export default async function CandidateLayout({ children }) {
+  const user = await getCurrentUser();
   return (
     <CandidateProvider>
-      <CandidateShell>{children}</CandidateShell>
+      <CandidateShell userName={user?.displayName}>{children}</CandidateShell>
     </CandidateProvider>
   );
 }
