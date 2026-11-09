@@ -25,9 +25,7 @@ export default function EmployerLayout({ children }) {
         </nav>
       </header>
       <main className="employer-site-main">{children}</main>
-      <footer className="employer-site-footer">
-        {translate("entry.footer")}
-      </footer>
+
     </div>
   );
 }

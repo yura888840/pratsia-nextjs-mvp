@@ -95,7 +95,7 @@ for (const view of ['profile', 'applications']) {
  assert.equal(allowed.status,307);assert.equal(allowed.headers.get('location'),'/account?section='+view);checks++;
 }
 for (const [cookie, isCandidate] of [['',false],[owner.cookie,false],[candidate.cookie,true]]) {
- const response=await fetch(base+'/search',{headers:{cookie}});const html=await response.text();
+ const response=await fetch(base+'/jobs/demo-1',{headers:{cookie}});const html=await response.text();
  const nav=html.match(/<nav[^>]*class="candidate-nav"[^>]*>([\s\S]*?)<\/nav>/)?.[1];assert.ok(nav);
  assert.equal(nav.includes('/account'),isCandidate);assert.equal(nav.includes('/?view=profile'),false);assert.equal(nav.includes('/?view=applications'),false);
  if(!cookie) assert.ok(nav.includes('Створити резюме') && nav.includes('/cv-welcome'));
@@ -149,3 +149,20 @@ for (const filter of ['', 'remote','reservation','noExperience','partTime','noRe
  assert.ok(html.includes('action="/search"'));
  assert.ok(!html.includes('candidate-home-banners'));
 }
+
+// Shared footer, informational links and auth exclusion.
+for (const route of ['/', '/search', '/employers', '/cv-welcome', '/about', '/jobs/demo-1']) {
+ const response=await fetch(base+route); assert.equal(response.status,200);
+ const html=await response.text();
+ assert.equal((html.match(/<footer\b/g)||[]).length,1,route+' has exactly one footer');
+ assert.ok(html.includes('class="site-footer"'));
+}
+for (const route of ['/register', '/register?mode=login', '/login']) {
+ const html=await (await fetch(base+route)).text();
+ assert.ok(!html.includes('class="site-footer"'),route+' hides footer');
+}
+for (const slug of ['resume-guide','post-vacancy','resume-search','services','about','brand','support','privacy','terms','offer','ethics','mobile-app']) {
+ assert.equal((await fetch(base+'/'+slug)).status,200,slug);
+}
+assert.equal((await fetch(base+'/unknown-information-page')).status,404);
+console.log('PASS: shared footer, 12 information pages, auth exclusions and unknown-page 404.');

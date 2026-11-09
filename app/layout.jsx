@@ -1,3 +1,5 @@
+import { SiteFooter } from "../components/site-footer/index.jsx";
+import "../components/site-footer/footer.css";
 import { translate, defaultLocale } from "../i18n/index.js";
 // Reconstructed from production build. Names/types not present in the build cannot be recovered exactly.
 import "./globals.css";
@@ -23,6 +25,7 @@ function RootLayout({ children }) {
         }}
       >
         {children}
+        <SiteFooter year={new Date().getFullYear()} />
       </body>
     </html>
   );
