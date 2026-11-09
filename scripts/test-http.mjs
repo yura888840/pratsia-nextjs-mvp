@@ -4,7 +4,7 @@ import {tmpdir} from 'node:os';
 import path from 'node:path';
 const dir=await mkdtemp(path.join(tmpdir(),'pratsia-http-'));
 const port=3197,base=`http://127.0.0.1:${port}`;
-const env={...process.env,PRATSIA_DATA_DIR:dir,PRATSIA_ORIGIN:base,PRATSIA_MAIL_DISABLED:'1',TEST_BASE_URL:base,TEST_DATA_DIR:dir};
+const env={...process.env,PRATSIA_DATA_DIR:dir,PRATSIA_ORIGIN:base,PRATSIA_MAIL_DISABLED:'1',GOOGLE_CLIENT_ID:'test-client.apps.googleusercontent.com',GOOGLE_CLIENT_SECRET:'test-only-secret',TEST_BASE_URL:base,TEST_DATA_DIR:dir};
 function run(args){return new Promise((resolve,reject)=>{const child=spawn(process.execPath,args,{env,stdio:'inherit'});child.on('error',reject);child.on('exit',code=>code===0?resolve():reject(Error('Command exited '+code)));});}
 let server;
 try{

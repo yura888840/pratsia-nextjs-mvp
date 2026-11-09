@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { tabLabels } from "./labels.js";
 import { translate } from "../../i18n/index.js";
 import { useCandidate } from "./context.jsx";
-export function CandidateShell({ children }) {
+export function CandidateShell({ children, userName }) {
   const params = useSearchParams();
   const view = params.get("view") || "search";
   const { favorites, applications } = useCandidate();
@@ -16,6 +16,31 @@ export function CandidateShell({ children }) {
         </Link>
         <span>{translate("candidate.forCandidates")}</span>
         <Link href="/?view=profile">{translate("candidate.resume")}</Link>
+        {userName ? (
+          <>
+            <span>{userName}</span>
+            <button
+              type="button"
+              onClick={async () => {
+                const response = await fetch("/api/auth", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ action: "logout" }),
+                });
+                if (response.ok) window.location.assign("/");
+              }}
+            >
+              {translate("registration.logout")}
+            </button>
+          </>
+        ) : (
+          <Link
+            className="candidate-register"
+            href="/register?accountType=candidate"
+          >
+            {translate("registration.submit")}
+          </Link>
+        )}
       </header>
       <div className="candidate-container">
         <section

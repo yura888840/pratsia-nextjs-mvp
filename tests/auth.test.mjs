@@ -11,7 +11,7 @@ const {getSqlite}=await import('../db/connection.js');
 test('migrations are repeatable; password reset is single-use and revokes sessions',async()=>{
  try {
   migrate();migrate();
-  assert.equal(getSqlite().prepare('SELECT count(*) AS count FROM pratsia_migrations').get().count,8);
+  assert.equal(getSqlite().prepare('SELECT count(*) AS count FROM pratsia_migrations').get().count,9);
   const user=await auth.registerAccount('test@example.invalid','Test user','original-password-2026');
   assert.equal(await auth.authenticate('test@example.invalid','wrong-password-2026'),null);
   assert.equal(await auth.authenticate('test@example.invalid','original-password-2026'),user);
