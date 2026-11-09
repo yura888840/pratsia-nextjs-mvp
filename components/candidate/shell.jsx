@@ -10,12 +10,13 @@ export function CandidateShell({ children, userName }) {
   const pathname = usePathname();
   const isAccount = pathname === "/account";
   const isWelcome = pathname === "/cv-welcome";
-  const guestHome = !userName && pathname === "/";
+  const isHome = pathname === "/";
+  const showQuickSearch = isHome || pathname === "/search";
   const view = params.get("view") || "search";
   const { favorites, isCandidate } = useCandidate();
   return (
     <div
-      className={`candidate-app ${isWelcome ? "candidate-welcome-page" : ""}`}
+      className={`candidate-app ${isWelcome ? "candidate-welcome-page" : ""} ${isHome ? "candidate-home-page" : ""}`}
     >
       <header className="candidate-header">
         <Link className="candidate-brand" href="/">
@@ -80,15 +81,14 @@ export function CandidateShell({ children, userName }) {
           </nav>
         )}
       </header>
-      <div className="candidate-container">
-        {!isWelcome && (
-          <>
+      {!isWelcome && (
             <section
               className="candidate-search"
               aria-label={translate("candidate.search")}
             >
+              <div className="candidate-search-inner">
               <h1>{translate("candidate.headline")}</h1>
-              {guestHome ? (
+              {showQuickSearch ? (
                 <GuestSearch
                   query={params.get("q") || ""}
                   city={params.get("city") || ""}
@@ -96,7 +96,7 @@ export function CandidateShell({ children, userName }) {
                 />
               ) : (
                 <form
-                  action="/"
+                  action="/search"
                   method="get"
                   key={`${params.get("q") || ""}:${params.get("city") || ""}`}
                 >
@@ -121,8 +121,14 @@ export function CandidateShell({ children, userName }) {
                   </button>
                 </form>
               )}
+              </div>
             </section>
-            {!isAccount && (
+      )}
+      <div className="candidate-container">
+        {!isWelcome && (
+          <>
+
+            {!isAccount && !isHome && (
               <nav
                 className="candidate-nav"
                 aria-label={translate("candidate.navigation")}
@@ -130,7 +136,7 @@ export function CandidateShell({ children, userName }) {
                 {(isCandidate ? ["search"] : ["search", "saved"]).map((key) => (
                   <Link
                     key={key}
-                    href={key === "search" ? "/" : `/?view=${key}`}
+                    href={key === "search" ? "/search" : `/search?view=${key}`}
                     aria-current={
                       pathname !== "/recommended" && view === key
                         ? "page"
@@ -161,9 +167,9 @@ export function CandidateShell({ children, userName }) {
                 )}
               </nav>
             )}
-            <p className="candidate-notice">
+            {!isHome && <p className="candidate-notice">
               {translate("candidate.demoNotice")}
-            </p>
+            </p>}
           </>
         )}
         <main id="candidate-content">{children}</main>

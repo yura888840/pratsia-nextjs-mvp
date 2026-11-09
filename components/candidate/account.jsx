@@ -30,7 +30,7 @@ export function CandidateAccount({ section }) {
             </Link>
           ))}
         </nav>
-        <Link className="candidate-account-search" href="/">
+        <Link className="candidate-account-search" href="/search">
           {translate("account.backToSearch")}
         </Link>
       </aside>

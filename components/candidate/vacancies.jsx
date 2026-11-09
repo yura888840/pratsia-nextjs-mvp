@@ -86,7 +86,7 @@ export function VacancyList({ vacancies }) {
 export function VacancyDetails({ job }) {
   return (
     <article className="candidate-card candidate-detail">
-      <Link href="/">{translate("candidate.back")}</Link>
+      <Link href="/search">{translate("candidate.back")}</Link>
       <h2>{job.title}</h2>
       <VacancySummary job={job} />
       {["description", "requirements", "benefits"].map((field) => (

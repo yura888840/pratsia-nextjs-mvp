@@ -27,7 +27,7 @@ export function GuestSearch({ query, city, filter }) {
   const active = quickFilters.includes(filter) ? filter : "";
   return (
     <form
-      action="/"
+      action="/search"
       method="get"
       className="guest-search-form"
       key={`${query}:${city}:${active}`}

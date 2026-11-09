@@ -79,7 +79,7 @@ const guestHeader=guestHome.match(/<header[^>]*>([\s\S]*?)<\/header>/)?.[1];asse
 assert.ok(guestHome.includes('guest-search-form'));assert.ok(guestHome.includes('Ким або в якій компанії хочете працювати?'));
 assert.ok(guestHome.includes('name="city"'));assert.ok(guestHome.includes('Інші країни'));
 for(const label of ['Всі вакансії','Віддалено','З бронюванням','Без досвіду','Часткова зайнятість','Без резюме','Для людей з інвалідністю','Відкриті до військового досвіду'])assert.ok(guestHome.includes(label));checks++;
-const candidateHome=await (await fetch(base+'/',{headers:{cookie:candidate.cookie}})).text();assert.ok(!candidateHome.includes('guest-search-form'));assert.ok(candidateHome.includes('name="city"'));checks++;
+const candidateHome=await (await fetch(base+'/',{headers:{cookie:candidate.cookie}})).text();assert.ok(candidateHome.includes('guest-search-form'));assert.ok(candidateHome.includes('name="city"'));checks++;
 const filteredHome=await (await fetch(base+'/?filter=remote&q=React&city=__abroad')).text();assert.ok(filteredHome.includes('value="React"'));assert.ok(filteredHome.includes('value="__abroad"'));assert.ok(filteredHome.includes('value="remote"'));checks++;
 const loginPage=await (await fetch(base+'/register?mode=login&accountType=candidate')).text();assert.ok(loginPage.includes('<h1>Увійти</h1>'));assert.ok(!loginPage.includes('name="name"'));checks++;
 for (const route of ['/', '/?view=saved', '/jobs/demo-1']) {
@@ -88,14 +88,14 @@ for (const route of ['/', '/?view=saved', '/jobs/demo-1']) {
 }
 for (const view of ['profile', 'applications']) {
  for (const [cookie, location] of [['','/register?accountType=candidate'],[owner.cookie,'/']]) {
-  const response=await fetch(base+'/?view='+view,{headers:{cookie},redirect:'manual'});
+  const response=await fetch(base+'/search?view='+view,{headers:{cookie},redirect:'manual'});
   assert.equal(response.status,307);assert.equal(response.headers.get('location'),location);checks++;
  }
- const allowed=await fetch(base+'/?view='+view,{headers:{cookie:candidate.cookie},redirect:'manual'});
+ const allowed=await fetch(base+'/search?view='+view,{headers:{cookie:candidate.cookie},redirect:'manual'});
  assert.equal(allowed.status,307);assert.equal(allowed.headers.get('location'),'/account?section='+view);checks++;
 }
 for (const [cookie, isCandidate] of [['',false],[owner.cookie,false],[candidate.cookie,true]]) {
- const response=await fetch(base+'/',{headers:{cookie}});const html=await response.text();
+ const response=await fetch(base+'/search',{headers:{cookie}});const html=await response.text();
  const nav=html.match(/<nav[^>]*class="candidate-nav"[^>]*>([\s\S]*?)<\/nav>/)?.[1];assert.ok(nav);
  assert.equal(nav.includes('/account'),isCandidate);assert.equal(nav.includes('/?view=profile'),false);assert.equal(nav.includes('/?view=applications'),false);
  if(!cookie) assert.ok(nav.includes('Створити резюме') && nav.includes('/cv-welcome'));
@@ -135,3 +135,17 @@ await request('/api/auth',{action:'login',email:`owner-${stamp}@example.invalid`
 await request('/api/auth/recovery',{action:'complete',token:'a'.repeat(64),password},'',400);
 db.close();
 console.log(`PASS: ${checks} HTTP checks (auth, sessions, jobs, ownership, profile, applications, favorites, recovery validation).`);
+
+assert.ok(guestHome.includes('action="/search"'));
+assert.ok(guestHome.includes('candidate-home-banners'));
+assert.ok(!guestHome.includes('candidate-count'));
+const legacySearch=await fetch(base+'/?q=React&filter=remote',{redirect:'manual'});
+assert.equal(legacySearch.status,307);
+assert.equal(legacySearch.headers.get('location'),'/search?q=React&filter=remote');
+for (const filter of ['', 'remote','reservation','noExperience','partTime','noResume','disability','veteran']) {
+ const response=await fetch(base+'/search?filter='+filter);
+ assert.equal(response.status,200);
+ const html=await response.text();
+ assert.ok(html.includes('action="/search"'));
+ assert.ok(!html.includes('candidate-home-banners'));
+}
