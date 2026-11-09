@@ -83,3 +83,19 @@ are Ukrainian, so other-country searches correctly return an empty list. Mock
 eligibility flags are fictional UI fixtures, not verified employer claims.
 Authenticated pages retain the standard search form. The redundant candidate
 site label beside the logo has been removed.
+
+The guest header now has two actions: `Рекомендовані` and `Створити резюме`.
+`/recommended` requires a candidate session; `/login?returnTo=/recommended`
+opens login and returns to that page after authentication. Email/password and
+Google both carry an allowlisted destination (migration 0009 adds it to the
+server-side OAuth flow), including across a canceled Google attempt. External
+or unsupported destinations fall back to `/`.
+
+`/cv-welcome` is a public introduction with the shared header and a dedicated
+hero instead of the search block. Its illustration is responsive HTML/CSS.
+The create action opens candidate registration, then the resume editor; existing
+candidate sessions go directly to the editor. The page describes manual/PDF
+entry without fabricated user counts or testimonials. The employer-site link
+remains available in the footer. Recommendations currently use the local resume
+profession to filter demo vacancies, with an explicitly described general
+selection when no profession matches.

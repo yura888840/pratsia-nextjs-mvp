@@ -7,6 +7,7 @@ export function RegistrationForm({
   googleEnabled,
   initialError,
   initialLogin = false,
+  returnTo = "/",
 }) {
   const [accountType, setAccountType] = useState(initialRole);
   const [login, setLogin] = useState(initialLogin);
@@ -24,6 +25,7 @@ export function RegistrationForm({
         body: JSON.stringify({
           action: login ? "login" : "register",
           accountType,
+          returnTo,
           name: login ? undefined : data.get("name"),
           email: data.get("email"),
           password: data.get("password"),
@@ -32,7 +34,7 @@ export function RegistrationForm({
       const result = await response.json();
       if (!response.ok)
         throw Error(result.error || translate("registration.failed"));
-      window.location.assign("/?registered=1");
+      window.location.assign(result.redirectTo || "/");
     } catch (error) {
       setError(error.message || translate("registration.failed"));
       setBusy(false);
@@ -79,6 +81,7 @@ export function RegistrationForm({
         )}
         <form action="/api/auth/google" method="post">
           <input type="hidden" name="accountType" value={accountType} />
+          <input type="hidden" name="returnTo" value={returnTo} />
           <button
             className="registration-google"
             disabled={!googleEnabled || busy}

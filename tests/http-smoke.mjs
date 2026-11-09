@@ -16,12 +16,12 @@ await request('/api/auth',{action:'register',email:`owner-${stamp}@example.inval
 for (const accountType of ['candidate', 'employer']) {
  const registration=await fetch(base+'/register?accountType='+accountType);
  assert.equal(registration.status,200);const registrationHtml=await registration.text();const selectedRadio=(registrationHtml.match(/<input[^>]*>/g)||[]).find(tag=>tag.includes('type="radio"')&&tag.includes('value="'+accountType+'"'));assert.ok(selectedRadio&&/\schecked(?:=|\s|>)/.test(selectedRadio));checks++;
- const start=await fetch(base+'/api/auth/google',{method:'POST',headers:{origin:base,'content-type':'application/x-www-form-urlencoded'},body:new URLSearchParams({accountType}),redirect:'manual'});
+ const start=await fetch(base+'/api/auth/google',{method:'POST',headers:{origin:base,'content-type':'application/x-www-form-urlencoded'},body:new URLSearchParams({accountType,returnTo:'/recommended'}),redirect:'manual'});
  assert.equal(start.status,303);
  const url=new URL(start.headers.get('location'));assert.equal(url.origin,'https://accounts.google.com');assert.equal(url.searchParams.get('code_challenge_method'),'S256');assert.equal(url.searchParams.get('redirect_uri'),base+'/api/auth/google/callback');
  const state=url.searchParams.get('state'),cookie=start.headers.get('set-cookie').split(';')[0];
  const canceled=await fetch(base+'/api/auth/google/callback?error=access_denied&state='+state,{headers:{cookie},redirect:'manual'});
- assert.equal(canceled.status,303);assert.ok(canceled.headers.get('location').includes('accountType='+accountType));
+ assert.equal(canceled.status,303);assert.ok(canceled.headers.get('location').includes('accountType='+accountType));assert.ok(canceled.headers.get('location').includes('returnTo=%2Frecommended'));
  const replay=await fetch(base+'/api/auth/google/callback?code=invalid&state='+state,{headers:{cookie},redirect:'manual'});
  assert.ok(replay.headers.get('location').includes('google-failed'));checks+=3;
 }
@@ -74,7 +74,7 @@ for (const cookie of ['', candidate.cookie, owner.cookie]) {
  assert.ok(employerHtml.includes('employer-site-header'));assert.ok(employerHtml.includes('Знайдіть людей для своєї команди'));assert.ok(employerHtml.includes('/register?accountType=employer'));assert.ok(!employerHtml.includes('candidate-search'));checks++;
 }
 const guestHome=await (await fetch(base+'/')).text();const guestMenu=guestHome.match(/<nav[^>]*class="candidate-guest-menu"[^>]*>([\s\S]*?)<\/nav>/)?.[1];assert.ok(guestMenu);
-assert.ok(guestMenu.indexOf('Увійти')<guestMenu.indexOf('Зареєструватися'));assert.ok(guestMenu.indexOf('Зареєструватися')<guestMenu.indexOf('Сайт для роботодавця'));assert.ok(guestMenu.includes('href="/employers"'));checks++;
+assert.equal((guestMenu.match(/<a /g)||[]).length,2);assert.ok(guestMenu.includes('Рекомендовані'));assert.ok(guestMenu.includes('href="/login?returnTo=%2Frecommended"'));assert.ok(guestMenu.includes('href="/cv-welcome"'));checks++;
 const guestHeader=guestHome.match(/<header[^>]*>([\s\S]*?)<\/header>/)?.[1];assert.ok(guestHeader&&!guestHeader.includes('Для шукачів роботи'));
 assert.ok(guestHome.includes('guest-search-form'));assert.ok(guestHome.includes('Ким або в якій компанії хочете працювати?'));
 assert.ok(guestHome.includes('name="city"'));assert.ok(guestHome.includes('Інші країни'));
@@ -98,7 +98,7 @@ for (const [cookie, isCandidate] of [['',false],[owner.cookie,false],[candidate.
  const response=await fetch(base+'/',{headers:{cookie}});const html=await response.text();
  const nav=html.match(/<nav[^>]*class="candidate-nav"[^>]*>([\s\S]*?)<\/nav>/)?.[1];assert.ok(nav);
  assert.equal(nav.includes('/account'),isCandidate);assert.equal(nav.includes('/?view=profile'),false);assert.equal(nav.includes('/?view=applications'),false);
- if(!cookie) assert.ok(nav.includes('Створити резюме') && nav.includes('/register?accountType=candidate'));
+ if(!cookie) assert.ok(nav.includes('Створити резюме') && nav.includes('/cv-welcome'));
  checks++;
 }
 for (const section of ['profile','saved','applications']) {
@@ -113,6 +113,15 @@ for (const section of ['profile','saved','applications']) {
  const sidebar=html.match(/<aside[^>]*class="candidate-account-sidebar"[^>]*>([\s\S]*?)<\/aside>/)?.[1];assert.ok(sidebar);
  for (const key of ['profile','saved','applications']) assert.ok(sidebar.includes('/account?section='+key));
  assert.ok(sidebar.includes('Мої резюме'));assert.ok(sidebar.includes('Обране'));assert.ok(sidebar.includes('Куди надіслано резюме'));checks++;
+}
+const recommendationGuest=await fetch(base+'/recommended',{redirect:'manual'});assert.equal(recommendationGuest.status,307);assert.equal(recommendationGuest.headers.get('location'),'/login?returnTo=%2Frecommended');checks++;
+const loginRedirect=await fetch(base+'/login?returnTo=%2Frecommended',{redirect:'manual'});assert.equal(loginRedirect.status,307);assert.ok(loginRedirect.headers.get('location').includes('mode=login'));assert.ok(loginRedirect.headers.get('location').includes('returnTo=%2Frecommended'));checks++;
+const loginWithReturn=await (await fetch(base+'/register?mode=login&returnTo=%2Frecommended')).text();assert.ok(loginWithReturn.includes('name="returnTo" value="/recommended"'));checks++;
+const returnedLogin=await request('/api/auth',{action:'login',email:`candidate-${stamp}@example.invalid`,password,returnTo:'/recommended'});assert.equal(returnedLogin.data.redirectTo,'/recommended');
+const unsafeLogin=await request('/api/auth',{action:'login',email:`candidate-${stamp}@example.invalid`,password,returnTo:'https://invalid.example/'});assert.equal(unsafeLogin.data.redirectTo,'/');
+const recommendations=await fetch(base+'/recommended',{headers:{cookie:unsafeLogin.cookie}});assert.equal(recommendations.status,200);assert.ok((await recommendations.text()).includes('Рекомендовані вакансії'));checks++;
+for(const [cookie,expected] of [['','/register?accountType=candidate&amp;returnTo=%2Faccount%3Fsection%3Dprofile'],[unsafeLogin.cookie,'/account?section=profile']]){
+ const welcome=await fetch(base+'/cv-welcome',{headers:{cookie}});assert.equal(welcome.status,200);const html=await welcome.text();assert.ok(html.includes('cv-welcome-art'));assert.ok(html.includes(expected));assert.ok(!html.includes('class="candidate-search"'));checks++;
 }
 await request('/api/platform',{action:'profile',data:{}},owner.cookie,403);
 await request('/api/platform',{action:'profile',data:{}},'',401);
