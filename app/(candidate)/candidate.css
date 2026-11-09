@@ -716,3 +716,23 @@
     margin: 16px 0 0;
   }
 }
+
+.candidate-entry-menu {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+}
+.candidate-entry-menu a {
+  font-size: 14px;
+  white-space: nowrap;
+}
+@media (max-width: 720px) {
+  .candidate-entry-menu {
+    width: 100%;
+    gap: 12px 16px;
+  }
+  .candidate-entry-menu a {
+    font-size: 13px;
+  }
+}
