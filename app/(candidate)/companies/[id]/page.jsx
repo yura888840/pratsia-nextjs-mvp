@@ -1,6 +1,6 @@
-import { translate } from "../../../i18n/index.js";
+import { translate } from "../../../../i18n/index.js";
 import { notFound } from "next/navigation";
-import { getSqlite } from "../../../db/connection.js";
+import { getSqlite } from "../../../../db/connection.js";
 export const dynamic = "force-dynamic";
 export async function generateMetadata({ params }) {
   const { id } = await params;

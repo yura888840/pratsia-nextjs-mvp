@@ -1,11 +1,11 @@
-import { translate } from "../../../i18n/index.js";
+import { translate } from "../../../../i18n/index.js";
 // Reconstructed from production build. Names/types not present in the build cannot be recovered exactly.
-import { submitApplication } from "../../../lib/applications.js";
-import { getSqlite } from "../../../db/connection.js";
-import { Uo as and, eq } from "../../../vendor/recovered/module-2811.js";
-import { ll as sql } from "../../../vendor/recovered/module-1029.js";
-import { i as desc } from "../../../vendor/recovered/module-2486.js";
-import { getDatabase } from "../../../db/index.js";
+import { submitApplication } from "../../../../lib/applications.js";
+import { getSqlite } from "../../../../db/connection.js";
+import { Uo as and, eq } from "../../../../vendor/recovered/module-2811.js";
+import { ll as sql } from "../../../../vendor/recovered/module-1029.js";
+import { i as desc } from "../../../../vendor/recovered/module-2486.js";
+import { getDatabase } from "../../../../db/index.js";
 import {
   jobs,
   profiles,
@@ -13,13 +13,13 @@ import {
   searches,
   applications,
   reports,
-} from "../../../db/schema.js";
-import { getCurrentUser } from "../../../lib/session.js";
+} from "../../../../db/schema.js";
+import { getCurrentUser } from "../../../../lib/session.js";
 import {
   isAllowedOrigin,
   profileSchema,
   jobSchema,
-} from "../../../lib/validation.js";
+} from "../../../../lib/validation.js";
 function jsonNoStore(body, status = 200) {
   return Response.json(body, {
     status,

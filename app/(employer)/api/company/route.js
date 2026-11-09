@@ -1,8 +1,8 @@
 
-import { translate } from "../../../i18n/index.js";
-import { getSqlite } from '../../../db/connection.js';
-import { getCurrentUser } from '../../../lib/session.js';
-import { isAllowedOrigin } from '../../../lib/validation.js';
+import { translate } from "../../../../i18n/index.js";
+import { getSqlite } from '../../../../db/connection.js';
+import { getCurrentUser } from '../../../../lib/session.js';
+import { isAllowedOrigin } from '../../../../lib/validation.js';
 
 const MAX_REQUEST_BODY_LENGTH = 12_000;
 const COMPANY_FIELDS = {

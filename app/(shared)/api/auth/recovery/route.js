@@ -1,18 +1,18 @@
-import { translate } from "../../../../i18n/index.js";
+import { translate } from "../../../../../i18n/index.js";
 // Reconstructed from production build. Names/types not present in the build cannot be recovered exactly.
 import {
   gM as discriminatedUnionSchema,
   Ik as objectSchema,
   eu as literalSchema,
   Yj as stringSchema,
-} from "../../../../vendor/recovered/module-6061.js";
+} from "../../../../../vendor/recovered/module-6061.js";
 import {
   checkRateLimit,
   completePasswordReset,
   emailRateLimitKey,
   createPasswordReset,
   deletePasswordReset,
-} from "../../../../lib/auth.js";
+} from "../../../../../lib/auth.js";
 import * as fsPromises from "node:fs/promises";
 import { constants } from "node:fs";
 import * as childProcesses from "node:child_process";
