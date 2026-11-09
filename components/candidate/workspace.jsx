@@ -7,8 +7,9 @@ import { useCandidate } from "./context.jsx";
 import { VacancyList } from "./vacancies.jsx";
 import { ResumeEditor } from "./resume-editor.jsx";
 export function CandidateWorkspace({ view = "search", query = "", city = "" }) {
-  const { ready, favorites, applications } = useCandidate();
+  const { ready, favorites, applications, isCandidate } = useCandidate();
   if (!ready) return <p role="status">{translate("candidate.loading")}</p>;
+  if (["profile", "applications"].includes(view) && !isCandidate) return null;
   if (view === "profile") return <ResumeEditor />;
   const vacancies = selectVacancies(mockVacancies, {
     view,

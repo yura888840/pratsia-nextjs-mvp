@@ -5,7 +5,12 @@ import "./candidate.css";
 export default async function CandidateLayout({ children }) {
   const user = await getCurrentUser();
   return (
-    <CandidateProvider>
+    <CandidateProvider
+      key={user?.userId || "guest"}
+      user={
+        user ? { userId: user.userId, accountType: user.accountType } : null
+      }
+    >
       <CandidateShell userName={user?.displayName}>{children}</CandidateShell>
     </CandidateProvider>
   );

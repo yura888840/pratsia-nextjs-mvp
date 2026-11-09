@@ -74,10 +74,27 @@ for (const route of ['/employer','/employers']) {
   assert.equal(response.status,307);assert.equal(response.headers.get('location'),'/');checks++;
  }
 }
-for (const route of ['/', '/?view=profile', '/?view=saved', '/?view=applications', '/jobs/demo-1']) {
+for (const route of ['/', '/?view=saved', '/jobs/demo-1']) {
  const response=await fetch(base+route);assert.equal(response.status,200);
  const html=await response.text();assert.ok(html.includes('Пошук за професією, компанією, навичками'));checks++;
 }
+for (const view of ['profile', 'applications']) {
+ for (const [cookie, location] of [['','/register?accountType=candidate'],[owner.cookie,'/']]) {
+  const response=await fetch(base+'/?view='+view,{headers:{cookie},redirect:'manual'});
+  assert.equal(response.status,307);assert.equal(response.headers.get('location'),location);checks++;
+ }
+ const allowed=await fetch(base+'/?view='+view,{headers:{cookie:candidate.cookie},redirect:'manual'});
+ assert.equal(allowed.status,200);checks++;
+}
+for (const [cookie, isCandidate] of [['',false],[owner.cookie,false],[candidate.cookie,true]]) {
+ const response=await fetch(base+'/',{headers:{cookie}});const html=await response.text();
+ const nav=html.match(/<nav[^>]*class="candidate-nav"[^>]*>([\s\S]*?)<\/nav>/)?.[1];assert.ok(nav);
+ assert.equal(nav.includes('/?view=profile'),isCandidate);assert.equal(nav.includes('/?view=applications'),isCandidate);
+ if(!cookie) assert.ok(nav.includes('Створити резюме') && nav.includes('/register?accountType=candidate'));
+ checks++;
+}
+await request('/api/platform',{action:'profile',data:{}},owner.cookie,403);
+await request('/api/platform',{action:'profile',data:{}},'',401);
 await request('/api/platform',{action:'jobStatus',jobId:published.data.id,status:'active'},owner.cookie);
 assert.ok(!(await request('/api/jobs')).data.jobs.some(j=>j.id===published.data.id));
 await request('/api/moderation',{action:'hide',jobId:published.data.id,reason:'Заблоковано тестом'},admin.cookie);

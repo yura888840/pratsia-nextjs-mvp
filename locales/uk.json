@@ -2038,5 +2038,8 @@
   "registration.failed": "Не вдалося виконати запит. Спробуйте ще раз.",
   "registration.googleFailed": "Не вдалося завершити вхід через Google. Спробуйте ще раз.",
   "registration.accountExists": "Цей email уже зареєстровано. Увійдіть з паролем або скористайтеся способом входу, з яким створили акаунт.",
-  "registration.logout": "Вийти"
+  "registration.logout": "Вийти",
+  "candidate.createResume": "Створити резюме",
+  "candidate.signInToApply": "Увійти як шукач, щоб відгукнутися",
+  "candidate.accessDenied": "Доступно лише авторизованим шукачам роботи."
 }

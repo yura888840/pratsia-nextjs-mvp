@@ -48,3 +48,12 @@ Employer UI entry routes redirect to `/` for all visitors for now. Existing
 employer APIs and backend authorization remain intact; this is a UI pause, not
 an account or API migration. The legacy platform shell is retained but no longer
 mounted by the home page.
+
+Resume editing and the application list require a server-validated candidate
+session. Guests see `Створити резюме`, which opens registration/sign-in with the
+candidate role preselected. Direct private-view URLs redirect guests to that
+registration page and employer accounts to `/`. Menu entries and local resume /
+application mutations use the same role check; the profile API also rejects
+employer writes. Browser demo storage is scoped by account ID (v2), with a
+separate guest store for public favorites. The old unscoped v1 prototype record
+is not automatically assigned to an account.

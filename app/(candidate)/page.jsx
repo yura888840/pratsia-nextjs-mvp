@@ -1,3 +1,9 @@
+import { redirect } from "next/navigation";
+import { getCurrentUser } from "../../lib/session.js";
+import {
+  canUseCandidateFeatures,
+  protectedCandidateViews,
+} from "../../domains/candidate/access.js";
 import { CandidateWorkspace } from "../../components/candidate/workspace.jsx";
 export const dynamic = "force-dynamic";
 export default async function HomePage({ searchParams }) {
@@ -7,6 +13,11 @@ export default async function HomePage({ searchParams }) {
   )
     ? params.view
     : "search";
+  if (protectedCandidateViews.includes(view)) {
+    const user = await getCurrentUser();
+    if (!canUseCandidateFeatures(user))
+      redirect(user ? "/" : "/register?accountType=candidate");
+  }
   return (
     <CandidateWorkspace
       view={view}

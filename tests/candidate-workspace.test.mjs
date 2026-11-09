@@ -158,3 +158,13 @@ test("PDF extraction produces the shared resume record and rejects empty/oversiz
     /invalid-pdf/,
   );
 });
+
+test('resume/application access requires a candidate session; browser state is scoped by account', async () => {
+  const { canUseCandidateFeatures, candidateStorageKey } = await import('../domains/candidate/access.js');
+  assert.equal(canUseCandidateFeatures(null), false);
+  assert.equal(canUseCandidateFeatures({ accountType: 'candidate' }), false);
+  assert.equal(canUseCandidateFeatures({ userId: 'employer', accountType: 'employer' }), false);
+  assert.equal(canUseCandidateFeatures({ userId: 'candidate', accountType: 'candidate' }), true);
+  assert.notEqual(candidateStorageKey(null), candidateStorageKey({ userId: 'candidate' }));
+  assert.notEqual(candidateStorageKey({ userId: 'one' }), candidateStorageKey({ userId: 'two' }));
+});

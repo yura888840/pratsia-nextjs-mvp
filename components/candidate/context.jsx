@@ -5,11 +5,16 @@ import {
   restoreCandidateState,
   applyToVacancy,
 } from "../../domains/candidate/state.js";
+import {
+  canUseCandidateFeatures,
+  candidateStorageKey,
+} from "../../domains/candidate/access.js";
 import { mockVacancies } from "../../domains/vacancy/mocks.js";
 import { translate } from "../../i18n/index.js";
 const CandidateContext = createContext(null);
-const storageKey = "pratsia:candidate-demo:v1";
-export function CandidateProvider({ children }) {
+export function CandidateProvider({ children, user }) {
+  const isCandidate = canUseCandidateFeatures(user);
+  const storageKey = candidateStorageKey(user);
   const [state, setState] = useState(emptyCandidateState);
   const [ready, setReady] = useState(false);
   const [storageError, setStorageError] = useState(false);
@@ -25,7 +30,7 @@ export function CandidateProvider({ children }) {
       setStorageError(true);
     }
     setReady(true);
-  }, []);
+  }, [storageKey]);
   useEffect(() => {
     if (!ready) return;
     try {
@@ -33,11 +38,14 @@ export function CandidateProvider({ children }) {
     } catch {
       setStorageError(true);
     }
-  }, [state, ready]);
+  }, [state, ready, storageKey]);
   const value = {
     ...state,
     ready,
-    saveResume: (resume) => setState((previous) => ({ ...previous, resume })),
+    isCandidate,
+    saveResume: (resume) => {
+      if (isCandidate) setState((previous) => ({ ...previous, resume }));
+    },
     toggleFavorite: (id) =>
       setState((previous) => ({
         ...previous,
@@ -45,7 +53,9 @@ export function CandidateProvider({ children }) {
           ? previous.favorites.filter((value) => value !== id)
           : [...previous.favorites, id],
       })),
-    apply: (id) => setState((previous) => applyToVacancy(previous, id)),
+    apply: (id) => {
+      if (isCandidate) setState((previous) => applyToVacancy(previous, id));
+    },
   };
   return (
     <CandidateContext.Provider value={value}>
