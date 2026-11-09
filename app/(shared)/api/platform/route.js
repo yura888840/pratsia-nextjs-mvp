@@ -2,9 +2,8 @@ import { translate } from "../../../../i18n/index.js";
 // Reconstructed from production build. Names/types not present in the build cannot be recovered exactly.
 import { submitApplication } from "../../../../lib/applications.js";
 import { getSqlite } from "../../../../db/connection.js";
-import { Uo as and, eq } from "../../../../vendor/recovered/module-2811.js";
-import { ll as sql } from "../../../../vendor/recovered/module-1029.js";
-import { i as desc } from "../../../../vendor/recovered/module-2486.js";
+import { and, eq, sql, desc } from "drizzle-orm";
+
 import { getDatabase } from "../../../../db/index.js";
 import {
   jobs,
@@ -41,7 +40,7 @@ async function getPlatformState() {
           and(
             eq(jobs.status, "active"),
             eq(jobs.moderationStatus, "approved"),
-            (0, sql)`${jobs.expiresAt}>${nowIso}`,
+            sql`${jobs.expiresAt}>${nowIso}`,
           ),
         )
         .orderBy(desc(jobs.createdAt))
@@ -237,7 +236,7 @@ async function postPlatformAction(request) {
         (
           await connection
             .select({
-              count: (0, sql)`count(*)`,
+              count: sql`count(*)`,
             })
             .from(jobs)
             .where(
@@ -482,7 +481,7 @@ async function postPlatformAction(request) {
         (
           await connection
             .select({
-              count: (0, sql)`count(*)`,
+              count: sql`count(*)`,
             })
             .from(searches)
             .where(eq(searches.userId, currentUser.userId))
@@ -571,7 +570,7 @@ async function postPlatformAction(request) {
         (
           await connection
             .select({
-              count: (0, sql)`count(*)`,
+              count: sql`count(*)`,
             })
             .from(reports)
             .where(

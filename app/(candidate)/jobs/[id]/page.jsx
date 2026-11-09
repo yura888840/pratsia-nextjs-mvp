@@ -8,7 +8,7 @@ import * as jsxRuntime from "react/jsx-runtime";
 import { notFound } from "next/navigation";
 import { getDatabase } from "../../../../db/index.js";
 import { jobs } from "../../../../db/schema.js";
-import { Uo as and, eq } from "../../../../vendor/recovered/module-2811.js";
+import { and, eq } from "drizzle-orm";
 import { formatSalary } from "../../../../lib/catalog.js";
 async function getJob(jobId) {
   return jobId.startsWith("demo-")

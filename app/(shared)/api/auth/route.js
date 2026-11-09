@@ -1,10 +1,10 @@
 import { cookies } from "next/headers";
 import { translate } from "../../../../i18n/index.js";
 import {
-  Ik as objectSchema,
-  k5 as enumSchema,
-  Yj as stringSchema
-} from "../../../../vendor/recovered/module-6061.js";
+  object as objectSchema,
+  enum as enumSchema,
+  string as stringSchema
+} from "zod";
 import {
   authenticate,
   checkRateLimit,
