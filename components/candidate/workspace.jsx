@@ -11,6 +11,7 @@ export function CandidateWorkspace({
   query = "",
   city = "",
   quickFilter = "",
+  searchFilters = {},
 }) {
   const { ready, favorites, applications, isCandidate } = useCandidate();
   if (!ready) return <p role="status">{translate("candidate.loading")}</p>;
@@ -21,6 +22,7 @@ export function CandidateWorkspace({
     query,
     city,
     quickFilter,
+    searchFilters,
     favorites,
     applications,
   });

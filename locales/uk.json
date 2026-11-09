@@ -2142,5 +2142,19 @@
   "info.ethics.p2": "Бережіть персональні дані. Не поширюйте чужі контакти та резюме без дозволу.",
   "info.mobile-app.title": "Праця на смартфоні",
   "info.mobile-app.p0": "Користуйтеся сайтом у браузері смартфона: сторінки адаптовані до невеликих екранів.",
-  "info.mobile-app.p1": "Окремі застосунки в Google Play, App Store та AppGallery наразі не опубліковані. Посилання з’являться після їхнього запуску."
+  "info.mobile-app.p1": "Окремі застосунки в Google Play, App Store та AppGallery наразі не опубліковані. Посилання з’являться після їхнього запуску.",
+  "resultsFilters.employment": "Тип зайнятості",
+  "resultsFilters.category": "Професійні сфери",
+  "resultsFilters.salary": "Зарплата від",
+  "resultsFilters.fullTime": "Повна зайнятість",
+  "resultsFilters.remote": "Віддалена робота",
+  "resultsFilters.clear": "Очистити все",
+  "resultsFilters.more": "Фільтри",
+  "resultsFilters.currency": "грн",
+  "resultsFilters.it": "IT та цифрові професії",
+  "resultsFilters.sales": "Продажі",
+  "resultsFilters.legal": "Юриспруденція",
+  "resultsFilters.hospitality": "Готелі та ресторани",
+  "resultsFilters.logistics": "Транспорт і логістика",
+  "resultsFilters.education": "Освіта"
 }
