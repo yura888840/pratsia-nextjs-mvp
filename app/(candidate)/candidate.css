@@ -345,7 +345,7 @@
 }
 
 .candidate-guest-menu {
-  margin-left: auto;
+  margin-left: 0;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -718,6 +718,7 @@
 }
 
 .candidate-entry-menu {
+  margin-left: auto;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
