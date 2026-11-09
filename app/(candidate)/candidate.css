@@ -1,7 +1,7 @@
 .candidate-app {
-  --candidate-page-width: 1168px;
-  --candidate-page-gutter: 24px;
-  background: #f6f5f0;
+  --candidate-page-width: var(--role-page-width);
+  --candidate-page-gutter: var(--role-page-gutter);
+  background: #fff;
   min-height: 100vh;
   color: #192824;
   font-family: Arial, sans-serif;
@@ -519,196 +519,12 @@
   font-size: 17px;
 }
 .candidate-welcome-page {
-  --candidate-page-width: 1280px;
   background: white;
-}
-.cv-welcome {
-  display: grid;
-  grid-template-columns: 1.15fr 1fr;
-  align-items: center;
-  gap: 55px;
-  min-height: 620px;
-  padding: 52px 16px;
-}
-.cv-welcome-copy h1 {
-  font-size: clamp(32px, 4vw, 48px);
-  line-height: 1.25;
-  font-weight: 800;
-  letter-spacing: -1px;
-  margin: 0 0 24px;
-}
-.cv-welcome-copy h1 span {
-  display: block;
-  color: #527b36;
-  margin-top: 8px;
-}
-.cv-welcome-copy > p {
-  font-size: 19px;
-  line-height: 1.6;
-  margin: 0 0 28px;
-}
-.cv-welcome-copy .cv-welcome-create {
-  display: flex;
-  justify-content: center;
-  padding: 21px;
-  border-radius: 40px;
-  background: #234b38;
-  color: white;
-  font-weight: 700;
-  font-size: 18px;
-}
-.cv-welcome-note {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  margin-top: 26px;
-}
-.cv-welcome-note p {
-  font-size: 15px;
-  line-height: 1.6;
-}
-.cv-welcome-avatar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #e4eed7;
-  color: #527b36;
-  font-weight: 700;
-}
-.cv-welcome-art {
-  position: relative;
-  min-height: 500px;
-  isolation: isolate;
-}
-.cv-welcome-orbit {
-  position: absolute;
-  width: 94%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: #edf3e5;
-  top: 20px;
-  left: 3%;
-  z-index: -1;
-}
-.cv-welcome-document {
-  position: absolute;
-  top: 0;
-  left: 18%;
-  width: 66%;
-  height: 440px;
-  background: white;
-  border: 1px solid #e1e8dc;
-  border-radius: 18px;
-  padding: 24px;
-  transform: rotate(3deg);
-  box-shadow: 0 10px 40px #234b3812;
-}
-.cv-document-top {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 26px;
-}
-.cv-document-top > span {
-  width: 45px;
-  height: 45px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #edf3e5;
-  color: #527b36;
-  border-radius: 50%;
-  font-weight: 700;
-}
-.cv-document-top > div {
-  flex: 1;
-}
-.cv-document-top i,
-.cv-document-section i,
-.cv-document-section b {
-  display: block;
-  height: 6px;
-  background: #e5eae4;
-  border-radius: 5px;
-  margin: 8px 0;
-}
-.cv-document-top i:first-child {
-  width: 70%;
-  height: 10px;
-}
-.cv-document-section {
-  margin-top: 24px;
-}
-.cv-document-section b {
-  width: 35%;
-  background: #c7d9b7;
-  height: 8px;
-}
-.cv-document-section i:last-child {
-  width: 70%;
-}
-.cv-welcome-envelope {
-  position: absolute;
-  bottom: 0;
-  left: 9%;
-  width: 85%;
-  height: 195px;
-  background: #bad0a6;
-  border-radius: 12px;
-  clip-path: polygon(0 15%, 50% 45%, 100% 0, 100% 100%, 0 100%);
-}
-.cv-welcome-envelope > span {
-  position: absolute;
-  inset: 10% 0 0;
-  background: #d5e4c7;
-  clip-path: polygon(0 10%, 50% 70%, 100% 0, 100% 100%, 0 100%);
-}
-.cv-welcome-spark {
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  border: 2px solid #99b781;
-  transform: rotate(45deg);
-  border-radius: 2px;
-}
-.cv-spark-one {
-  top: 30px;
-  left: 0;
-}
-.cv-spark-two {
-  top: 105px;
-  right: 0;
-  width: 12px;
-  height: 12px;
 }
 .candidate-footer > a {
   margin-left: 24px;
 }
 @media (max-width: 760px) {
-  .cv-welcome {
-    grid-template-columns: 1fr;
-    gap: 36px;
-    padding: 28px 4px;
-  }
-  .cv-welcome-art {
-    min-height: 420px;
-    width: min(420px, 100%);
-    margin: auto;
-  }
-  .cv-welcome-document {
-    height: 360px;
-    padding: 18px;
-  }
-  .cv-document-section {
-    margin-top: 16px;
-  }
-  .cv-welcome-envelope {
-    height: 160px;
-  }
   .candidate-guest-menu .candidate-recommended,
   .candidate-guest-menu .candidate-create-resume {
     font-size: 14px;

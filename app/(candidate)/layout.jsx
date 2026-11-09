@@ -1,6 +1,7 @@
 import { getCurrentUser } from "../../lib/session.js";
 import { CandidateProvider } from "../../components/candidate/context.jsx";
 import { CandidateShell } from "../../components/candidate/shell.jsx";
+import "../_shared/role-layout.css";
 import "./candidate.css";
 export default async function CandidateLayout({ children }) {
   const user = await getCurrentUser();
