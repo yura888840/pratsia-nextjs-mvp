@@ -1,3 +1,4 @@
+import { safeAuthReturnTo } from "../../../lib/auth-redirect.js";
 import { RegistrationForm } from "../../../components/registration/registration-form.jsx";
 import { googleConfigured } from "../../../lib/google-auth.js";
 import { translate } from "../../../i18n/index.js";
@@ -15,6 +16,7 @@ export default async function RegistrationPage({ searchParams }) {
         : "";
   return (
     <RegistrationForm
+      returnTo={safeAuthReturnTo(params.returnTo)}
       initialLogin={params.mode === "login"}
       initialRole={params.accountType === "employer" ? "employer" : "candidate"}
       googleEnabled={googleConfigured()}

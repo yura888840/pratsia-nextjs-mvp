@@ -2068,5 +2068,14 @@
   "guestSearch.partTime": "Часткова зайнятість",
   "guestSearch.noResume": "Без резюме",
   "guestSearch.disability": "Для людей з інвалідністю",
-  "guestSearch.veteran": "Відкриті до військового досвіду"
+  "guestSearch.veteran": "Відкриті до військового досвіду",
+  "recommendations.link": "Рекомендовані",
+  "recommendations.title": "Рекомендовані вакансії",
+  "recommendations.matched": "Вакансії за професією, зазначеною у вашому резюме.",
+  "recommendations.explore": "Поки що пропонуємо переглянути ці вакансії. Заповніть професію в резюме, щоб уточнити добірку.",
+  "cvWelcome.heading": "Створіть резюме,",
+  "cvWelcome.accent": "яке допоможе знайти роботу мрії",
+  "cvWelcome.intro": "Створіть професійне резюме онлайн за кілька хвилин та розкажіть роботодавцям про свій досвід і навички.",
+  "cvWelcome.note": "Заповніть форму або імпортуйте PDF — обидва способи створять ваше резюме.",
+  "cvWelcome.cv": "CV"
 }

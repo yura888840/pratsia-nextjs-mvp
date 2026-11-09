@@ -1,0 +1,1 @@
+ALTER TABLE oauth_flows ADD COLUMN return_to TEXT NOT NULL DEFAULT '/';

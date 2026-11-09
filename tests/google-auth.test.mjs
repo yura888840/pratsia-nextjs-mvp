@@ -18,7 +18,7 @@ test("Google flows bind role, expire, require browser state and cannot be replay
   try {
     migrate();
     migrate();
-    const flow = await beginGoogleFlow("employer");
+    const flow = await beginGoogleFlow("employer", "/recommended");
     const url = new URL(flow.url);
     assert.equal(url.searchParams.get("code_challenge_method"), "S256");
     assert.throws(
@@ -27,6 +27,7 @@ test("Google flows bind role, expire, require browser state and cannot be replay
     );
     const consumed = consumeGoogleFlow(flow.state, flow.state);
     assert.equal(consumed.account_type, "employer");
+    assert.equal(consumed.return_to, "/recommended");
     assert.throws(
       () => consumeGoogleFlow(flow.state, flow.state),
       /invalid-state/,
