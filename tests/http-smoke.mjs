@@ -54,12 +54,15 @@ await request('/api/auth',{action:'register',email:`invalid-${stamp}@example.inv
 assert.equal((await request('/api/platform',null,candidate.cookie)).data.user.accountType,'candidate');
 assert.equal(logged.data.user.accountType,'employer');
 for (const route of ['/employer','/employers']) {
- const denied=await fetch(base+route,{headers:{cookie:candidate.cookie},redirect:'manual'});
- assert.equal(denied.status,307);assert.equal(denied.headers.get('location'),'/');
+ for (const cookie of ['', candidate.cookie, owner.cookie]) {
+  const response=await fetch(base+route,{headers:{cookie},redirect:'manual'});
+  assert.equal(response.status,307);assert.equal(response.headers.get('location'),'/');checks++;
+ }
 }
-const guestPage=await fetch(base+'/employer');assert.equal(guestPage.status,200);assert.ok(!(await guestPage.text()).includes('Мої вакансії'));
-const landing=await fetch(base+'/employers');assert.ok((await landing.text()).includes('Зареєструватися як роботодавець'));
-const employerLanding=await fetch(base+'/employers',{headers:{cookie:owner.cookie},redirect:'manual'});assert.equal(employerLanding.headers.get('location'),'/employer');
+for (const route of ['/', '/?view=profile', '/?view=saved', '/?view=applications', '/jobs/demo-1']) {
+ const response=await fetch(base+route);assert.equal(response.status,200);
+ const html=await response.text();assert.ok(html.includes('Пошук за професією, компанією, навичками'));checks++;
+}
 await request('/api/platform',{action:'jobStatus',jobId:published.data.id,status:'active'},owner.cookie);
 assert.ok(!(await request('/api/jobs')).data.jobs.some(j=>j.id===published.data.id));
 await request('/api/moderation',{action:'hide',jobId:published.data.id,reason:'Заблоковано тестом'},admin.cookie);

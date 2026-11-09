@@ -1,0 +1,79 @@
+"use client";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { tabLabels } from "./labels.js";
+import { translate } from "../../i18n/index.js";
+import { useCandidate } from "./context.jsx";
+export function CandidateShell({ children }) {
+  const params = useSearchParams();
+  const view = params.get("view") || "search";
+  const { favorites, applications } = useCandidate();
+  return (
+    <div className="candidate-app">
+      <header className="candidate-header">
+        <Link className="candidate-brand" href="/">
+          {translate("brand.logo")}
+        </Link>
+        <span>{translate("candidate.forCandidates")}</span>
+        <Link href="/?view=profile">{translate("candidate.resume")}</Link>
+      </header>
+      <div className="candidate-container">
+        <section
+          className="candidate-search"
+          aria-label={translate("candidate.search")}
+        >
+          <h1>{translate("candidate.headline")}</h1>
+          <form
+            action="/"
+            method="get"
+            key={`${params.get("q") || ""}:${params.get("city") || ""}`}
+          >
+            <label>
+              <span>{translate("candidate.searchLabel")}</span>
+              <input
+                name="q"
+                defaultValue={params.get("q") || ""}
+                placeholder={translate("candidate.searchPlaceholder")}
+              />
+            </label>
+            <label>
+              <span>{translate("candidate.city")}</span>
+              <input
+                name="city"
+                defaultValue={params.get("city") || ""}
+                placeholder={translate("candidate.anyCity")}
+              />
+            </label>
+            <button className="candidate-primary" type="submit">
+              {translate("candidate.search")}
+            </button>
+          </form>
+        </section>
+        <nav
+          className="candidate-nav"
+          aria-label={translate("candidate.navigation")}
+        >
+          {["search", "saved", "applications", "profile"].map((key) => (
+            <Link
+              key={key}
+              href={key === "search" ? "/" : `/?view=${key}`}
+              aria-current={view === key ? "page" : undefined}
+            >
+              {tabLabels[key]}
+              {key === "saved"
+                ? ` (${favorites.length})`
+                : key === "applications"
+                  ? ` (${applications.length})`
+                  : ""}
+            </Link>
+          ))}
+        </nav>
+        <p className="candidate-notice">{translate("candidate.demoNotice")}</p>
+        <main id="candidate-content">{children}</main>
+        <footer className="candidate-footer">
+          {translate("candidate.footer")}
+        </footer>
+      </div>
+    </div>
+  );
+}
