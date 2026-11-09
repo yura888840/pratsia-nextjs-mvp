@@ -189,6 +189,7 @@ async function postPlatformAction(request) {
         },
         403,
       );
+    if ("profile" === actionPayload.action && currentUser.accountType !== "candidate") return jsonNoStore({ error: translate("candidate.accessDenied") }, 403);
     if ("profile" === actionPayload.action) {
       const profileValidation = profileSchema.safeParse(actionPayload.data);
       if (!profileValidation.success)

@@ -7,7 +7,7 @@ import { useCandidate } from "./context.jsx";
 export function CandidateShell({ children, userName }) {
   const params = useSearchParams();
   const view = params.get("view") || "search";
-  const { favorites, applications } = useCandidate();
+  const { favorites, applications, isCandidate } = useCandidate();
   return (
     <div className="candidate-app">
       <header className="candidate-header">
@@ -15,7 +15,15 @@ export function CandidateShell({ children, userName }) {
           {translate("brand.logo")}
         </Link>
         <span>{translate("candidate.forCandidates")}</span>
-        <Link href="/?view=profile">{translate("candidate.resume")}</Link>
+        {isCandidate ? (
+          <Link href="/?view=profile">{translate("candidate.resume")}</Link>
+        ) : (
+          !userName && (
+            <Link href="/register?accountType=candidate">
+              {translate("candidate.createResume")}
+            </Link>
+          )
+        )}
         {userName ? (
           <>
             <span>{userName}</span>
@@ -78,7 +86,10 @@ export function CandidateShell({ children, userName }) {
           className="candidate-nav"
           aria-label={translate("candidate.navigation")}
         >
-          {["search", "saved", "applications", "profile"].map((key) => (
+          {(isCandidate
+            ? ["search", "saved", "applications", "profile"]
+            : ["search", "saved"]
+          ).map((key) => (
             <Link
               key={key}
               href={key === "search" ? "/" : `/?view=${key}`}
@@ -92,6 +103,11 @@ export function CandidateShell({ children, userName }) {
                   : ""}
             </Link>
           ))}
+          {!userName && (
+            <Link href="/register?accountType=candidate">
+              {translate("candidate.createResume")}
+            </Link>
+          )}
         </nav>
         <p className="candidate-notice">{translate("candidate.demoNotice")}</p>
         <main id="candidate-content">{children}</main>

@@ -5,8 +5,15 @@ import { translate, formatNumber } from "../../i18n/index.js";
 import { isResumeReady } from "../../domains/resume/model.js";
 import { useCandidate } from "./context.jsx";
 export function VacancyActions({ job }) {
-  const { ready, resume, favorites, applications, toggleFavorite, apply } =
-    useCandidate();
+  const {
+    ready,
+    resume,
+    favorites,
+    applications,
+    toggleFavorite,
+    apply,
+    isCandidate,
+  } = useCandidate();
   const applied = applications.some((item) => item.vacancyId === job.id);
   return (
     <div className="candidate-actions">
@@ -19,7 +26,11 @@ export function VacancyActions({ job }) {
           ? translate("candidate.unsave")
           : translate("candidate.save")}
       </button>
-      {!isResumeReady(resume) && !applied ? (
+      {!isCandidate ? (
+        <Link href="/register?accountType=candidate">
+          {translate("candidate.signInToApply")}
+        </Link>
+      ) : !isResumeReady(resume) && !applied ? (
         <Link href="/?view=profile">
           {translate("candidate.resumeToApply")}
         </Link>
