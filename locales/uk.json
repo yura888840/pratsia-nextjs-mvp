@@ -2055,5 +2055,18 @@
   "entry.headline": "Знайдіть людей для своєї команди",
   "entry.intro": "Простір для роботодавців: розкажіть про компанію та почніть пошук майбутніх колег.",
   "entry.start": "Створити акаунт роботодавця",
-  "entry.footer": "Праця — простір для роботи та команди"
+  "entry.footer": "Праця — простір для роботи та команди",
+  "guestSearch.placeholder": "Ким або в якій компанії хочете працювати?",
+  "guestSearch.location": "Місце пошуку роботи",
+  "guestSearch.ukraine": "Україна",
+  "guestSearch.abroad": "Інші країни",
+  "guestSearch.quickFilters": "Швидкі фільтри вакансій",
+  "guestSearch.all": "Всі вакансії",
+  "guestSearch.remote": "Віддалено",
+  "guestSearch.reservation": "З бронюванням",
+  "guestSearch.noExperience": "Без досвіду",
+  "guestSearch.partTime": "Часткова зайнятість",
+  "guestSearch.noResume": "Без резюме",
+  "guestSearch.disability": "Для людей з інвалідністю",
+  "guestSearch.veteran": "Відкриті до військового досвіду"
 }

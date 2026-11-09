@@ -73,3 +73,13 @@ The candidate guest header offers login, registration, and the employer site,
 aligned right. `/register?mode=login` opens the existing form in login mode;
 links from employer pages preserve the employer role default for registration.
 The employer dashboard and publication UI are not enabled by this entry page.
+
+On the anonymous home page, `GuestSearch` replaces the standard form with a
+combined query/location field, a separate submit button, and eight quick-filter
+chips. Chips submit the current query and location with one active `filter`
+value; the main submit preserves that selection. The location selector offers
+Ukraine, other countries, and cities from the mock collection. All current mocks
+are Ukrainian, so other-country searches correctly return an empty list. Mock
+eligibility flags are fictional UI fixtures, not verified employer claims.
+Authenticated pages retain the standard search form. The redundant candidate
+site label beside the logo has been removed.

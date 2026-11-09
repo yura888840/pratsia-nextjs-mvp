@@ -1,12 +1,15 @@
 "use client";
 import Link from "next/link";
 import { useSearchParams, usePathname } from "next/navigation";
+import { GuestSearch } from "./guest-search.jsx";
 import { tabLabels } from "./labels.js";
 import { translate } from "../../i18n/index.js";
 import { useCandidate } from "./context.jsx";
 export function CandidateShell({ children, userName }) {
   const params = useSearchParams();
-  const isAccount = usePathname() === "/account";
+  const pathname = usePathname();
+  const isAccount = pathname === "/account";
+  const guestHome = !userName && pathname === "/";
   const view = params.get("view") || "search";
   const { favorites, isCandidate } = useCandidate();
   return (
@@ -15,7 +18,6 @@ export function CandidateShell({ children, userName }) {
         <Link className="candidate-brand" href="/">
           {translate("brand.logo")}
         </Link>
-        <span>{translate("candidate.forCandidates")}</span>
         {userName ? (
           <div className="candidate-user-menu">
             <Link className="candidate-user-name" href="/account">
@@ -59,31 +61,39 @@ export function CandidateShell({ children, userName }) {
           aria-label={translate("candidate.search")}
         >
           <h1>{translate("candidate.headline")}</h1>
-          <form
-            action="/"
-            method="get"
-            key={`${params.get("q") || ""}:${params.get("city") || ""}`}
-          >
-            <label>
-              <span>{translate("candidate.searchLabel")}</span>
-              <input
-                name="q"
-                defaultValue={params.get("q") || ""}
-                placeholder={translate("candidate.searchPlaceholder")}
-              />
-            </label>
-            <label>
-              <span>{translate("candidate.city")}</span>
-              <input
-                name="city"
-                defaultValue={params.get("city") || ""}
-                placeholder={translate("candidate.anyCity")}
-              />
-            </label>
-            <button className="candidate-primary" type="submit">
-              {translate("candidate.search")}
-            </button>
-          </form>
+          {guestHome ? (
+            <GuestSearch
+              query={params.get("q") || ""}
+              city={params.get("city") || ""}
+              filter={params.get("filter") || ""}
+            />
+          ) : (
+            <form
+              action="/"
+              method="get"
+              key={`${params.get("q") || ""}:${params.get("city") || ""}`}
+            >
+              <label>
+                <span>{translate("candidate.searchLabel")}</span>
+                <input
+                  name="q"
+                  defaultValue={params.get("q") || ""}
+                  placeholder={translate("candidate.searchPlaceholder")}
+                />
+              </label>
+              <label>
+                <span>{translate("candidate.city")}</span>
+                <input
+                  name="city"
+                  defaultValue={params.get("city") || ""}
+                  placeholder={translate("candidate.anyCity")}
+                />
+              </label>
+              <button className="candidate-primary" type="submit">
+                {translate("candidate.search")}
+              </button>
+            </form>
+          )}
         </section>
         {!isAccount && (
           <nav

@@ -168,3 +168,20 @@ test('resume/application access requires a candidate session; browser state is s
   assert.notEqual(candidateStorageKey(null), candidateStorageKey({ userId: 'candidate' }));
   assert.notEqual(candidateStorageKey({ userId: 'one' }), candidateStorageKey({ userId: 'two' }));
 });
+
+test('guest quick filters use vacancy attributes and combine with search/location', async () => {
+  const { quickFilters } = await import('../domains/vacancy/filters.js');
+  const { createVacancy } = await import('../domains/vacancy/model.js');
+  for (const quickFilter of quickFilters.filter(Boolean)) {
+    const result = selectVacancies(mockVacancies, { quickFilter });
+    assert.ok(result.length > 0, quickFilter);
+    assert.ok(result.length < mockVacancies.length, quickFilter);
+    if (['reservation','partTime','noResume','disability','veteran'].includes(quickFilter)) assert.ok(result.every(job => job[quickFilter]));
+  }
+  const foreign = createVacancy({ id: 'foreign', title: 'React developer', company: 'Demo abroad', city: 'Berlin', country: 'DE', skills: 'React', veteran: true });
+  const all = [...mockVacancies, foreign];
+  assert.deepEqual(selectVacancies(all, { query: 'React', city: '__abroad', quickFilter: 'veteran' }), [foreign]);
+  assert.deepEqual(selectVacancies(all, { query: 'React', city: '__abroad', quickFilter: 'reservation' }), []);
+  assert.deepEqual(selectVacancies(mockVacancies, { quickFilter: '' }), mockVacancies);
+  assert.deepEqual(selectVacancies(mockVacancies, { quickFilter: 'unknown' }), mockVacancies);
+});

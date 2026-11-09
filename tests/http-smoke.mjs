@@ -75,6 +75,12 @@ for (const cookie of ['', candidate.cookie, owner.cookie]) {
 }
 const guestHome=await (await fetch(base+'/')).text();const guestMenu=guestHome.match(/<nav[^>]*class="candidate-guest-menu"[^>]*>([\s\S]*?)<\/nav>/)?.[1];assert.ok(guestMenu);
 assert.ok(guestMenu.indexOf('Увійти')<guestMenu.indexOf('Зареєструватися'));assert.ok(guestMenu.indexOf('Зареєструватися')<guestMenu.indexOf('Сайт для роботодавця'));assert.ok(guestMenu.includes('href="/employers"'));checks++;
+const guestHeader=guestHome.match(/<header[^>]*>([\s\S]*?)<\/header>/)?.[1];assert.ok(guestHeader&&!guestHeader.includes('Для шукачів роботи'));
+assert.ok(guestHome.includes('guest-search-form'));assert.ok(guestHome.includes('Ким або в якій компанії хочете працювати?'));
+assert.ok(guestHome.includes('name="city"'));assert.ok(guestHome.includes('Інші країни'));
+for(const label of ['Всі вакансії','Віддалено','З бронюванням','Без досвіду','Часткова зайнятість','Без резюме','Для людей з інвалідністю','Відкриті до військового досвіду'])assert.ok(guestHome.includes(label));checks++;
+const candidateHome=await (await fetch(base+'/',{headers:{cookie:candidate.cookie}})).text();assert.ok(!candidateHome.includes('guest-search-form'));assert.ok(candidateHome.includes('name="city"'));checks++;
+const filteredHome=await (await fetch(base+'/?filter=remote&q=React&city=__abroad')).text();assert.ok(filteredHome.includes('value="React"'));assert.ok(filteredHome.includes('value="__abroad"'));assert.ok(filteredHome.includes('value="remote"'));checks++;
 const loginPage=await (await fetch(base+'/register?mode=login&accountType=candidate')).text();assert.ok(loginPage.includes('<h1>Увійти</h1>'));assert.ok(!loginPage.includes('name="name"'));checks++;
 for (const route of ['/', '/?view=saved', '/jobs/demo-1']) {
  const response=await fetch(base+route);assert.equal(response.status,200);
