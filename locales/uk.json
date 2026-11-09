@@ -2047,5 +2047,13 @@
   "account.resumes": "Мої резюме",
   "account.favorites": "Обране",
   "account.applications": "Куди надіслано резюме",
-  "account.backToSearch": "До всіх вакансій"
+  "account.backToSearch": "До всіх вакансій",
+  "entry.guestMenu": "Вхід та вибір сайту",
+  "entry.employerSite": "Сайт для роботодавця",
+  "entry.candidateSite": "Сайт для шукача",
+  "entry.employerLabel": "Для роботодавців",
+  "entry.headline": "Знайдіть людей для своєї команди",
+  "entry.intro": "Простір для роботодавців: розкажіть про компанію та почніть пошук майбутніх колег.",
+  "entry.start": "Створити акаунт роботодавця",
+  "entry.footer": "Праця — простір для роботи та команди"
 }

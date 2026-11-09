@@ -68,12 +68,14 @@ await request('/api/platform',{action:'publish',data:job},candidate.cookie,403);
 await request('/api/auth',{action:'register',email:`invalid-${stamp}@example.invalid`,name:'Bad role',password,accountType:'admin'},'',400);
 assert.equal((await request('/api/platform',null,candidate.cookie)).data.user.accountType,'candidate');
 assert.equal(logged.data.user.accountType,'employer');
-for (const route of ['/employer','/employers']) {
- for (const cookie of ['', candidate.cookie, owner.cookie]) {
-  const response=await fetch(base+route,{headers:{cookie},redirect:'manual'});
-  assert.equal(response.status,307);assert.equal(response.headers.get('location'),'/');checks++;
- }
+for (const cookie of ['', candidate.cookie, owner.cookie]) {
+ const legacy=await fetch(base+'/employer',{headers:{cookie},redirect:'manual'});assert.equal(legacy.status,307);assert.equal(legacy.headers.get('location'),'/employers');checks++;
+ const employerPage=await fetch(base+'/employers',{headers:{cookie},redirect:'manual'});assert.equal(employerPage.status,200);const employerHtml=await employerPage.text();
+ assert.ok(employerHtml.includes('employer-site-header'));assert.ok(employerHtml.includes('Знайдіть людей для своєї команди'));assert.ok(employerHtml.includes('/register?accountType=employer'));assert.ok(!employerHtml.includes('candidate-search'));checks++;
 }
+const guestHome=await (await fetch(base+'/')).text();const guestMenu=guestHome.match(/<nav[^>]*class="candidate-guest-menu"[^>]*>([\s\S]*?)<\/nav>/)?.[1];assert.ok(guestMenu);
+assert.ok(guestMenu.indexOf('Увійти')<guestMenu.indexOf('Зареєструватися'));assert.ok(guestMenu.indexOf('Зареєструватися')<guestMenu.indexOf('Сайт для роботодавця'));assert.ok(guestMenu.includes('href="/employers"'));checks++;
+const loginPage=await (await fetch(base+'/register?mode=login&accountType=candidate')).text();assert.ok(loginPage.includes('<h1>Увійти</h1>'));assert.ok(!loginPage.includes('name="name"'));checks++;
 for (const route of ['/', '/?view=saved', '/jobs/demo-1']) {
  const response=await fetch(base+route);assert.equal(response.status,200);
  const html=await response.text();assert.ok(html.includes('Пошук за професією, компанією, навичками'));checks++;

@@ -44,9 +44,9 @@ It does not send applications, and does not use the signed-in account's server
 profile. The interface explicitly marks this demonstration mode. Production
 persistence can replace the provider without changing either model or list UI.
 
-Employer UI entry routes redirect to `/` for all visitors for now. Existing
-employer APIs and backend authorization remain intact; this is a UI pause, not
-an account or API migration. The legacy platform shell is retained but no longer
+The public employer entry page is `/employers`; `/employer` redirects there.
+Existing employer APIs and backend authorization remain intact; the full
+employer dashboard is still paused. The legacy platform shell is retained but no longer
 mounted by the home page.
 
 Resume editing and the application list require a server-validated candidate
@@ -65,3 +65,11 @@ reuse the resume editor and vacancy lists. Legacy `/?view=...` links redirect
 signed-in candidates to the corresponding account section. Guests keep public
 search/favorites and the registration entry; employer accounts cannot open the
 candidate account. On small screens the account menu stacks above the content.
+
+The employer section now has a separate route-group layout and stylesheet in
+`app/(employer)`. `/employers` is its minimal public starting page; `/employer`
+redirects there. Guest headers link between candidate and employer sections.
+The candidate guest header offers login, registration, and the employer site,
+aligned right. `/register?mode=login` opens the existing form in login mode;
+links from employer pages preserve the employer role default for registration.
+The employer dashboard and publication UI are not enabled by this entry page.

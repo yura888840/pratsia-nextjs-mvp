@@ -120,6 +120,6 @@ linked just because the email matches. Google tokens are not persisted.
 
 Successful email or Google registration creates the regular application session.
 The candidate demo's resume/favorites storage remains local to the browser.
-Employer pages are still paused, so successful registration returns to `/` for
+The full employer dashboard is still paused; successful registration returns to `/` for
 both roles. Live Google consent/token exchange requires real credentials and
 must be checked in the configured environment.

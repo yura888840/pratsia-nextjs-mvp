@@ -16,11 +16,6 @@ export function CandidateShell({ children, userName }) {
           {translate("brand.logo")}
         </Link>
         <span>{translate("candidate.forCandidates")}</span>
-        {!userName && (
-          <Link href="/register?accountType=candidate">
-            {translate("candidate.createResume")}
-          </Link>
-        )}
         {userName ? (
           <div className="candidate-user-menu">
             <Link className="candidate-user-name" href="/account">
@@ -41,12 +36,21 @@ export function CandidateShell({ children, userName }) {
             </button>
           </div>
         ) : (
-          <Link
-            className="candidate-register"
-            href="/register?accountType=candidate"
+          <nav
+            className="candidate-guest-menu"
+            aria-label={translate("entry.guestMenu")}
           >
-            {translate("registration.submit")}
-          </Link>
+            <Link href="/register?mode=login&accountType=candidate">
+              {translate("registration.login")}
+            </Link>
+            <Link
+              className="candidate-register"
+              href="/register?accountType=candidate"
+            >
+              {translate("registration.submit")}
+            </Link>
+            <Link href="/employers">{translate("entry.employerSite")}</Link>
+          </nav>
         )}
       </header>
       <div className="candidate-container">
