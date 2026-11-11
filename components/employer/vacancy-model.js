@@ -1,6 +1,5 @@
 import { EMPTY_JOB } from '../platform/employer/job.js';
 import { translate as t } from '../../i18n/index.js';
-export const STORAGE_KEY = 'pratsia.employer.prototype.v1';
 export const emptyVacancy = () => ({ ...EMPTY_JOB, salaryMin: '', salaryMax: '', skills: '', address: '', contactName: '', contactPhone: '', contactEmail: '', resumeRequired: true, currency: 'UAH' });
 export function exampleVacancies() {
   return [{ ...emptyVacancy(), id: 'example-lawyer', title: t('employer.demoTitle'), company: t('employer.demoCompany'), occupation: t('app.platform.yuryst'), city: t('app.platform.kyyiv'), arrangement: t('catalog.remote'), salaryMin: 10000, salaryMax: 20000, skills: t('employer.demoSkills'), description: t('employer.demoDescription'), requirements: t('employer.demoRequirements'), benefits: t('employer.demoBenefits'), status: 'example' }];

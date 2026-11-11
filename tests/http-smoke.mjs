@@ -46,6 +46,30 @@ const results=await request('/api/jobs?q='+encodeURIComponent('Відновле�
 const page=await fetch(base+'/jobs/'+published.data.id);assert.equal(page.status,200);const html=await page.text();assert.ok(html.includes(job.title));assert.ok(html.includes('application/ld+json'));checks++;
 await request('/api/platform',{action:'apply',jobId:published.data.id,message:''},owner.cookie,400);
 const candidate=await request('/api/auth',{action:'register',email:`candidate-${stamp}@example.invalid`,name:'Test candidate',password});
+// Employer page authorization is checked server-side for every entry point.
+const employerPaths = ['/employers/vacancies', '/employers/vacancies/new', '/employers/vacancies/example-lawyer', '/employers/vacancies/example-lawyer/edit'];
+for (const route of employerPaths) {
+ for (const [cookie, destination] of [['', '/register?mode=login&accountType=employer&returnTo=%2Femployers'], [candidate.cookie, '/employers']]) {
+  const response = await fetch(base + route, { headers: { cookie }, redirect: 'manual' });
+  const html = await response.text();
+  // Next can stream an RSC redirect after the shared layout starts rendering.
+  assert.ok(response.status === 307 && response.headers.get('location') === destination || response.status === 200 && html.includes('NEXT_REDIRECT') && html.includes(destination.replaceAll('&', '&amp;')) || response.status === 200 && html.includes('NEXT_REDIRECT') && html.includes(destination), route);
+  assert.ok(!html.includes('ev-workspace'), 'denied response must not render workspace');
+  checks++;
+ }
+ const allowed = await fetch(base + route, { headers: { cookie: owner.cookie } });
+ assert.equal(allowed.status, 200); assert.ok(!(await allowed.text()).includes('NEXT_REDIRECT')); checks++;
+}
+for (const cookie of ['', candidate.cookie]) {
+ const landing = await fetch(base + '/employers', { headers: { cookie } });
+ const html = await landing.text(); assert.equal(landing.status, 200);
+ assert.ok(html.includes('ev-public-banner')); assert.ok(!html.includes('ev-workspace')); checks++;
+}
+const employerHome = await fetch(base + '/employers', { headers: { cookie: owner.cookie } });
+assert.ok((await employerHome.text()).includes('ev-workspace')); checks++;
+const invalidSession = await fetch(base + '/employers/vacancies', { headers: { cookie: 'pratsia_session=' + 'a'.repeat(64) }, redirect: 'manual' });
+const invalidHtml = await invalidSession.text();
+assert.ok(invalidSession.status === 307 || invalidHtml.includes('NEXT_REDIRECT')); checks++;
 await request('/api/platform',{action:'editJob',jobId:published.data.id,data:job},candidate.cookie,403);
 await request('/api/platform',{action:'profile',data:{name:'Test candidate',phone:'+380501234567',city:'Київ',occupation:'Програміст',salary:40000,experience:'Без досвіду',skills:'JavaScript',about:'',schedule:'Повна зайнятість',workHistory:[],education:[],specialties:{}}},candidate.cookie);
 await request('/api/platform',{action:'apply',jobId:published.data.id,message:'Тестовий відгук'},candidate.cookie);
@@ -71,7 +95,10 @@ assert.equal(logged.data.user.accountType,'employer');
 for (const cookie of ['', candidate.cookie, owner.cookie]) {
  const legacy=await fetch(base+'/employer',{headers:{cookie},redirect:'manual'});assert.equal(legacy.status,307);assert.equal(legacy.headers.get('location'),'/employers');checks++;
  const employerPage=await fetch(base+'/employers',{headers:{cookie},redirect:'manual'});assert.equal(employerPage.status,200);const employerHtml=await employerPage.text();
- assert.ok(employerHtml.includes('employer-site-header'));assert.ok(employerHtml.includes('Знайдіть людей для своєї команди'));assert.ok(employerHtml.includes('/register?accountType=employer'));assert.ok(!employerHtml.includes('candidate-search'));checks++;
+ assert.ok(employerHtml.includes('employer-site-header'));
+ if (cookie === owner.cookie) { assert.ok(employerHtml.includes('ev-workspace')); assert.ok(employerHtml.includes('/employers/vacancies')); }
+ else { assert.ok(employerHtml.includes('Ваша наступна сильна команда')); assert.ok(employerHtml.includes('/register?accountType=employer')); }
+ assert.ok(!employerHtml.includes('candidate-search'));checks++;
 }
 const guestHome=await (await fetch(base+'/')).text();const guestMenu=guestHome.match(/<nav[^>]*class="candidate-guest-menu"[^>]*>([\s\S]*?)<\/nav>/)?.[1];assert.ok(guestMenu);
 assert.equal((guestMenu.match(/<a /g)||[]).length,2);assert.ok(guestMenu.includes('Рекомендовані'));assert.ok(guestMenu.includes('href="/login?returnTo=%2Frecommended"'));assert.ok(guestMenu.includes('href="/cv-welcome"'));checks++;
@@ -173,3 +200,13 @@ assert.ok(filtersHtml.includes('Очистити все'));
 assert.ok(filtersHtml.includes('results-filter-extra'));
 assert.ok(!filtersHtml.includes('class="guest-search-filters"'));
 console.log('PASS: results toolbar fields and additional filters.');
+
+// A revoked session cannot reopen the employer workspace.
+const loginForLogout = await request('/api/auth', { action: 'login', email: `owner-${stamp}@example.invalid`, password, returnTo: '/employers' });
+assert.equal(loginForLogout.data.redirectTo, '/employers');
+await request('/api/auth', { action: 'logout' }, loginForLogout.cookie);
+const revoked = await fetch(base + '/employers/vacancies/new', { headers: { cookie: loginForLogout.cookie }, redirect: 'manual' });
+const revokedHtml = await revoked.text();
+assert.ok(revoked.status === 307 || revokedHtml.includes('NEXT_REDIRECT'));
+assert.ok(!revokedHtml.includes('ev-workspace'));
+console.log('PASS: employer page guards, public landing and revoked-session rejection.');
