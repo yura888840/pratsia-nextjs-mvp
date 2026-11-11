@@ -1,0 +1,7 @@
+body { margin: 0; font-family: var(--font-family); color: var(--color-text); background: var(--color-surface); }
+.story-stack { display: grid; gap: var(--space-5); max-width: 600px; }
+.story-row { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.story-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: var(--space-4); }
+.story-swatch { height: 64px; border: 1px solid var(--color-border); border-radius: var(--radius-small); margin-bottom: var(--space-3); }
+.story-tokens code { display: block; overflow-wrap: anywhere; font-size: 13px; margin-top: var(--space-2); }
+.story-stack h2 { margin: 0; }

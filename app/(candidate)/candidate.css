@@ -3,8 +3,8 @@
   --candidate-page-gutter: var(--role-page-gutter);
   background: #fff;
   min-height: 100vh;
-  color: #192824;
-  font-family: Arial, sans-serif;
+  color: var(--color-text);
+  font-family: var(--font-family);
 }
 .candidate-app * {
   box-sizing: border-box;
@@ -73,7 +73,7 @@
   background: white;
   border-radius: 9px;
   font: inherit;
-  color: #192824;
+  color: var(--color-text);
 }
 .candidate-app textarea {
   resize: vertical;
@@ -93,8 +93,8 @@
   cursor: pointer;
 }
 .candidate-app .candidate-primary {
-  background: #234b38;
-  border-color: #234b38;
+  background: var(--color-brand);
+  border-color: var(--color-brand);
   color: white;
 }
 .candidate-app button:disabled {
@@ -122,7 +122,7 @@
   font-weight: 600;
 }
 .candidate-nav a[aria-current="page"] {
-  background: #234b38;
+  background: var(--color-brand);
   color: #fff;
 }
 .candidate-notice {
@@ -264,7 +264,7 @@
 .candidate-header .candidate-register {
   padding: 12px 18px;
   border-radius: 8px;
-  background: #234b38;
+  background: var(--color-brand);
   color: white;
   font-weight: 600;
 }
@@ -311,7 +311,7 @@
   line-height: 1.5;
 }
 .candidate-account-sidebar nav a[aria-current="page"] {
-  background: #234b38;
+  background: var(--color-brand);
   color: white;
   font-weight: 600;
 }
@@ -435,11 +435,11 @@
   color: #69806a;
 }
 .candidate-app .guest-search-submit {
-  border: 2px solid #234b38;
+  border: 2px solid var(--color-brand);
   border-radius: 40px;
   padding: 16px 26px;
   background: transparent;
-  color: #234b38;
+  color: var(--color-brand);
   gap: 10px;
   white-space: nowrap;
   font-size: 16px;
@@ -455,11 +455,11 @@
   padding: 8px 14px;
   min-height: 40px;
   background: #cbdcae;
-  color: #192824;
+  color: var(--color-text);
   font-weight: 400;
 }
 .candidate-app .guest-search-filters button[aria-pressed="true"] {
-  border-color: #234b38;
+  border-color: var(--color-brand);
   background: white;
 }
 .candidate-app .guest-search-filters button:hover {
@@ -511,10 +511,10 @@
 }
 .candidate-guest-menu .candidate-create-resume {
   display: inline-flex;
-  border: 2px solid #234b38;
+  border: 2px solid var(--color-brand);
   border-radius: 40px;
   padding: 13px 24px;
-  color: #234b38;
+  color: var(--color-brand);
   font-weight: 700;
   font-size: 17px;
 }
@@ -580,9 +580,9 @@
 .candidate-promo-resume::after { content: ""; position: absolute; z-index: -1; width: 300px; height: 120px; border-radius: 50%; background: #ffe580; bottom: -65px; right: -40px; }
 .candidate-promo h3 { position: relative; font-size: 24px; line-height: 1.25; margin: 0 0 16px; max-width: 240px; }
 .candidate-promo p { font-size: 15px; line-height: 1.6; margin: 0 0 24px; }
-.candidate-promo a { position: relative; margin-top: auto; border: 2px solid #234b38; border-radius: 40px; padding: 12px 18px; font-weight: 700; color: #234b38; text-align: center; background: #ffffff70; }
+.candidate-promo a { position: relative; margin-top: auto; border: 2px solid var(--color-brand); border-radius: 40px; padding: 12px 18px; font-weight: 700; color: var(--color-brand); text-align: center; background: #ffffff70; }
 .candidate-promo a:hover { background: white; text-decoration: none; }
-.candidate-promo a:focus-visible { outline: 3px solid #234b38; outline-offset: 4px; }
+.candidate-promo a:focus-visible { outline: 3px solid var(--color-brand); outline-offset: 4px; }
 .candidate-promo-remote a, .candidate-promo-start a { width: 100%; font-size: 14px; }
 .candidate-banner-art { position: absolute; z-index: -1; width: 150px; height: 165px; right: -10px; bottom: 57px; }
 .candidate-banner-art-resume { width: 180px; height: 220px; right: 2px; bottom: 4px; }
@@ -608,12 +608,12 @@
 .candidate-results-page .guest-search-location select { background: transparent; }
 .candidate-results-page .guest-search-submit {
   width: 48px; min-width: 48px; height: 48px; padding: 0;
-  border: 2px solid #234b38; border-radius: 50%; background: white; color: #234b38;
+  border: 2px solid var(--color-brand); border-radius: 50%; background: white; color: var(--color-brand);
 }
 .candidate-results-page .guest-search-row { align-items: center; }
 .candidate-results-page .guest-search-filters { margin-top: 24px; gap: 10px; }
-.candidate-results-page .guest-search-filters button { background: white; border: 1px solid #aab6a9; color: #192824; padding: 10px 16px; }
-.candidate-results-page .guest-search-filters button[aria-pressed="true"] { background: #234b38; color: white; border-color: #234b38; }
+.candidate-results-page .guest-search-filters button { background: white; border: 1px solid #aab6a9; color: var(--color-text); padding: 10px 16px; }
+.candidate-results-page .guest-search-filters button[aria-pressed="true"] { background: var(--color-brand); color: white; border-color: var(--color-brand); }
 .candidate-results-page #candidate-content,
 .candidate-results-page .candidate-notice { max-width: 840px; margin-inline: auto; }
 .candidate-results-page .candidate-notice { font-size: 12px; margin-bottom: 24px; }
@@ -621,7 +621,7 @@
 .candidate-results-page .candidate-jobs { grid-template-columns: 1fr; gap: 24px; }
 .candidate-results-page .candidate-card { border: 1px solid #dce4e7; border-radius: 22px; padding: 28px 32px; box-shadow: 0 3px 14px #1928240d; }
 .candidate-results-page .candidate-card h3 { font-size: 25px; line-height: 1.3; margin-bottom: 16px; }
-.candidate-results-page .candidate-company { color: #527b36; font-size: 18px; }
+.candidate-results-page .candidate-company { color: var(--color-accent); font-size: 18px; }
 .candidate-results-page .candidate-meta { line-height: 1.8; }
 .candidate-results-page .candidate-actions { border-top: 1px solid #edf0eb; padding-top: 20px; margin-top: 24px; }
 @media (max-width: 720px) {
@@ -632,15 +632,15 @@
 
 .results-filters { margin-top: 24px; }
 .results-filters-row { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; }
-.candidate-app .results-filters-row > select { width: auto; flex: 1 1 160px; min-width: 0; max-width: 260px; padding: 11px 30px 11px 16px; border: 1px solid #899c91; border-radius: 28px; background: white; color: #192824; font: inherit; }
+.candidate-app .results-filters-row > select { width: auto; flex: 1 1 160px; min-width: 0; max-width: 260px; padding: 11px 30px 11px 16px; border: 1px solid #899c91; border-radius: 28px; background: white; color: var(--color-text); font: inherit; }
 .candidate-app .results-filter-check { display: flex; flex-direction: row; align-items: center; gap: 9px; white-space: nowrap; font-size: 15px; font-weight: 400; cursor: pointer; }
-.candidate-app .results-filter-check input { width: 20px; height: 20px; margin: 0; padding: 0; accent-color: #234b38; }
+.candidate-app .results-filter-check input { width: 20px; height: 20px; margin: 0; padding: 0; accent-color: var(--color-brand); }
 .results-filter-clear { color: #667e73 !important; font-weight: 700; font-size: 14px; }
 .results-filter-extra { position: relative; margin-left: auto; }
-.results-filter-extra summary { display: flex; align-items: center; gap: 8px; color: #234b38; font-weight: 700; cursor: pointer; list-style: none; padding: 10px 0; }
+.results-filter-extra summary { display: flex; align-items: center; gap: 8px; color: var(--color-brand); font-weight: 700; cursor: pointer; list-style: none; padding: 10px 0; }
 .results-filter-extra summary::-webkit-details-marker { display: none; }
 .results-filter-panel { position: absolute; right: 0; top: 100%; z-index: 10; display: grid; gap: 18px; padding: 24px; border: 1px solid #dce4df; border-radius: 18px; background: white; box-shadow: 0 8px 28px #19282420; min-width: 290px; }
-.results-filter-extra summary:focus-visible { outline: 3px solid #527b36; outline-offset: 4px; }
+.results-filter-extra summary:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 4px; }
 @media (max-width: 720px) {
   .candidate-app .results-filters-row > select { max-width: none; flex-basis: 100%; }
   .results-filter-extra { width: 100%; margin-left: 0; }

@@ -1,4 +1,5 @@
 "use client";
+import { Button, Input } from "../ui/index.jsx";
 import { useState } from "react";
 import Link from "next/link";
 import { translate } from "../../i18n/index.js";
@@ -103,7 +104,7 @@ export function RegistrationForm({
             {!login && (
               <label>
                 {translate("registration.name")}
-                <input
+                <Input
                   name="name"
                   required
                   minLength={2}
@@ -114,7 +115,7 @@ export function RegistrationForm({
             )}
             <label>
               {translate("registration.email")}
-              <input
+              <Input
                 name="email"
                 required
                 type="email"
@@ -124,7 +125,7 @@ export function RegistrationForm({
             </label>
             <label>
               {translate("registration.password")}
-              <input
+              <Input
                 name="password"
                 required
                 type="password"
@@ -136,13 +137,13 @@ export function RegistrationForm({
             <p className="candidate-meta">
               {translate("registration.passwordHint")}
             </p>
-            <button className="candidate-primary" type="submit">
+            <Button type="submit" busy={busy}>
               {busy
                 ? translate("registration.wait")
                 : login
                   ? translate("registration.login")
                   : translate("registration.submit")}
-            </button>
+            </Button>
           </fieldset>
         </form>
         {error && (
