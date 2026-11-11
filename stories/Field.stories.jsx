@@ -1,0 +1,9 @@
+import { Field, Input, Select, Textarea } from '../components/ui/index.jsx';
+import { expect, userEvent, within } from 'storybook/test';
+export default { title: 'UI/Field', component: Field, args: { id: 'job-title', label: 'Назва вакансії', hint: 'Наприклад, юрист із договірного права', required: true }, render: args => <div style={{maxWidth:480}}><Field {...args}><Input name="title" placeholder="Кого ви шукаєте?" /></Field></div> };
+export const Default = { play: async ({ canvasElement }) => { const input = within(canvasElement).getByRole('textbox', { name: 'Назва вакансії' }); await userEvent.type(input, 'Юрист'); await expect(input).toHaveValue('Юрист'); await expect(input).toHaveAccessibleDescription('Наприклад, юрист із договірного права'); } };
+export const Error = { args: { error: 'Заповніть це поле' }, play: async ({ canvasElement }) => { const input = within(canvasElement).getByRole('textbox'); await expect(input).toHaveAttribute('aria-invalid', 'true'); await expect(input).toHaveAccessibleDescription('Наприклад, юрист із договірного права Заповніть це поле'); } };
+export const Disabled = { render: args => <Field {...args}><Input disabled defaultValue="Юрист" /></Field> };
+export const ReadOnly = { render: args => <Field {...args}><Input readOnly defaultValue="Юрист" /></Field> };
+export const WorkFormat = { args: { id: 'work-format', label: 'Формат роботи', hint: null }, render: args => <Field {...args}><Select defaultValue="remote"><option value="onsite">На місці</option><option value="remote">Дистанційно</option><option value="hybrid">Гібридно</option></Select></Field> };
+export const Description = { args: { id: 'description', label: 'Опис вакансії', hint: 'Опишіть завдання та очікуваний результат' }, render: args => <Field {...args}><Textarea rows={5} /></Field> };

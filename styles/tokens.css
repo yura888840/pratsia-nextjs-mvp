@@ -1,0 +1,40 @@
+/* Shared by the application and Storybook. Change semantic tokens here. */
+:root {
+  --color-brand: #234b38;
+  --color-brand-hover: #183828;
+  --color-accent: #527b36;
+  --color-text: #192824;
+  --color-muted: #637067;
+  --color-surface: #ffffff;
+  --color-surface-subtle: #f8faf5;
+  --color-surface-accent: #eaf1e2;
+  --color-border: #dfe6da;
+  --color-input-border: #b9c8b5;
+  --color-danger: #ac302c;
+  --color-danger-subtle: #fff0ed;
+  --color-focus: #527b36;
+  --font-family: Arial, sans-serif;
+  --font-size-small: 0.875rem;
+  --font-size-body: 1rem;
+  --font-size-heading: 1.5rem;
+  --font-weight-medium: 600;
+  --line-height-body: 1.6;
+  --radius-small: 8px;
+  --radius-control: 10px;
+  --radius-card: 18px;
+  --radius-pill: 999px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --control-height: 46px;
+  --control-padding-x: 20px;
+  --card-padding: 28px;
+  --focus-width: 3px;
+  --focus-offset: 3px;
+  --page-width: 1280px;
+  --page-gutter: 24px;
+}
+@media (max-width: 720px) { :root { --page-gutter: 14px; } }
