@@ -9,8 +9,8 @@ export default function EmployerLayout({ children }) {
         <Link className="employer-site-brand" href="/employers">
           {translate("brand.logo")}
         </Link>
-        <Link className="employer-site-outline" href="/register?accountType=employer">
-          {translate("entry.start")}
+        <Link className="employer-site-outline" href="/employers/vacancies/new">
+          {translate("employer.create")}
         </Link>
         <nav aria-label={translate("entry.guestMenu")}>
           <Link href="/register?mode=login&accountType=employer">
