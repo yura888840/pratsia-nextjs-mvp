@@ -119,3 +119,18 @@
 .ev-description p { white-space: pre-wrap; overflow-wrap: anywhere; margin-top: 12px; }
 @media(max-width:900px) { .ev-editor-layout { grid-template-columns: 1fr; } .ev-aside { position: static; } .ev-aside ul { display: none; } .ev-stats { grid-template-columns: 1fr 1fr; } .ev-stat-note { grid-column: 1 / -1; } }
 @media(max-width:600px) { .ev-heading { align-items: flex-start; flex-direction: column; } .ev-nav { gap: 22px; } .ev-nav > span { display: none; } .ev-fields { grid-template-columns: 1fr; } .ev-card { padding: 20px; border-radius: 14px; } .ev-heading h1 { font-size: 30px; } .ev-card-top { flex-wrap: wrap; } .ev-stats { gap: 10px; } .ev-stats .ev-card { padding: 18px; } }
+
+.ev-public-login { margin-top: 18px !important; text-align: center; font-size: 15px !important; }
+.ev-public-login a { color: #234b38; text-decoration: underline; }
+.ev-public-benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 16px 0 32px; }
+.ev-public-benefits article { padding: 28px; border: 1px solid #dfe6da; border-radius: 18px; background: #f8faf5; }
+.ev-public-benefits article > span { color: #527b36; font-size: 14px; font-weight: 700; }
+.ev-public h2 { font-size: 23px; font-weight: 700; margin: 16px 0 12px; line-height: 1.3; }
+.ev-public-benefits p,.ev-public-banner p { line-height: 1.7; color: #637067; }
+.ev-public-banner { padding: 32px; background: #eaf1e2; border-radius: 20px; display: flex; align-items: center; justify-content: space-between; gap: 28px; margin-bottom: 32px; }
+.ev-public-banner h2 { margin-top: 0; }
+.ev-public-banner a { border-radius: 30px; background: #234b38; color: white; padding: 16px 24px; white-space: nowrap; font-weight: 600; }
+.ev-public-account-note { padding: 16px; border-radius: 12px; background: #f1f5ec; line-height: 1.6; }
+.employer-site-logout { cursor: pointer; background: transparent; border: 0; font: inherit; color: inherit; }
+.employer-site-logout:disabled { opacity: .6; cursor: wait; }
+@media(max-width:760px) { .ev-public-benefits { grid-template-columns: 1fr; } .ev-public-banner { flex-direction: column; align-items: flex-start; padding: 24px; } .ev-public-banner a { white-space: normal; } }

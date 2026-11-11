@@ -2,13 +2,13 @@
 
 Based on main `eb31302d2127aef889fa10227691b9c82e8c0ed7`. Routes:
 
-- `/employers`: overview and draft counts.
+- `/employers`: public promotional landing for guests/candidates; overview and draft counts for authenticated employers.
 - `/employers/vacancies`: searchable list, draft/example filters, empty state.
 - `/employers/vacancies/new`: creation, local draft save, validated preview.
 - `/employers/vacancies/[id]`: full vacancy preview.
 - `/employers/vacancies/[id]/edit`: edit a draft or copy the example.
 
-This is an explicitly labelled public UI prototype. Drafts are browser-local, shared by anyone using that browser profile, and never sent to the jobs API or candidate search. Avoid entering real contacts on shared devices. The example uses fictional company details. Existing registration, candidate routes, server authorization, database and shared footer remain in place. No paid plans, simulated publication, email delivery, chat, maps, AI generation or invented applicant statistics.
+The workspace is an explicitly labelled UI prototype restricted server-side to authenticated accounts with `accountType=employer`. Every vacancy page uses the shared server guard; guests are redirected to employer login and candidates to the public employer landing. Auth return URLs allow the exact `/employers` destination. Drafts are browser-local and keyed by the authenticated account ID; the former anonymous storage key is deliberately not imported because ownership cannot be established. Browser storage is not encrypted and remains readable through developer tools on a shared device. Drafts are never sent to the jobs API or candidate search. Avoid entering real contacts on shared devices. The example uses fictional company details. Existing registration, candidate routes, server authorization, database and shared footer remain in place. No paid plans, simulated publication, email delivery, chat, maps, AI generation or invented applicant statistics.
 
 Screenshots informed the grouped form, salary range, employment/work format, description, benefits, contacts, completion indicator and preview. The design uses the existing Pratsia green palette and responsive layouts. Plain text descriptions are rendered as text, not HTML. Preview requires core matching/content fields; incomplete drafts can be saved.
 

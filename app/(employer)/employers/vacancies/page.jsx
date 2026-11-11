@@ -1,2 +1,3 @@
-import { EmployerWorkspace } from "../../../../components/employer/workspace.jsx";
-export default function Page() { return <EmployerWorkspace mode="list" />; }
+import { ProtectedEmployerWorkspace } from "../../../../components/employer/protected-workspace.jsx";
+export const dynamic = "force-dynamic";
+export default function Page() { return <ProtectedEmployerWorkspace mode="list" />; }

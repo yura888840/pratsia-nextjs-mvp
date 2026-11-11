@@ -31,3 +31,11 @@ test('preview validates range, required matching fields and optional email while
   assert.ok(validateVacancy({ ...emptyVacancy(), contactEmail: 'invalid' }).contactEmail);
   assert.equal(validateVacancy(emptyVacancy()).salaryMin, undefined);
 });
+
+import { canUseEmployerFeatures, employerStorageKey } from '../domains/employer/access.js';
+test('employer workspace requires an authenticated employer and partitions local drafts by account', () => {
+  for (const user of [null, {}, { accountType: 'employer' }, { userId: 'c', accountType: 'candidate' }, { userId: 'a', isAdmin: true }]) assert.equal(canUseEmployerFeatures(user), false);
+  assert.equal(canUseEmployerFeatures({ userId: 'e', accountType: 'employer' }), true);
+  assert.notEqual(employerStorageKey('e1'), employerStorageKey('e2'));
+  assert.notEqual(employerStorageKey('e1'), 'pratsia.employer.prototype.v1');
+});
