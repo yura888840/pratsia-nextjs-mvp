@@ -34,10 +34,12 @@ The Go candidate-matching service has no client or protocol in this version. An 
 
 Applicant and employer actions require a session for that workflow. Verified administrators use the moderation workflow independently of their registration account type. Guests can read published vacancies. All public job lists and the job embedded in application history use the explicit field list in `common/contracts/public-job-v1.js`.
 
-The legacy `/api/platform` client receives the same outer keys with empty defaults for inactive workflows. New clients should use their workflow endpoint and `/api/jobs` for public search. Run `npm run test:extraction` to compile each role's route group in a temporary host containing only that workflow, common, core and host assets.
+The legacy `/api/platform` client receives the same outer keys with empty defaults for inactive workflows. New clients should use their workflow endpoint and `/api/jobs` for public search. Run `npm run test:extraction` to build and start each workflow in a temporary host with its own migrated database and shared sign-in endpoint. Each host checks guest and cross-role access, then signs in to save a profile, publish a vacancy or approve a pending vacancy.
 
 ## Retirement and persistence
 
 The unmounted `app/_platform/` UI is deprecated as of this PR. Remove it in the next minor release after the search, applicant, employer and moderator entry points pass HTTP regression tests. Retire the compatibility endpoint separately after all deployed consumers migrate to the workflow endpoints.
 
 Employer draft saves stay on the current browser under the employer's account-scoped key. Editing or reloading a draft does not publish it. The server publish command validates the payload and creates a pending SQLite job. Drafts have no server ID or cross-device synchronization. See [the employer workspace guide](../docs/employer-workspace.md).
+
+The employer workspace uses `employer/repositories/drafts.js` for account-scoped browser persistence. Server commands use `employer/server/vacancy-repository.js` for owned vacancies. The proposed matching port and versioned result type live in `employer/contracts/candidate-matching.ts`; transport and visibility enforcement are tracked in #28.

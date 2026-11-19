@@ -6,9 +6,9 @@ import { translate as t, formatNumber } from '../../common/i18n/index.js';
 import { cities, experienceLevels, schedules } from '../../common/catalog/job-options.js';
 import { occupations } from '../../common/catalog/occupations.js';
 import { workFormats } from '../../common/catalog/matching-attributes.js';
-import { emptyVacancy, exampleVacancies, validateVacancy, completeness, readDrafts } from './vacancy-model.js';
+import { emptyVacancy, exampleVacancies, validateVacancy, completeness } from '../vacancies/model.js';
 
-import { employerStorageKey } from '../access.js';
+import { listDrafts, saveDraft } from '../repositories/drafts.js';
 
 const base = '/employers/vacancies';
 function Salary({ vacancy }) {
@@ -29,7 +29,6 @@ function VacancyCard({ vacancy, full = false }) {
   </Card>;
 }
 export function EmployerWorkspace({ mode = 'home', id, userId }) {
-  const storageKey = employerStorageKey(userId);
   const [drafts, setDrafts] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [storageError, setStorageError] = useState('');
@@ -40,10 +39,10 @@ export function EmployerWorkspace({ mode = 'home', id, userId }) {
   const [message, setMessage] = useState('');
   const [preview, setPreview] = useState(false);
   useEffect(() => {
-    try { setDrafts(readDrafts(localStorage.getItem(storageKey))); }
+    try { setDrafts(listDrafts(userId)); }
     catch { setStorageError(t('employer.storageError')); }
     setLoaded(true);
-  }, [storageKey]);
+  }, [userId]);
   const all = [...drafts, ...exampleVacancies()];
   const selected = all.find(item => item.id === id);
   useEffect(() => {
@@ -57,9 +56,12 @@ export function EmployerWorkspace({ mode = 'home', id, userId }) {
   }, [message]);
   function update(key, value) { setVacancy(current => ({ ...current, [key]: value })); setMessage(''); }
   function save() {
-    const saved = { ...vacancy, id: vacancy.status === 'draft' ? vacancy.id : crypto.randomUUID(), status: 'draft' };
-    const next = [saved, ...drafts.filter(item => item.id !== saved.id)];
-    try { localStorage.setItem(storageKey, JSON.stringify(next)); setDrafts(next); setVacancy(saved); setMessage(t('employer.saved')); }
+    try {
+      const { saved, drafts } = saveDraft(userId, vacancy);
+      setDrafts(drafts);
+      setVacancy(saved);
+      setMessage(t('employer.saved'));
+    }
     catch { setMessage(t('employer.saveError')); }
   }
   function showPreview() {

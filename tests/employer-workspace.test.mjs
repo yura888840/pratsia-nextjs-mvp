@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { vacancyMatchingAttributes, resumeMatchingAttributes, normalizeSkills } from '../common/catalog/matching-attributes.js';
-import { emptyVacancy, readDrafts, validateVacancy } from '../employer/components/vacancy-model.js';
+import { emptyVacancy, readDrafts, validateVacancy } from '../employer/vacancies/model.js';
 import { catalogValue } from '../common/i18n/index.js';
 
 test('separate vacancy and resume records share comparable attributes without inventing missing resume preferences', () => {
