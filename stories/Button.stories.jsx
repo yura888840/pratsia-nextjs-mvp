@@ -1,4 +1,4 @@
-import { Button, LinkButton } from '../components/ui/index.jsx';
+import { Button, LinkButton } from '../common/ui/index.jsx';
 import { expect, fn, userEvent, within } from 'storybook/test';
 export default {
   title: 'UI/Button', component: Button,

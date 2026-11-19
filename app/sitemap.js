@@ -1,5 +1,5 @@
-import { getSqlite } from "../db/connection.js";
-import { siteOrigin } from "../lib/seo.js";
+import { getSqlite } from "../core/db/connection.js";
+import { siteOrigin } from "../common/seo.js";
 export const dynamic = "force-dynamic";
 export default function sitemap() {
   const origin = siteOrigin();

@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { DEFAULT_FILTERS, filterJobs } from '../components/platform/jobs/search.js';
-import { parseArray } from '../components/platform/candidate/profile.js';
-import { catalogValue } from '../i18n/index.js';
+import { DEFAULT_FILTERS, filterJobs } from '../applicant/jobs/search.js';
+import { parseArray } from '../applicant/profile/profile.js';
+import { catalogValue } from '../common/i18n/index.js';
 
 const now = Date.parse('2026-11-07T12:00:00Z');
 const vacancy = {

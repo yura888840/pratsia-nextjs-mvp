@@ -1,6 +1,6 @@
-import { safeAuthReturnTo } from "../../../../lib/auth-redirect.js";
+import { safeAuthReturnTo } from "../../../../core/auth/auth-redirect.js";
 import { cookies } from "next/headers";
-import { translate } from "../../../../i18n/index.js";
+import { translate } from "../../../../common/i18n/index.js";
 import {
   object as objectSchema,
   enum as enumSchema,
@@ -13,7 +13,7 @@ import {
   deleteSession,
   emailRateLimitKey,
   registerAccount,
-} from "../../../../lib/auth.js";
+} from "../../../../core/auth/auth.js";
 
 const SESSION_COOKIE_NAME = "pratsia_session";
 const SESSION_MAX_AGE_SECONDS = 7 * 24 * 60 * 60;

@@ -39,6 +39,13 @@ const adminEmail=`admin-${stamp}@example.invalid`;
 const admin=await request('/api/auth',{action:'register',email:adminEmail,name:'Test admin',password});
 // Test fixture only. Never run this test against a working database.
 db.prepare("UPDATE accounts SET role='admin',email_verified_at=? WHERE email=?").run(Date.now(),adminEmail);
+for (const [cookie, permitted] of [['', false], [owner.cookie, false], [admin.cookie, true]]) {
+ const response = await fetch(base + '/admin', { headers: { cookie } });
+ const html = await response.text();
+ assert.equal(html.includes('class="dashboard"'), permitted);
+ if (permitted) assert.equal(response.status, 200);
+ checks++;
+}
 const queue=await request('/api/moderation?scope=pending',null,admin.cookie);assert.ok(queue.data.jobs.some(j=>j.id===published.data.id));
 await request('/api/moderation',{action:'restore',jobId:published.data.id,reason:'Перевірено тестом'},owner.cookie,403);
 await request('/api/moderation',{action:'restore',jobId:published.data.id,reason:'Перевірено тестом'},admin.cookie);

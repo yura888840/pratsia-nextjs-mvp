@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { normalizeSearchFilters } from '../domains/vacancy/search-filters.js';
-import { createVacancy, selectVacancies } from '../domains/vacancy/model.js';
-import { catalogValue } from '../i18n/index.js';
+import { normalizeSearchFilters } from '../applicant/vacancies/search-filters.js';
+import { createVacancy, selectVacancies } from '../applicant/vacancies/model.js';
+import { catalogValue } from '../common/i18n/index.js';
 const make = (id, fields={}) => createVacancy({id,title:'Developer',company:'Example',category:'it',partTime:true,salaryMin:20000,salaryMax:40000,arrangement:catalogValue('catalog.remote'),experience:catalogValue('catalog.noExperience'),...fields});
 test('results filters combine employment, category, pay and flags with AND', () => {
  const jobs=[make('match'),make('office',{arrangement:'office'}),make('experienced',{experience:'experienced'}),make('full',{partTime:false}),make('other',{category:'sales'}),make('low',{salaryMax:25000}),make('currency',{currency:'USD'})];

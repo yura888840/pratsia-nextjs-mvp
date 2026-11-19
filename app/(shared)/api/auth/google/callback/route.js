@@ -1,16 +1,16 @@
-import { safeAuthReturnTo } from "../../../../../../lib/auth-redirect.js";
+import { safeAuthReturnTo } from "../../../../../../core/auth/auth-redirect.js";
 import { cookies } from "next/headers";
 import {
   googleClient,
   consumeGoogleFlow,
   googleAccount,
   googleFlowCookie,
-} from "../../../../../../lib/google-auth.js";
+} from "../../../../../../core/auth/google-auth.js";
 import {
   authCookieOptions,
   sessionCookieName,
-} from "../../../../../../lib/auth-cookies.js";
-import { createSession, deleteSession } from "../../../../../../lib/auth.js";
+} from "../../../../../../core/auth/auth-cookies.js";
+import { createSession, deleteSession } from "../../../../../../core/auth/auth.js";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export async function GET(request) {

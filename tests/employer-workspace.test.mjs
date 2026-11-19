@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { vacancyMatchingAttributes, resumeMatchingAttributes, normalizeSkills } from '../lib/matching-attributes.js';
-import { emptyVacancy, readDrafts, validateVacancy } from '../components/employer/vacancy-model.js';
-import { catalogValue } from '../i18n/index.js';
+import { vacancyMatchingAttributes, resumeMatchingAttributes, normalizeSkills } from '../common/catalog/matching-attributes.js';
+import { emptyVacancy, readDrafts, validateVacancy } from '../employer/components/vacancy-model.js';
+import { catalogValue } from '../common/i18n/index.js';
 
 test('separate vacancy and resume records share comparable attributes without inventing missing resume preferences', () => {
   const common = { occupation: '  Юрист ', skills: 'Право, право; Аналіз', city: ' Київ ', experience: catalogValue('catalog.noExperience'), schedule: catalogValue('catalog.fullTime') };
@@ -32,7 +32,7 @@ test('preview validates range, required matching fields and optional email while
   assert.equal(validateVacancy(emptyVacancy()).salaryMin, undefined);
 });
 
-import { canUseEmployerFeatures, employerStorageKey } from '../domains/employer/access.js';
+import { canUseEmployerFeatures, employerStorageKey } from '../employer/access.js';
 test('employer workspace requires an authenticated employer and partitions local drafts by account', () => {
   for (const user of [null, {}, { accountType: 'employer' }, { userId: 'c', accountType: 'candidate' }, { userId: 'a', isAdmin: true }]) assert.equal(canUseEmployerFeatures(user), false);
   assert.equal(canUseEmployerFeatures({ userId: 'e', accountType: 'employer' }), true);

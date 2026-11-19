@@ -14,7 +14,7 @@ Screenshots informed the grouped form, salary range, employment/work format, des
 
 ## Shared matching contract
 
-`lib/matching-attributes.js` adapts **separate** vacancy (`jobs`) and resume (`profiles`) models to a common read model. It does not merge records or introduce a matching score.
+`common/catalog/matching-attributes.js` adapts **separate** vacancy (`jobs`) and resume (`profiles`) models to a common read model. It does not merge records or introduce a matching score.
 
 | Attribute | Vacancy source | Resume source | Contract |
 | --- | --- | --- | --- |

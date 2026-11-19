@@ -1,4 +1,4 @@
-import { translate } from "../../../../../i18n/index.js";
+import { translate } from "../../../../../common/i18n/index.js";
 // Reconstructed from production build. Names/types not present in the build cannot be recovered exactly.
 import {
   discriminatedUnion as discriminatedUnionSchema,
@@ -12,7 +12,7 @@ import {
   emailRateLimitKey,
   createPasswordReset,
   deletePasswordReset,
-} from "../../../../../lib/auth.js";
+} from "../../../../../core/auth/auth.js";
 import * as fsPromises from "node:fs/promises";
 import { constants } from "node:fs";
 import * as childProcesses from "node:child_process";

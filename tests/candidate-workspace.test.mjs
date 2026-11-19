@@ -4,14 +4,14 @@ import {
   createResume,
   resumeFromText,
   resumeFields,
-} from "../domains/resume/model.js";
+} from "../applicant/resume/model.js";
 import {
   emptyCandidateState,
   applyToVacancy,
   restoreCandidateState,
-} from "../domains/candidate/state.js";
-import { mockVacancies } from "../domains/vacancy/mocks.js";
-import { selectVacancies } from "../domains/vacancy/model.js";
+} from "../applicant/state.js";
+import { mockVacancies } from "../applicant/vacancies/mocks.js";
+import { selectVacancies } from "../applicant/vacancies/model.js";
 
 test("manual and PDF resumes have the same flat shape; ambiguous PDF fields are not guessed", () => {
   const imported = resumeFromText(
@@ -119,7 +119,7 @@ function textPdf(lines = []) {
 test("PDF extraction produces the shared resume record and rejects empty/oversized documents", async () => {
   const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
   const { readResumeDocument, importResumePdf } =
-    await import("../domains/resume/pdf.js");
+    await import("../applicant/resume/pdf.js");
   const task = getDocument({
     data: textPdf([
       "Full name: Jane Doe",
@@ -160,7 +160,7 @@ test("PDF extraction produces the shared resume record and rejects empty/oversiz
 });
 
 test('resume/application access requires a candidate session; browser state is scoped by account', async () => {
-  const { canUseCandidateFeatures, candidateStorageKey } = await import('../domains/candidate/access.js');
+  const { canUseCandidateFeatures, candidateStorageKey } = await import('../applicant/access.js');
   assert.equal(canUseCandidateFeatures(null), false);
   assert.equal(canUseCandidateFeatures({ accountType: 'candidate' }), false);
   assert.equal(canUseCandidateFeatures({ userId: 'employer', accountType: 'employer' }), false);
@@ -170,8 +170,8 @@ test('resume/application access requires a candidate session; browser state is s
 });
 
 test('guest quick filters use vacancy attributes and combine with search/location', async () => {
-  const { quickFilters } = await import('../domains/vacancy/filters.js');
-  const { createVacancy } = await import('../domains/vacancy/model.js');
+  const { quickFilters } = await import('../applicant/vacancies/filters.js');
+  const { createVacancy } = await import('../applicant/vacancies/model.js');
   for (const quickFilter of quickFilters.filter(Boolean)) {
     const result = selectVacancies(mockVacancies, { quickFilter });
     assert.ok(result.length > 0, quickFilter);

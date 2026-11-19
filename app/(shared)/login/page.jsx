@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
-import { safeAuthReturnTo } from "../../../lib/auth-redirect.js";
-import { getCurrentUser } from "../../../lib/session.js";
+import { safeAuthReturnTo } from "../../../core/auth/auth-redirect.js";
+import { getCurrentUser } from "../../../core/auth/session.js";
 export const dynamic = "force-dynamic";
 export default async function LoginPage({ searchParams }) {
   const params = await searchParams;

@@ -1,4 +1,4 @@
-import { Field, Input, Select, Textarea } from '../components/ui/index.jsx';
+import { Field, Input, Select, Textarea } from '../common/ui/index.jsx';
 import { expect, userEvent, within } from 'storybook/test';
 export default { title: 'UI/Field', component: Field, args: { id: 'job-title', label: 'Назва вакансії', hint: 'Наприклад, юрист із договірного права', required: true }, render: args => <div style={{maxWidth:480}}><Field {...args}><Input name="title" placeholder="Кого ви шукаєте?" /></Field></div> };
 export const Default = { play: async ({ canvasElement }) => { const input = within(canvasElement).getByRole('textbox', { name: 'Назва вакансії' }); await userEvent.type(input, 'Юрист'); await expect(input).toHaveValue('Юрист'); await expect(input).toHaveAccessibleDescription('Наприклад, юрист із договірного права'); } };

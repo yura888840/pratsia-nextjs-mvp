@@ -6,9 +6,9 @@ import path from 'node:path';
 const dir=mkdtempSync(path.join(tmpdir(),'pratsia-mvp-test-'));
 process.env.PRATSIA_DATA_DIR=dir;
 const {migrate}=await import('../scripts/migrate-local.mjs');
-const {getSqlite}=await import('../db/connection.js');
-const {submitApplication}=await import('../lib/applications.js');
-const {jobPosting,isPublicJob}=await import('../lib/seo.js');
+const {getSqlite}=await import('../core/db/connection.js');
+const {submitApplication}=await import('../applicant/server/applications.js');
+const {jobPosting,isPublicJob}=await import('../common/seo.js');
 test('applications are private snapshots; retries cannot duplicate or replace them; unavailable jobs reject writes',()=>{
  try{
  migrate();const db=getSqlite();
