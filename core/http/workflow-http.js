@@ -1,9 +1,8 @@
-import { translate } from "../i18n/index.js";
-import { getCurrentUser } from "../../core/auth/session.js";
-import { isAllowedOrigin } from "../../core/http/origin.js";
-import { jsonNoStore } from "../../core/http/json.js";
+import { getCurrentUser } from "../auth/session.js";
+import { isAllowedOrigin } from "./origin.js";
+import { jsonNoStore } from "./json.js";
 
-export async function getWorkflowState(readState) {
+export async function getWorkflowState(translate, readState) {
   try {
     const user = await getCurrentUser();
     return await readState(user);
@@ -13,7 +12,7 @@ export async function getWorkflowState(readState) {
   }
 }
 
-export async function postWorkflowAction(request, handleAction) {
+export async function postWorkflowAction(translate, request, handleAction) {
   if (!isAllowedOrigin(request))
     return jsonNoStore(
       {

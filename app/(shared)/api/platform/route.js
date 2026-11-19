@@ -1,3 +1,4 @@
+import { translate } from "../../../../common/i18n/index.js";
 import { getDatabase } from "../../../../core/db/index.js";
 import { jsonNoStore } from "../../../../core/http/json.js";
 import { listPublicJobs, readApplicantState } from "../../../../applicant/server/platform-state.js";
@@ -6,10 +7,10 @@ import { handleApplicantAction } from "../../../../applicant/server/actions.js";
 import { employerActions, handleEmployerAction } from "../../../../employer/server/actions.js";
 
 import { workflowRole } from "../../../../core/auth/permissions.js";
-import { getWorkflowState, postWorkflowAction } from "../../../../common/server/workflow-http.js";
+import { getWorkflowState, postWorkflowAction } from "../../../../core/http/workflow-http.js";
 
 export function GET() {
-  return getWorkflowState(async user => {
+  return getWorkflowState(translate, async user => {
     const db = getDatabase();
     const role = workflowRole(user);
     const jobs = await listPublicJobs(db);
@@ -24,7 +25,7 @@ export function GET() {
 }
 
 export function POST(request) {
-  return postWorkflowAction(request, (user, payload) =>
+  return postWorkflowAction(translate, request, (user, payload) =>
     employerActions.has(payload?.action) ? handleEmployerAction(user, payload) : handleApplicantAction(user, payload));
 }
 

@@ -26,7 +26,7 @@ test('workflow code can be extracted without importing another workflow or the N
         if (packages.has(pkg)) return;
         assert.ok(source.startsWith('.'), file + ': unsupported alias ' + source);
         const target = path.normalize(path.join(path.dirname(file), source)).split(path.sep)[0];
-        const allowed = file.startsWith('common/server/') ? [owner, 'core'] : [owner, ...shared];
+        const allowed = [owner, ...shared];
         assert.ok(allowed.includes(target), file + ' imports ' + source);
       }
       if (name.endsWith('.css')) {

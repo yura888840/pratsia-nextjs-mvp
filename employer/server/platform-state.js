@@ -1,13 +1,10 @@
-import { desc, eq } from "drizzle-orm";
+import { listOwnedVacancies } from "./vacancy-repository.js";
+import { eq } from "drizzle-orm";
 import { jobs, applications } from "../../core/db/schema.js";
 
 export async function readEmployerState(connection, userId) {
   const [myJobs, incoming] = await Promise.all([
-    connection
-      .select()
-      .from(jobs)
-      .where(eq(jobs.ownerId, userId))
-      .orderBy(desc(jobs.createdAt)),
+    listOwnedVacancies(connection, userId),
     connection
       .select({
         application: applications,
