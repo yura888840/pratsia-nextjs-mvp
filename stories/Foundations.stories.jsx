@@ -1,4 +1,4 @@
-import { Card, Button, Field, Input } from '../components/ui/index.jsx';
+import { Card, Button, Field, Input } from '../common/ui/index.jsx';
 const colors = ['brand','brand-hover','accent','text','muted','surface','surface-subtle','surface-accent','border','input-border','danger','danger-subtle','focus'];
 export default { title: 'Foundations/Design tokens', parameters: { docs: { description: { component: 'Source of truth: styles/tokens.css. The application and Storybook import the same tokens and UI styles. Change semantic variables there to update all migrated components. Legacy styles are being migrated incrementally.' } } } };
 export const Palette = { render: () => <div className="story-grid story-tokens">{colors.map(color => <Card key={color}><div className="story-swatch" style={{background:`var(--color-${color})`}}/><strong>{color}</strong><code>{`--color-${color}`}</code></Card>)}</div> };

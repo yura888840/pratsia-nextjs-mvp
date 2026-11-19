@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { informationPages } from "../../../components/site-footer/pages.js";
-import { translate } from "../../../i18n/index.js";
+import { informationPages } from "../../../common/site-footer/pages.js";
+import { translate } from "../../../common/i18n/index.js";
 export function generateStaticParams() { return Object.keys(informationPages).map((slug) => ({ slug })); }
 export async function generateMetadata({ params }) {
   const { slug } = await params;

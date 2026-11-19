@@ -1,101 +1,43 @@
-# App business domains
+# Workflow modules
 
-Next.js route groups organize routes by business domain without changing public URLs.
+The Next.js host serves one deployment. Route groups in `app/` preserve public URLs and select a workflow's pages and request handlers. The account type stored in sessions and API payloads is still `candidate`.
 
-| Directory | Responsibility | Routes |
+| Module | Owns | Entry points |
 | --- | --- | --- |
-| `(candidate)` | Job discovery and public employer profiles for job seekers | `/`, `/jobs/[id]`, `/companies/[id]`, `/api/jobs` |
-| `(employer)` | Employer onboarding, workspace, and company management | `/employers`, `/employer`, `/api/company` |
-| `(moderator)` | Moderation queue and decisions | `/api/moderation` |
-| `(shared)` | Authentication and cross-domain platform state/actions | `/api/auth`, `/api/auth/recovery`, `/api/platform` |
-| `_shared` | Shared client platform shell | No routes |
+| `applicant/` | Job search, recommendations, public job and company pages, resume editing and PDF import, favorites, saved searches and applications | `/`, `/search`, `/account`, `/recommended`, `/cv-welcome`, `/api/jobs` |
+| `employer/` | Employer landing and workspace, vacancy drafts, publication, company profile and incoming applications | `/employers`, `/employers/vacancies`, `/api/company` |
+| `admin/` | Verified moderator queue, job approval, blocking, report resolution and decision history | `/admin`, `/api/moderation` |
+| `common/` | Reusable UI, styles, translations, catalog, shared resume display and matching attributes | Imported by modules and host |
+| `core/` | SQLite connections and schema, authentication, sessions and HTTP helpers | Server infrastructure |
 
-The root layout, global styles, robots and sitemap remain at the app root.
-Domain-specific routes belong inside their domain group. Shared code that is
-not a route belongs in `_shared`; the underscore makes it a Next.js private folder.
+Workflow modules may import their own code, common and core. Neither shared layer imports a workflow. Only the host composes multiple workflows. The retained legacy platform shell and controller live in `app/_platform/`.
 
-The platform shell still composes candidate, employer and moderation views
-from `components/platform` with the shared controller. Moderation currently
-opens inside that shell; there is no standalone moderator page. The platform
-API serves multiple roles, so it remains shared rather than belonging to a
-single domain. Route groups organize source files; existing server-side role
-checks remain responsible for authorization.
+## Server and storage contracts
 
-## Candidate prototype
+`/api/platform` authenticates requests and adapts the existing HTTP contract to the applicant and employer modules. Each module owns its queries, action validation and write authorization. Moderation has a separate endpoint and verifies the moderator role on the server. Shared sign-in and registration routes live in `app/(shared)/`.
 
-The candidate layout wraps every candidate page in the same search/navigation
-shell (`components/candidate`). `/` defaults to vacancy search. `?view=profile`,
-`?view=saved`, and `?view=applications` select the resume, favorites and applied
-lists. The last two lists select IDs from the same vacancy collection and use
-the same `VacancyList`/`VacancyActions` components. `/jobs/demo-*` opens a mock
-vacancy inside the same shell. Existing published vacancy URLs remain supported.
+Candidate resume/favorite/application demo state and employer vacancy drafts keep their existing browser storage keys. The server-backed endpoints continue to use the shared SQLite schema and migrations. Published jobs and incoming applications therefore still share a database across workflows.
 
-`domains/resume/model.js` defines a flat resume record. Manual entry and PDF
-import use this same model. PDF.js extracts text locally; explicitly labelled
-fields and email are populated for review, and the full source text is kept in
-`about`. Unlabelled data must be reviewed manually. Scanned PDFs need OCR, which
-is not included. Files are limited to 10 MB / 30 pages and are never uploaded.
+## Extracting a workflow
 
-`domains/vacancy/model.js` defines a separate vacancy record;
-`domains/vacancy/mocks.js` adapts the fictional seed data. Search covers job title,
-profession, company and skills. The prototype stores a resume, favorite IDs and
-application records (with a resume snapshot) in versioned browser localStorage.
-It does not send applications, and does not use the signed-in account's server
-profile. The interface explicitly marks this demonstration mode. Production
-persistence can replace the provider without changing either model or list UI.
+Move its module and corresponding route group into a new Next.js host. Supply the shared UI and infrastructure dependencies, root layout/global styles, authentication routes and any existing API contracts used by its client. A separate deployment also needs an explicit session and persistence strategy. The combined platform endpoint is the compatibility boundary for existing clients.
 
-The public employer entry page is `/employers`; `/employer` redirects there.
-Existing employer APIs and backend authorization remain intact; the full
-employer dashboard is still paused. The legacy platform shell is retained but no longer
-mounted by the home page.
+The Go candidate-matching service has no client or protocol in this version. An employer-side adapter can consume it when its contract is available. CV sharing, CV moderation and account activation/deactivation also require new product and persistence behavior.
 
-Resume editing and the application list require a server-validated candidate
-session. Guests see `Створити резюме`, which opens registration/sign-in with the
-candidate role preselected. Direct private-view URLs redirect guests to that
-registration page and employer accounts to `/`. Menu entries and local resume /
-application mutations use the same role check; the profile API also rejects
-employer writes. Browser demo storage is scoped by account ID (v2), with a
-separate guest store for public favorites. The old unscoped v1 prototype record
-is not automatically assigned to an account.
+## Workflow API contracts
 
-The candidate's name in the right-hand header links to `/account`. This protected
-account page keeps the shared header/search and places its navigation on the
-left below that shared area. Sections `profile`, `saved`, and `applications`
-reuse the resume editor and vacancy lists. Legacy `/?view=...` links redirect
-signed-in candidates to the corresponding account section. Guests keep public
-search/favorites and the registration entry; employer accounts cannot open the
-candidate account. On small screens the account menu stacks above the content.
+| Endpoint | GET | POST actions |
+| --- | --- | --- |
+| `/api/applicant` | Own profile, favorites, searches and submitted applications | profile, favorite, apply, saveSearch, deleteSearch, report |
+| `/api/employer` | Owned jobs and incoming applications | publish, editJob, jobStatus, applicationStatus |
+| `/api/moderation` | Verified moderator queue | hide, restore, dismiss |
 
-The employer section now has a separate route-group layout and stylesheet in
-`app/(employer)`. `/employers` is its minimal public starting page; `/employer`
-redirects there. Guest headers link between candidate and employer sections.
-The candidate guest header offers login, registration, and the employer site,
-aligned right. `/register?mode=login` opens the existing form in login mode;
-links from employer pages preserve the employer role default for registration.
-The employer dashboard and publication UI are not enabled by this entry page.
+Applicant and employer actions require a session for that workflow. Verified administrators use the moderation workflow independently of their registration account type. Guests can read published vacancies. All public job lists and the job embedded in application history use the explicit field list in `common/contracts/public-job-v1.js`.
 
-On the anonymous home page, `GuestSearch` replaces the standard form with a
-combined query/location field, a separate submit button, and eight quick-filter
-chips. Chips submit the current query and location with one active `filter`
-value; the main submit preserves that selection. The location selector offers
-Ukraine, other countries, and cities from the mock collection. All current mocks
-are Ukrainian, so other-country searches correctly return an empty list. Mock
-eligibility flags are fictional UI fixtures, not verified employer claims.
-Authenticated pages retain the standard search form. The redundant candidate
-site label beside the logo has been removed.
+The legacy `/api/platform` client receives the same outer keys with empty defaults for inactive workflows. New clients should use their workflow endpoint and `/api/jobs` for public search. Run `npm run test:extraction` to compile each role's route group in a temporary host containing only that workflow, common, core and host assets.
 
-The guest header now has two actions: `Рекомендовані` and `Створити резюме`.
-`/recommended` requires a candidate session; `/login?returnTo=/recommended`
-opens login and returns to that page after authentication. Email/password and
-Google both carry an allowlisted destination (migration 0009 adds it to the
-server-side OAuth flow), including across a canceled Google attempt. External
-or unsupported destinations fall back to `/`.
+## Retirement and persistence
 
-`/cv-welcome` is a public introduction with the shared header and a dedicated
-hero instead of the search block. Its illustration is responsive HTML/CSS.
-The create action opens candidate registration, then the resume editor; existing
-candidate sessions go directly to the editor. The page describes manual/PDF
-entry without fabricated user counts or testimonials. The employer-site link
-remains available in the footer. Recommendations currently use the local resume
-profession to filter demo vacancies, with an explicitly described general
-selection when no profession matches.
+The unmounted `app/_platform/` UI is deprecated as of this PR. Remove it in the next minor release after the search, applicant, employer and moderator entry points pass HTTP regression tests. Retire the compatibility endpoint separately after all deployed consumers migrate to the workflow endpoints.
+
+Employer draft saves stay on the current browser under the employer's account-scoped key. Editing or reloading a draft does not publish it. The server publish command validates the payload and creates a pending SQLite job. Drafts have no server ID or cross-device synchronization. See [the employer workspace guide](../docs/employer-workspace.md).

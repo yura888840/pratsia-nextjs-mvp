@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { createRequire } from 'node:module';
-import { createTranslator, translate, catalogValue, dictionaries, resolveLocale, formatNumber } from '../i18n/index.js';
+import { createTranslator, translate, catalogValue, dictionaries, resolveLocale, formatNumber } from '../common/i18n/index.js';
 const require = createRequire(import.meta.url);
 const babel = require('next/dist/compiled/babel/core');
 
@@ -23,10 +23,13 @@ test('translations interpolate values literally, fall back, and do not share loc
 
 function files(dir) { return readdirSync(dir, {withFileTypes:true}).flatMap(f => f.isDirectory() ? files(`${dir}/${f.name}`) : /\.(js|jsx)$/.test(f.name) ? [`${dir}/${f.name}`] : []); }
 test('application tokens exist and user-facing Cyrillic literals stay in dictionaries', () => {
- for (const file of ['app', 'components', 'lib'].flatMap(files)) {
+ for (const file of ['app', 'applicant', 'employer', 'admin', 'common', 'core'].flatMap(files)) {
   const ast = babel.parseSync(readFileSync(file, 'utf8'), {configFile:false,babelrc:false,parserOpts:{plugins:['jsx']}});
   babel.traverse(ast, {
-   StringLiteral(p) { if (p.parent.type === "VariableDeclarator" && p.parent.id.name === "SEARCH_UPPERCASE_ALPHABET") return; assert.ok(!/[\p{Script=Cyrillic}₴]/u.test(p.node.value), `${file}: untranslated literal ${p.node.value}`); },
+   StringLiteral(p) {
+    // PDF import recognizes source-language field labels in uploaded documents.
+    if (file === "applicant/resume/model.js" && p.findParent(node => node.isVariableDeclarator() && node.node.id.name === "labels")) return;
+    if (p.parent.type === "VariableDeclarator" && p.parent.id.name === "SEARCH_UPPERCASE_ALPHABET") return; assert.ok(!/[\p{Script=Cyrillic}₴]/u.test(p.node.value), `${file}: untranslated literal ${p.node.value}`); },
    JSXText(p) { assert.ok(!/[\p{L}\p{N}]/u.test(p.node.value), `${file}: untranslated JSX text`); },
    TemplateElement(p) { assert.ok(!/[\p{Script=Cyrillic}₴]/u.test(p.node.value.cooked), `${file}: untranslated template`); },
    CallExpression(p) {

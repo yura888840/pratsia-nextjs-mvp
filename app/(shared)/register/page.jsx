@@ -1,8 +1,8 @@
-import { safeAuthReturnTo } from "../../../lib/auth-redirect.js";
-import { RegistrationForm } from "../../../components/registration/registration-form.jsx";
-import { googleConfigured } from "../../../lib/google-auth.js";
-import { translate } from "../../../i18n/index.js";
-import "../../(candidate)/candidate.css";
+import { safeAuthReturnTo } from "../../../core/auth/auth-redirect.js";
+import { RegistrationForm } from "../../../common/registration/registration-form.jsx";
+import { googleConfigured } from "../../../core/auth/google-auth.js";
+import { translate } from "../../../common/i18n/index.js";
+import "../../../applicant/styles/candidate.css";
 import "./registration.css";
 export const dynamic = "force-dynamic";
 export const metadata = { robots: { index: false, follow: false } };

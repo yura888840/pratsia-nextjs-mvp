@@ -9,11 +9,11 @@ process.env.PRATSIA_ORIGIN = "http://localhost:3000";
 process.env.GOOGLE_CLIENT_ID = "test-client";
 process.env.GOOGLE_CLIENT_SECRET = "test-secret";
 const { migrate } = await import("../scripts/migrate-local.mjs");
-const { getSqlite } = await import("../db/connection.js");
+const { getSqlite } = await import("../core/db/connection.js");
 const { beginGoogleFlow, consumeGoogleFlow, googleAccount } =
-  await import("../lib/google-auth.js");
+  await import("../core/auth/google-auth.js");
 const { registerAccount, createSession, getSession, authenticate } =
-  await import("../lib/auth.js");
+  await import("../core/auth/auth.js");
 test("Google flows bind role, expire, require browser state and cannot be replayed; identities preserve role and refuse implicit email linking", async () => {
   try {
     migrate();

@@ -1,5 +1,7 @@
 # Праця — базовая версия 0.3
 
+[Workflow modules and extraction guide](app/README.md)
+
 Один проект **Next.js / React / SQLite**, созданный на основе переданного восстановленного архива. Интерфейс на украинском, оригинальный дизайн сохранён. Отдельного NestJS-сервиса нет. Видеозвонков нет. Деплой не настроен и не выполнялся.
 
 ## Что работает
@@ -60,6 +62,7 @@ npm run moderator -- grant your-email@example.com --mailbox-verified-by-operator
 ```bash
 npm test
 npm run build
+npx playwright-core install chromium
 npm run test:http
 ```
 
@@ -92,7 +95,7 @@ Production-сборка, 3 теста Node.js и 43 HTTP-проверки про
 
 ## Локализация
 
-Тексты находятся в `locales/uk.json`. Использование токенов и добавление языков: [docs/I18N.md](docs/I18N.md).
+Тексты находятся в `common/locales/uk.json`. Использование токенов и добавление языков: [docs/I18N.md](docs/I18N.md).
 
 ### Registration and Google OAuth
 

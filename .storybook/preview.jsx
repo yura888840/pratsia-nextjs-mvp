@@ -1,6 +1,6 @@
 import { MINIMAL_VIEWPORTS } from 'storybook/viewport';
-import '../styles/tokens.css';
-import '../components/ui/ui.css';
+import '../common/styles/tokens.css';
+import '../common/ui/ui.css';
 import './preview.css';
 
 export default {

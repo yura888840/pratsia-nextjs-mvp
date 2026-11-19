@@ -1,0 +1,22 @@
+// PublicJobV1 is shared by search, workspace state and application history.
+export const publicJobV1Fields = Object.freeze([
+  "id",
+  "title",
+  "company",
+  "occupation",
+  "category",
+  "country",
+  "city",
+  "arrangement",
+  "schedule",
+  "salaryMin",
+  "salaryMax",
+  "currency",
+  "experience",
+  "description",
+  "requirements",
+  "benefits",
+  "status",
+  "createdAt",
+  "expiresAt",
+]);

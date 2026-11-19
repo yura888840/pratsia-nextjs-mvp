@@ -6,8 +6,8 @@ import path from 'node:path';
 const dir=mkdtempSync(path.join(tmpdir(),'pratsia-recovery-test-'));
 process.env.PRATSIA_DATA_DIR=dir;
 const {migrate}=await import('../scripts/migrate-local.mjs');
-const auth=await import('../lib/auth.js');
-const {getSqlite}=await import('../db/connection.js');
+const auth=await import('../core/auth/auth.js');
+const {getSqlite}=await import('../core/db/connection.js');
 test('migrations are repeatable; password reset is single-use and revokes sessions',async()=>{
  try {
   migrate();migrate();

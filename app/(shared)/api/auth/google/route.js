@@ -3,10 +3,10 @@ import {
   beginGoogleFlow,
   googleFlowCookie,
   googleConfigured,
-} from "../../../../../lib/google-auth.js";
-import { authCookieOptions } from "../../../../../lib/auth-cookies.js";
-import { isAllowedOrigin } from "../../../../../lib/validation.js";
-import { checkRateLimit } from "../../../../../lib/auth.js";
+} from "../../../../../core/auth/google-auth.js";
+import { authCookieOptions } from "../../../../../core/auth/auth-cookies.js";
+import { isAllowedOrigin } from "../../../../../core/http/origin.js";
+import { checkRateLimit } from "../../../../../core/auth/auth.js";
 export const runtime = "nodejs";
 export async function POST(request) {
   if (!isAllowedOrigin(request)) return new Response(null, { status: 403 });

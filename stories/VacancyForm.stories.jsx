@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Card, Field, Input, Select, Checkbox, Alert } from '../components/ui/index.jsx';
+import { Button, Card, Field, Input, Select, Checkbox, Alert } from '../common/ui/index.jsx';
 import { expect, userEvent, within } from 'storybook/test';
 function VacancyForm() {
   const [title, setTitle] = useState('');

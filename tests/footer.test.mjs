@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { footerConfig, footerOverrides } from '../components/site-footer/config.js';
+import { footerConfig, footerOverrides } from '../common/site-footer/config.js';
 test('footer excludes auth and applies exact per-page overrides', () => {
   for (const path of ['/login', '/register', '/login/callback', '/register/step']) assert.equal(footerConfig(path).hidden, true);
   for (const path of ['/', '/search', '/employers', '/about', '/account']) assert.equal(footerConfig(path).hidden, undefined);

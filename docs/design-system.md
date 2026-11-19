@@ -19,9 +19,9 @@ Storybook is a development dependency and a separate process/build. It is not an
 
 | File | Responsibility |
 | --- | --- |
-| `styles/tokens.css` | Semantic colors, font family/sizes, spacing, radii, control sizes, focus ring and page width/gutters |
-| `components/ui/ui.css` | Shared component appearance and interaction states |
-| `components/ui/index.jsx` | Accessible primitives and their public props |
+| `common/styles/tokens.css` | Semantic colors, font family/sizes, spacing, radii, control sizes, focus ring and page width/gutters |
+| `common/ui/ui.css` | Shared component appearance and interaction states |
+| `common/ui/index.jsx` | Accessible primitives and their public props |
 | `stories/*.stories.jsx` | Examples, states, controls and interaction scenarios |
 | `.storybook/preview.jsx` | Shared styles, App Router mocks and accessibility addon |
 

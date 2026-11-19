@@ -14,6 +14,7 @@ try{
  for(let i=0;i<60;i++){if(server.exitCode!==null)throw Error('Server exited');try{const r=await fetch(base+'/api/jobs');if(r.ok){ready=true;break;}}catch{}await new Promise(r=>setTimeout(r,250));}
  if(!ready)throw Error('Server did not start');
  await run(['tests/http-smoke.mjs']);
+ await run(['tests/draft-browser.mjs']);
 }finally{
  if(server&&server.exitCode===null){const stopped=new Promise(resolve=>server.once('exit',resolve));server.kill('SIGTERM');await stopped;}
  await rm(dir,{recursive:true,force:true});

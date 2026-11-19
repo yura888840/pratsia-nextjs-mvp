@@ -1,4 +1,4 @@
-import {getSqlite} from '../db/local.mjs';
+import {getSqlite} from '../core/db/local.mjs';
 // Operator-only command: never expose via an API. Does not create accounts.
 const [operation,email,confirmation]=process.argv.slice(2);
 if(!['grant','revoke'].includes(operation)||!email||email!==email.toLowerCase()||!email.includes('@'))throw Error('Usage: npm run moderator -- grant|revoke email [--mailbox-verified-by-operator]');

@@ -1,10 +1,10 @@
-import { SiteFooter } from "../components/site-footer/index.jsx";
-import "../components/site-footer/footer.css";
-import { translate, defaultLocale } from "../i18n/index.js";
+import { SiteFooter } from "../common/site-footer/index.jsx";
+import "../common/site-footer/footer.css";
+import { translate, defaultLocale } from "../common/i18n/index.js";
 // Reconstructed from production build. Names/types not present in the build cannot be recovered exactly.
 import "./globals.css";
-import "../styles/tokens.css";
-import "../components/ui/ui.css";
+import "../common/styles/tokens.css";
+import "../common/ui/ui.css";
 import * as jsxRuntime from "react/jsx-runtime";
 const metadata = {
   title: translate("app.layout.pratsya_znaydit_svoyu_robotu"),
