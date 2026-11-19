@@ -1,3 +1,4 @@
+import { canUseEmployerFeatures } from "../access.js";
 
 import { translate } from "../../common/i18n/index.js";
 import { getSqlite } from '../../core/db/connection.js';
@@ -86,7 +87,7 @@ export async function GET() {
     return json({ error: translate("app.api.company.route.uviydit_do_akaunta") }, 401);
   }
 
-  if (user.accountType !== 'employer') {
+  if (!canUseEmployerFeatures(user)) {
     return employerOnlyError();
   }
 
@@ -108,7 +109,7 @@ export async function POST(request) {
     return json({ error: translate("app.api.company.route.uviydit_do_akaunta") }, 401);
   }
 
-  if (user.accountType !== 'employer') {
+  if (!canUseEmployerFeatures(user)) {
     return employerOnlyError();
   }
 

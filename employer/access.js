@@ -1,5 +1,6 @@
+import { workflowRole } from "../core/auth/permissions.js";
 export function canUseEmployerFeatures(user) {
-  return Boolean(user?.userId && user.accountType === 'employer');
+  return workflowRole(user) === "employer";
 }
 export function employerStorageKey(userId) {
   return `pratsia:employer-demo:v2:${userId}`;

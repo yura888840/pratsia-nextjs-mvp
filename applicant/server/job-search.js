@@ -1,3 +1,4 @@
+import { publicJobColumns } from "./public-job.js";
 
 import { catalogValue } from "../../common/i18n/index.js";
 // Reconstructed from production build. Names/types not present in the build cannot be recovered exactly.
@@ -58,16 +59,12 @@ async function searchJobs(a, b, {
     r = c ? or(lt(schema.jobs.createdAt, c.createdAt), and(eq(schema.jobs.createdAt, c.createdAt), lt(schema.jobs.id, c.id))) : void 0,
     s = c ? "salary" === b.sort ? or(lt(schema.jobs.salaryMin, c.salary), and(eq(schema.jobs.salaryMin, c.salary), r)) : r : void 0,
     t = "salary" === b.sort ? [desc(schema.jobs.salaryMin), desc(schema.jobs.createdAt), desc(schema.jobs.id)] : [desc(schema.jobs.createdAt), desc(schema.jobs.id)],
-    u = await a.select().from(schema.jobs).where(and(p, s)).orderBy(...t).limit(j + 1),
+    u = await a.select(publicJobColumns).from(schema.jobs).where(and(p, s)).orderBy(...t).limit(j + 1),
     v = u.length > j,
     w = u.slice(0, j),
     x = w.at(-1);
   return {
-    jobs: w.map(({
-      ownerId: a,
-      moderationReason: b,
-      ...c
-    }) => c),
+    jobs: w,
     total: Number(q),
     nextCursor: v && x ? JSON.stringify({
       id: x.id,

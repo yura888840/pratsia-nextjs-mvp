@@ -9,7 +9,7 @@ export default async function CandidateLayout({ children }) {
     <CandidateProvider
       key={user?.userId || "guest"}
       user={
-        user ? { userId: user.userId, accountType: user.accountType } : null
+        user ? { userId: user.userId, accountType: user.accountType, isAdmin: user.isAdmin } : null
       }
     >
       <CandidateShell userName={user?.displayName}>{children}</CandidateShell>

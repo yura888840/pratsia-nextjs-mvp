@@ -59,7 +59,7 @@ export function EmployerWorkspace({ mode = 'home', id, userId }) {
   function save() {
     const saved = { ...vacancy, id: vacancy.status === 'draft' ? vacancy.id : crypto.randomUUID(), status: 'draft' };
     const next = [saved, ...drafts.filter(item => item.id !== saved.id)];
-    try { localStorage.setItem(JSON.stringify(next)); setDrafts(next); setVacancy(saved); setMessage(t('employer.saved')); }
+    try { localStorage.setItem(storageKey, JSON.stringify(next)); setDrafts(next); setVacancy(saved); setMessage(t('employer.saved')); }
     catch { setMessage(t('employer.saveError')); }
   }
   function showPreview() {

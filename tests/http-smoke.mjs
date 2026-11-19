@@ -46,13 +46,53 @@ for (const [cookie, permitted] of [['', false], [owner.cookie, false], [admin.co
  if (permitted) assert.equal(response.status, 200);
  checks++;
 }
+db.prepare("UPDATE accounts SET email_verified_at=NULL WHERE email=?").run(adminEmail);
+await request('/api/moderation', null, admin.cookie, 403);
+const unverifiedPage = await fetch(base + '/admin', { headers: { cookie: admin.cookie } });
+assert.ok(!(await unverifiedPage.text()).includes('class="dashboard"'));
+db.prepare("UPDATE accounts SET email_verified_at=? WHERE email=?").run(Date.now(), adminEmail);
 const queue=await request('/api/moderation?scope=pending',null,admin.cookie);assert.ok(queue.data.jobs.some(j=>j.id===published.data.id));
 await request('/api/moderation',{action:'restore',jobId:published.data.id,reason:'Перевірено тестом'},owner.cookie,403);
 await request('/api/moderation',{action:'restore',jobId:published.data.id,reason:'Перевірено тестом'},admin.cookie);
 const results=await request('/api/jobs?q='+encodeURIComponent('Відновлення'));assert.ok(results.data.jobs.some(j=>j.id===published.data.id));
 const page=await fetch(base+'/jobs/'+published.data.id);assert.equal(page.status,200);const html=await page.text();assert.ok(html.includes(job.title));assert.ok(html.includes('application/ld+json'));checks++;
-await request('/api/platform',{action:'apply',jobId:published.data.id,message:''},owner.cookie,400);
+await request('/api/platform',{action:'apply',jobId:published.data.id,message:''},owner.cookie,403);
 const candidate=await request('/api/auth',{action:'register',email:`candidate-${stamp}@example.invalid`,name:'Test candidate',password});
+const publicJobKeys = 'arrangement benefits category city company country createdAt currency description experience expiresAt id occupation requirements salaryMax salaryMin schedule status title'.split(' ').sort();
+for (const path of ['/api/jobs', '/api/platform']) {
+ const {data} = await request(path);
+ assert.deepEqual(Object.keys(data.jobs.find(item => item.id === published.data.id)).sort(), publicJobKeys);
+}
+const audit = db.prepare('SELECT action, actor_id FROM moderation_events WHERE job_id=?').all(published.data.id);
+assert.equal(audit.length, 1);
+assert.equal(audit[0].action, 'restore');
+assert.equal(audit[0].actor_id, db.prepare('SELECT id FROM accounts WHERE email=?').get(adminEmail).id);
+const sessions = { candidate: candidate.cookie, employer: owner.cookie, admin: admin.cookie, guest: '' };
+for (const [role, cookie] of Object.entries(sessions)) {
+ for (const [allowed, endpoint, actions] of [
+   ['candidate', '/api/applicant', ['profile', 'apply', 'favorite', 'saveSearch', 'deleteSearch', 'report']],
+   ['employer', '/api/employer', ['publish', 'editJob', 'jobStatus', 'applicationStatus']],
+ ]) {
+   const denied = role === 'guest' ? 401 : 403;
+   const state = await request(endpoint, null, cookie, role === allowed ? 200 : denied);
+   if (role === allowed) assert.deepEqual(Object.keys(state.data).sort(), (allowed === 'candidate'
+     ? ['applications','favorites','profile','searches'] : ['incoming','myJobs']).sort());
+   for (const action of actions) {
+     // An authorized incomplete command reaches payload validation.
+     for (const url of [endpoint, '/api/platform'])
+       await request(url, {action}, cookie, role === allowed ? 400 : denied);
+   }
+ }
+}
+for (const email of [adminEmail, `owner-${stamp}@example.invalid`]) {
+ const {id} = db.prepare('SELECT id FROM accounts WHERE email=?').get(email);
+ db.prepare('INSERT INTO saved_searches(id,user_id,name,filters,created_at) VALUES(?,?,?,?,?)').run(crypto.randomUUID(), id, 'old data', '{}', new Date().toISOString());
+}
+for (const cookie of [admin.cookie, owner.cookie]) {
+ const {data} = await request('/api/platform', null, cookie);
+ assert.deepEqual(data.searches, []);
+ assert.equal(data.profile, null);
+}
 // Employer page authorization is checked server-side for every entry point.
 const employerPaths = ['/employers/vacancies', '/employers/vacancies/new', '/employers/vacancies/example-lawyer', '/employers/vacancies/example-lawyer/edit'];
 for (const route of employerPaths) {

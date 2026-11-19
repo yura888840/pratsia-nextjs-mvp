@@ -62,6 +62,7 @@ npm run moderator -- grant your-email@example.com --mailbox-verified-by-operator
 ```bash
 npm test
 npm run build
+npx playwright-core install chromium
 npm run test:http
 ```
 

@@ -1,3 +1,4 @@
+import { canUseEmployerFeatures } from "../access.js";
 import { translate } from "../../common/i18n/index.js";
 import { jsonNoStore } from "../../core/http/json.js";
 import { getDatabase } from "../../core/db/index.js";
@@ -9,18 +10,11 @@ import { jobSchema } from "./job-schema.js";
 export const employerActions = new Set(["publish", "editJob", "jobStatus", "applicationStatus"]);
 
 export async function handleEmployerAction(currentUser, actionPayload) {
+  if (!employerActions.has(actionPayload?.action)) return;
+  if (!canUseEmployerFeatures(currentUser)) return jsonNoStore({ error: translate("app.api.company.route.tsey_rozdil_dostupnyy_lyshe_robotodavtsyam") }, 403);
   const connection = getDatabase();
   const nowIso = new Date().toISOString();
   const recordId = crypto.randomUUID();
-  if (currentUser.accountType !== "employer")
-    return jsonNoStore(
-      {
-        error: translate(
-          "app.api.company.route.tsey_rozdil_dostupnyy_lyshe_robotodavtsyam",
-        ),
-      },
-      403,
-    );
   if ("publish" === actionPayload.action) {
     const jobValidation = jobSchema.safeParse(actionPayload.data);
     if (!jobValidation.success)

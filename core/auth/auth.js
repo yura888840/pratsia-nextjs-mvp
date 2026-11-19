@@ -1,4 +1,5 @@
 // Reconstructed from production build. Names/types not present in the build cannot be recovered exactly.
+import { isVerifiedModerator } from "./permissions.js";
 import * as e from "node:crypto";
 import * as nativeModule1 from "node:util";
 import * as connection from "../db/connection.js";
@@ -56,7 +57,7 @@ function getSession(a) {
     email: String(b.email),
     displayName: String(b.name),
     accountType: b.account_type,
-    isAdmin: "admin" === b.role && null !== b.email_verified_at
+    isAdmin: isVerifiedModerator(b)
   } : null;
 }
 function deleteSession(a) {

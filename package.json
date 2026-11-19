@@ -16,7 +16,8 @@
     "test": "node --test tests/*.test.mjs",
     "test:http": "node scripts/test-http.mjs",
     "storybook": "storybook dev -p 6006 --host 127.0.0.1 --no-open --disable-telemetry",
-    "build-storybook": "storybook build --disable-telemetry"
+    "build-storybook": "storybook build --disable-telemetry",
+    "test:extraction": "node scripts/test-extraction.mjs"
   },
   "dependencies": {
     "drizzle-orm": "0.45.4",
@@ -33,6 +34,7 @@
     "@storybook/nextjs-vite": "10.6.7",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
+    "playwright-core": "^1.65.1",
     "storybook": "10.6.7",
     "vite": "7.3.8"
   }

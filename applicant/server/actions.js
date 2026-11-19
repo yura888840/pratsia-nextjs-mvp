@@ -1,3 +1,4 @@
+import { canUseCandidateFeatures } from "../access.js";
 import { translate } from "../../common/i18n/index.js";
 import { jsonNoStore } from "../../core/http/json.js";
 import { getDatabase } from "../../core/db/index.js";
@@ -6,11 +7,15 @@ import { jobs, profiles, favorites, searches, reports } from "../../core/db/sche
 import { profileSchema } from "./profile-schema.js";
 import { submitApplication } from "./applications.js";
 
+export const applicantActions = new Set(["profile", "favorite", "apply", "saveSearch", "deleteSearch", "report"]);
+
 export async function handleApplicantAction(currentUser, actionPayload) {
+  if (!applicantActions.has(actionPayload?.action)) return;
+  if (!canUseCandidateFeatures(currentUser)) return jsonNoStore({ error: translate("candidate.accessDenied") }, 403);
   const connection = getDatabase();
   const nowIso = new Date().toISOString();
   const recordId = crypto.randomUUID();
-  if ("profile" === actionPayload.action && currentUser.accountType !== "candidate") return jsonNoStore({ error: translate("candidate.accessDenied") }, 403);
+
   if ("profile" === actionPayload.action) {
     const profileValidation = profileSchema.safeParse(actionPayload.data);
     if (!profileValidation.success)

@@ -1,3 +1,4 @@
+import { workflowRole, isVerifiedModerator } from "../../core/auth/permissions.js";
 import { jsonNoStore } from "../../core/http/json.js";
 import { translate } from "../../common/i18n/index.js";
 // Reconstructed from production build. Names/types not present in the build cannot be recovered exactly.
@@ -10,16 +11,13 @@ import {
   string as stringSchema,
   enum as enumSchema,
 } from "zod";
-function isVerifiedModerator(accountId) {
-  return !!getSqlite()
-    .prepare(
-      "SELECT id FROM accounts WHERE id=? AND role='admin' AND email_verified_at IS NOT NULL",
-    )
-    .get(accountId);
+function stillHasModeratorAccess(accountId) {
+  const account = getSqlite().prepare("SELECT role, email_verified_at FROM accounts WHERE id=?").get(accountId);
+  return isVerifiedModerator(account);
 }
 async function getModerationQueue(request) {
   const currentUser = await getCurrentUser();
-  if (!currentUser || !isVerifiedModerator(currentUser.userId))
+  if (workflowRole(currentUser) !== "admin")
     return jsonNoStore(
       {
         error: translate(
@@ -48,7 +46,7 @@ async function getModerationQueue(request) {
   try {
     return jsonNoStore(
       (function (moderatorId, scope = "reports", pageOffset = 0) {
-        if (!isVerifiedModerator(moderatorId)) throw Error("forbidden");
+        if (!stillHasModeratorAccess(moderatorId)) throw Error("forbidden");
         const database = getSqlite();
         const jobRows = database
           .prepare(
@@ -100,7 +98,7 @@ async function postModerationAction(request) {
       403,
     );
   const currentUser = await getCurrentUser();
-  if (!currentUser || !isVerifiedModerator(currentUser.userId))
+  if (workflowRole(currentUser) !== "admin")
     return jsonNoStore(
       {
         error: translate(
@@ -135,7 +133,7 @@ async function postModerationAction(request) {
         const database = getSqlite();
         database.exec("BEGIN IMMEDIATE");
         try {
-          if (!isVerifiedModerator(actorId)) throw Error("forbidden");
+          if (!stillHasModeratorAccess(actorId)) throw Error("forbidden");
           if (
             !["hide", "restore", "dismiss"].includes(action) ||
             "string" != typeof reason ||

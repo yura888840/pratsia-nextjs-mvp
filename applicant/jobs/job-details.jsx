@@ -126,7 +126,7 @@ function JobDetails({
             disabled={
               selectedJob.demo ||
               isSaving ||
-              selectedJob.moderationStatus !== "approved" ||
+              (selectedJob.moderationStatus !== undefined && selectedJob.moderationStatus !== "approved") ||
               "active" !== selectedJob.status ||
               Date.parse(selectedJob.expiresAt) <= Date.now() ||
               platformState.myJobs.some(

@@ -1,3 +1,4 @@
+import { canUseCandidateFeatures } from "../access.js";
 import { translate } from "../../common/i18n/index.js";
 // Reconstructed from production build. Names/types not present in the build cannot be recovered exactly.
 import { getDatabase } from "../../core/db/index.js";
@@ -64,7 +65,7 @@ async function getJobs(request) {
   try {
     const scope = searchParams.get("scope");
     const savedUser = scope === "saved" ? await getCurrentUser() : null;
-    if (scope === "saved" && !savedUser) {
+    if (scope === "saved" && !canUseCandidateFeatures(savedUser)) {
       return jsonNoStore({
         jobs: [],
         total: 0,

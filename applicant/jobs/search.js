@@ -28,7 +28,7 @@ function filterJobs(jobs, filters, now = Date.now()) {
     .filter(
       (job) =>
         "active" === job.status &&
-        "approved" === job.moderationStatus &&
+        (job.moderationStatus === undefined || job.moderationStatus === "approved") &&
         Date.parse(job.expiresAt) > now &&
         (!normalizedQuery ||
           normalizeSearch(
